@@ -2,10 +2,24 @@ import pygame
 import sys
 import requests
 import json
+import os
 
 
-def get_rocky_response(mood_input):
-    prompt = f"You are a pet rock named Rocky. The user says they feel '{mood_input}'. Respond with a comforting quote or fun fact in a kind, friendly tone."
+def load_rock_name():
+    if os.path.exists("rock_data.json"):
+        with open("rock_data.json", "r") as file:
+            data = json.load(file)
+            return data.get("name", "Rocky")
+    return None
+
+
+def save_rock_name(name):
+    with open("rock_data.json", "w") as file:
+        json.dump({"name": name}, file)
+
+
+def get_rocky_response(mood_input, rock_name="Rocky"):
+    prompt = f"You are a pet rock named {rock_name}. The user says they feel '{mood_input}'. Respond with a comforting quote or fun fact in a kind, friendly tone."
 
     response = requests.post(
         "http://localhost:11434/api/generate",
@@ -46,6 +60,9 @@ def render_wrapped_text(text, font, color, surface, x, y, max_width):
 
 pygame.init()
 
+rock_name = load_rock_name()
+naming_phase = rock_name is None
+
 user_input = ''
 input_active = False
 
@@ -58,11 +75,13 @@ input_box_rect = pygame.Rect(40, HEIGHT - 50, WIDTH - 80, 32)
 BG_COLOR = (240, 240, 240)
 FONT = pygame.font.SysFont("arial", 24)
 
-# Placeholder message
-try:
-    rock_response = get_rocky_response("lonely")
-except Exception as e:
-    rock_response = f"Oops! Rocky is quiet right now. Error: {e}"
+if naming_phase:
+    rock_response = ""
+else:
+    try:
+        rock_response = get_rocky_response("lonely", rock_name)
+    except Exception as e:
+        rock_response = f"Oops! {rock_name or 'Rocky'} is quiet right now. Error: {e}"
 
 clock = pygame.time.Clock()
 cursor_visible = True
@@ -74,22 +93,26 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        if input_active and event.type == pygame.KEYDOWN:
+        if event.type == pygame.KEYDOWN and input_active:
             if event.key == pygame.K_RETURN:
-                try:
-                    rock_response = get_rocky_response(user_input)
-                except Exception as e:
-                    rock_response = f"Oops! Rocky is quiet right now. Error: {e}"
+                if naming_phase:
+                    rock_name = user_input.strip() or "Rocky"
+                    save_rock_name(rock_name)
+                    naming_phase = False
+                    try:
+                        rock_response = get_rocky_response("lonely")
+                    except Exception as e:
+                        rock_response = f"Oops! {rock_name} is quiet right now. Error: {e}"
+                else:
+                    try:
+                        rock_response = get_rocky_response(user_input)
+                    except Exception as e:
+                        rock_response = f"Oops! {rock_name} is quiet right now. Error: {e}"
                 user_input = ''
             elif event.key == pygame.K_BACKSPACE:
                 user_input = user_input[:-1]
             else:
                 user_input += event.unicode
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if input_box_rect.collidepoint(event.pos):
-                input_active = True
-            else:
-                input_active = False
 
     screen.fill(BG_COLOR)
 
@@ -106,7 +129,11 @@ while running:
         cursor_height = input_surface.get_height()
         pygame.draw.line(screen, (0, 0, 0), (cursor_x, cursor_y), (cursor_x, cursor_y + cursor_height), 2)
 
-    render_wrapped_text(rock_response, FONT, (0, 0, 0), screen, 40, 40, WIDTH - 80)
+    if naming_phase:
+        render_wrapped_text("What would you like to name your pet rock?", FONT, (0, 0, 0), screen, 40, 40, WIDTH - 80)
+    else:
+        render_wrapped_text(rock_response, FONT, (0, 0, 0), screen, 40, 40, WIDTH - 80)
+
     # cursor blink
     cursor_timer += 1
     if cursor_timer % 60 < 30:
