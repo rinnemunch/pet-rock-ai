@@ -141,8 +141,13 @@ while running:
     pygame.draw.rect(screen, (0, 0, 0), input_box_rect, 2)
 
     # Render input text inside box
-    input_surface = FONT.render(user_input, True, (0, 0, 0))
-    screen.blit(input_surface, (input_box_rect.x + 10, input_box_rect.y + 5))
+    if user_input:
+        input_surface = FONT.render(user_input, True, (0, 0, 0))
+    else:
+        placeholder = "Type your mood..." if not naming_phase else "Enter your rock's name..."
+        input_surface = FONT.render(placeholder, True, (180, 180, 180))
+    screen.blit(input_surface, (input_box_rect.x + 10, input_box_rect.y + 2))
+
     if input_active and cursor_visible:
         cursor_x = input_box_rect.x + 10 + input_surface.get_width() + 2
         cursor_y = input_box_rect.y + (input_box_rect.height - input_surface.get_height()) // 2
