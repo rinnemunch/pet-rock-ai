@@ -140,10 +140,21 @@ while running:
         cursor_height = input_surface.get_height()
         pygame.draw.line(screen, (0, 0, 0), (cursor_x, cursor_y), (cursor_x, cursor_y + cursor_height), 2)
 
+    response_box_rect = pygame.Rect(40, 40, WIDTH - 80, 180)
+    pygame.draw.rect(screen, (255, 255, 255), response_box_rect)
+    pygame.draw.rect(screen, (0, 0, 0), response_box_rect, 2)
+
+    padding = 10
     if naming_phase:
-        render_wrapped_text("What would you like to name your pet rock?", FONT, (0, 0, 0), screen, 40, 40, WIDTH - 80)
+        render_wrapped_text("What would you like to name your pet rock?", FONT, (0, 0, 0), screen,
+                            response_box_rect.x + padding,
+                            response_box_rect.y + padding,
+                            response_box_rect.width - 2 * padding)
     else:
-        render_wrapped_text(rock_response, FONT, (0, 0, 0), screen, 40, 40, WIDTH - 80)
+        render_wrapped_text(rock_response, FONT, (0, 0, 0), screen,
+                            response_box_rect.x + padding,
+                            response_box_rect.y + padding,
+                            response_box_rect.width - 2 * padding)
 
     # cursor blink
     cursor_timer += 1
