@@ -47,11 +47,13 @@ def render_wrapped_text(text, font, color, surface, x, y, max_width):
 pygame.init()
 
 user_input = ''
-input_active = True
+input_active = False
 
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pet Rock AI")
+
+input_box_rect = pygame.Rect(40, HEIGHT - 50, WIDTH - 80, 32)
 
 BG_COLOR = (240, 240, 240)
 FONT = pygame.font.SysFont("arial", 24)
@@ -81,13 +83,17 @@ while running:
                 user_input = user_input[:-1]
             else:
                 user_input += event.unicode
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if input_box_rect.collidepoint(event.pos):
+                input_active = True
+            else:
+                input_active = False
 
     screen.fill(BG_COLOR)
 
-    # Draw input box outline
-    input_box_rect = pygame.Rect(40, HEIGHT - 50, WIDTH - 80, 32)
-    pygame.draw.rect(screen, (255, 255, 255), input_box_rect)  # white box
-    pygame.draw.rect(screen, (0, 0, 0), input_box_rect, 2)  # black border
+    box_color = (255, 255, 255) if input_active else (230, 230, 230)
+    pygame.draw.rect(screen, box_color, input_box_rect)
+    pygame.draw.rect(screen, (0, 0, 0), input_box_rect, 2)
 
     # Render input text inside box
     input_surface = FONT.render(user_input, True, (0, 0, 0))
