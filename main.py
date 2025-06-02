@@ -113,6 +113,11 @@ while running:
                 user_input = user_input[:-1]
             else:
                 user_input += event.unicode
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if input_box_rect.collidepoint(event.pos):
+                input_active = True
+            else:
+                input_active = False
 
     screen.fill(BG_COLOR)
 
