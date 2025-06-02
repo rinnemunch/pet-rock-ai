@@ -102,7 +102,7 @@ while running:
     screen.blit(input_surface, (input_box_rect.x + 10, input_box_rect.y + 5))
     if input_active and cursor_visible:
         cursor_x = input_box_rect.x + 10 + input_surface.get_width() + 2
-        cursor_y = input_box_rect.y + 5
+        cursor_y = input_box_rect.y + (input_box_rect.height - input_surface.get_height()) // 2
         cursor_height = input_surface.get_height()
         pygame.draw.line(screen, (0, 0, 0), (cursor_x, cursor_y), (cursor_x, cursor_y + cursor_height), 2)
 
