@@ -5,17 +5,17 @@ import json
 import os
 
 
-def load_rock_name():
+def load_rock_data():
     if os.path.exists("rock_data.json"):
         with open("rock_data.json", "r") as file:
             data = json.load(file)
-            return data.get("name", "Rocky")
-    return None
+            return data.get("name", "Rocky"), data.get("background", "forest")
+    return "Rocky", "forest"
 
 
-def save_rock_name(name):
+def save_rock_data(name, background):
     with open("rock_data.json", "w") as file:
-        json.dump({"name": name}, file)
+        json.dump({"name": name, "background": background}, file)
 
 
 def get_rocky_response(mood_input, rock_name="Rocky"):
@@ -60,7 +60,7 @@ def render_wrapped_text(text, font, color, surface, x, y, max_width):
 
 pygame.init()
 
-rock_name = load_rock_name()
+rock_name, selected_background = load_rock_data()
 naming_phase = rock_name is None
 
 user_input = ''
@@ -92,6 +92,13 @@ rock_img = pygame.image.load("rock.png").convert_alpha()
 rock_img = pygame.transform.scale(rock_img, (200, 200))  # size adjust
 rock_rect = rock_img.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 20))
 
+backgrounds = {
+    "desert": pygame.image.load("backgrounds/desert.png").convert(),
+    "forest": pygame.image.load("backgrounds/forest.png").convert(),
+    "grass": pygame.image.load("backgrounds/grass.png").convert()
+}
+
+selected_background = "forest"
 
 while running:
     for event in pygame.event.get():
@@ -102,7 +109,9 @@ while running:
             if event.key == pygame.K_RETURN:
                 if naming_phase:
                     rock_name = user_input.strip() or "Rocky"
-                    save_rock_name(rock_name)
+                    rock_name, selected_background = load_rock_data()
+                    naming_phase = rock_name is None
+
                     naming_phase = False
                     try:
                         rock_response = get_rocky_response("lonely", rock_name)
@@ -125,7 +134,7 @@ while running:
                 input_active = False
 
     screen.fill(BG_COLOR)
-    screen.blit(rock_img, rock_rect)
+    screen.blit(backgrounds[selected_background], (0, 0))
 
     box_color = (255, 255, 255) if input_active else (230, 230, 230)
     pygame.draw.rect(screen, box_color, input_box_rect)
