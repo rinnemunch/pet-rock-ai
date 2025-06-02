@@ -88,6 +88,11 @@ cursor_visible = True
 cursor_timer = 0
 running = True
 
+rock_img = pygame.image.load("rock.png").convert_alpha()
+rock_img = pygame.transform.scale(rock_img, (200, 200))  # size adjust
+rock_rect = rock_img.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 40))
+
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -120,6 +125,7 @@ while running:
                 input_active = False
 
     screen.fill(BG_COLOR)
+    screen.blit(rock_img, rock_rect)
 
     box_color = (255, 255, 255) if input_active else (230, 230, 230)
     pygame.draw.rect(screen, box_color, input_box_rect)
