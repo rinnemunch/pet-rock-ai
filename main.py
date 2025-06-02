@@ -65,6 +65,8 @@ except Exception as e:
     rock_response = f"Oops! Rocky is quiet right now. Error: {e}"
 
 clock = pygame.time.Clock()
+cursor_visible = True
+cursor_timer = 0
 running = True
 
 while running:
@@ -98,8 +100,19 @@ while running:
     # Render input text inside box
     input_surface = FONT.render(user_input, True, (0, 0, 0))
     screen.blit(input_surface, (input_box_rect.x + 10, input_box_rect.y + 5))
+    if input_active and cursor_visible:
+        cursor_x = input_box_rect.x + 10 + input_surface.get_width() + 2
+        cursor_y = input_box_rect.y + 5
+        cursor_height = input_surface.get_height()
+        pygame.draw.line(screen, (0, 0, 0), (cursor_x, cursor_y), (cursor_x, cursor_y + cursor_height), 2)
 
     render_wrapped_text(rock_response, FONT, (0, 0, 0), screen, 40, 40, WIDTH - 80)
+    # cursor blink
+    cursor_timer += 1
+    if cursor_timer % 60 < 30:
+        cursor_visible = True
+    else:
+        cursor_visible = False
     pygame.display.flip()
     clock.tick(60)
 
