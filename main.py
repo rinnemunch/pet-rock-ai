@@ -90,7 +90,7 @@ running = True
 
 rock_img = pygame.image.load("rock.png").convert_alpha()
 rock_img = pygame.transform.scale(rock_img, (200, 200))  # size adjust
-rock_rect = rock_img.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 40))
+rock_rect = rock_img.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 20))
 
 
 while running:
