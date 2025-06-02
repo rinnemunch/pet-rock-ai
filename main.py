@@ -100,12 +100,12 @@ while running:
                     save_rock_name(rock_name)
                     naming_phase = False
                     try:
-                        rock_response = get_rocky_response("lonely")
+                        rock_response = get_rocky_response("lonely", rock_name)
                     except Exception as e:
                         rock_response = f"Oops! {rock_name} is quiet right now. Error: {e}"
                 else:
                     try:
-                        rock_response = get_rocky_response(user_input)
+                        rock_response = get_rocky_response(user_input, rock_name)
                     except Exception as e:
                         rock_response = f"Oops! {rock_name} is quiet right now. Error: {e}"
                 user_input = ''
