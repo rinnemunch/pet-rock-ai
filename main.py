@@ -60,8 +60,13 @@ def render_wrapped_text(text, font, color, surface, x, y, max_width):
 
 pygame.init()
 
-rock_name, selected_background = load_rock_data()
-naming_phase = rock_name is None
+if os.path.exists("rock_data.json"):
+    rock_name, selected_background = load_rock_data()
+    naming_phase = False
+else:
+    rock_name, selected_background = "Rocky", "forest"
+    naming_phase = True
+
 
 user_input = ''
 input_active = naming_phase
@@ -109,9 +114,9 @@ while running:
             if event.key == pygame.K_RETURN:
                 if naming_phase:
                     rock_name = user_input.strip() or "Rocky"
-                    naming_phase = rock_name is None
-
+                    save_rock_data(rock_name, selected_background)
                     naming_phase = False
+
                     try:
                         rock_response = get_rocky_response("lonely", rock_name)
                     except Exception as e:
