@@ -105,6 +105,12 @@ backgrounds = {
 
 selected_background = "forest"
 
+background_keys = list(backgrounds.keys())
+current_bg_index = background_keys.index(selected_background)
+
+button_rect = pygame.Rect(WIDTH - 200, 20, 160, 40)
+button_font = pygame.font.SysFont("arial", 20)
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -136,6 +142,15 @@ while running:
                 input_active = True
             else:
                 input_active = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if button_rect.collidepoint(event.pos):
+                current_bg_index = (current_bg_index + 1) % len(background_keys)
+                selected_background = background_keys[current_bg_index]
+                save_rock_data(rock_name, selected_background)
+            elif input_box_rect.collidepoint(event.pos):
+                input_active = True
+            else:
+                input_active = False
 
     screen.fill(BG_COLOR)
     scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
@@ -163,6 +178,12 @@ while running:
     response_box_rect = pygame.Rect(40, 40, WIDTH - 80, 180)
     pygame.draw.rect(screen, (255, 255, 255), response_box_rect)
     pygame.draw.rect(screen, (0, 0, 0), response_box_rect, 2)
+    pygame.draw.rect(screen, (200, 200, 200), button_rect)
+    pygame.draw.rect(screen, (0, 0, 0), button_rect, 2)
+
+    button_text = button_font.render("Change Background", True, (0, 0, 0))
+    text_rect = button_text.get_rect(center=button_rect.center)
+    screen.blit(button_text, text_rect)
 
     padding = 10
     if naming_phase:
