@@ -25,6 +25,25 @@ def get_rocky_response(mood_input):
     return full_reply
 
 
+def render_wrapped_text(text, font, color, surface, x, y, max_width):
+    words = text.split()
+    line = ""
+    lines = []
+
+    for word in words:
+        test_line = f"{line} {word}".strip()
+        if font.size(test_line)[0] > max_width:
+            lines.append(line)
+            line = word
+        else:
+            line = test_line
+    lines.append(line)
+
+    for i, line in enumerate(lines):
+        rendered = font.render(line, True, color)
+        surface.blit(rendered, (x, y + i * font.get_height()))
+
+
 pygame.init()
 
 user_input = ''
@@ -65,14 +84,16 @@ while running:
 
     screen.fill(BG_COLOR)
 
-    # Message box
-    text_surface = FONT.render(rock_response, True, (0, 0, 0))
-    text_rect = text_surface.get_rect(center=(WIDTH // 2, HEIGHT - 50))
-    screen.blit(text_surface, text_rect)
+    # Draw input box outline
+    input_box_rect = pygame.Rect(40, HEIGHT - 50, WIDTH - 80, 32)
+    pygame.draw.rect(screen, (255, 255, 255), input_box_rect)  # white box
+    pygame.draw.rect(screen, (0, 0, 0), input_box_rect, 2)  # black border
 
+    # Render input text inside box
     input_surface = FONT.render(user_input, True, (0, 0, 0))
-    input_rect = input_surface.get_rect(center=(WIDTH // 2, HEIGHT - 100))
-    screen.blit(input_surface, input_rect)
+    screen.blit(input_surface, (input_box_rect.x + 10, input_box_rect.y + 5))
+
+    render_wrapped_text(rock_response, FONT, (0, 0, 0), screen, 40, 40, WIDTH - 80)
     pygame.display.flip()
     clock.tick(60)
 
