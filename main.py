@@ -27,6 +27,9 @@ def get_rocky_response(mood_input):
 
 pygame.init()
 
+user_input = ''
+input_active = True
+
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pet Rock AI")
@@ -40,7 +43,6 @@ try:
 except Exception as e:
     rock_response = f"Oops! Rocky is quiet right now. Error: {e}"
 
-
 clock = pygame.time.Clock()
 running = True
 
@@ -49,6 +51,18 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+        if input_active and event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN:
+                try:
+                    rock_response = get_rocky_response(user_input)
+                except Exception as e:
+                    rock_response = f"Oops! Rocky is quiet right now. Error: {e}"
+                user_input = ''
+            elif event.key == pygame.K_BACKSPACE:
+                user_input = user_input[:-1]
+            else:
+                user_input += event.unicode
+
     screen.fill(BG_COLOR)
 
     # Message box
@@ -56,6 +70,9 @@ while running:
     text_rect = text_surface.get_rect(center=(WIDTH // 2, HEIGHT - 50))
     screen.blit(text_surface, text_rect)
 
+    input_surface = FONT.render(user_input, True, (0, 0, 0))
+    input_rect = input_surface.get_rect(center=(WIDTH // 2, HEIGHT - 100))
+    screen.blit(input_surface, input_rect)
     pygame.display.flip()
     clock.tick(60)
 
