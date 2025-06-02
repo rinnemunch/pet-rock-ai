@@ -1,5 +1,29 @@
 import pygame
 import sys
+import requests
+import json
+
+
+def get_rocky_response(mood_input):
+    prompt = f"You are a pet rock named Rocky. The user says they feel '{mood_input}'. Respond with a comforting quote or fun fact in a kind, friendly tone."
+
+    response = requests.post(
+        "http://localhost:11434/api/generate",
+        json={"model": "mistral", "prompt": prompt},
+        stream=True
+    )
+
+    full_reply = ""
+    for line in response.iter_lines():
+        if line:
+            data = line.decode("utf-8")
+            try:
+                json_data = json.loads(data)
+                full_reply += json_data.get("response", "")
+            except:
+                continue
+    return full_reply
+
 
 pygame.init()
 
@@ -11,7 +35,11 @@ BG_COLOR = (240, 240, 240)
 FONT = pygame.font.SysFont("arial", 24)
 
 # Placeholder message
-rock_response = "Hey there, I'm Rocky! Tell me how you're feeling."
+try:
+    rock_response = get_rocky_response("lonely")
+except Exception as e:
+    rock_response = f"Oops! Rocky is quiet right now. Error: {e}"
+
 
 clock = pygame.time.Clock()
 running = True
