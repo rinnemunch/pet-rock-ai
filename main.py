@@ -64,7 +64,7 @@ rock_name = load_rock_name()
 naming_phase = rock_name is None
 
 user_input = ''
-input_active = False
+input_active = naming_phase
 
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
