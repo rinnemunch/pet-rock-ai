@@ -138,7 +138,8 @@ while running:
                 input_active = False
 
     screen.fill(BG_COLOR)
-    screen.blit(backgrounds[selected_background], (0, 0))
+    scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
+    screen.blit(scaled_bg, (0, 0))
     screen.blit(rock_img, rock_rect)
 
     box_color = (255, 255, 255) if input_active else (230, 230, 230)
