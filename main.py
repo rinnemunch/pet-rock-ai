@@ -109,7 +109,6 @@ while running:
             if event.key == pygame.K_RETURN:
                 if naming_phase:
                     rock_name = user_input.strip() or "Rocky"
-                    rock_name, selected_background = load_rock_data()
                     naming_phase = rock_name is None
 
                     naming_phase = False
@@ -135,6 +134,7 @@ while running:
 
     screen.fill(BG_COLOR)
     screen.blit(backgrounds[selected_background], (0, 0))
+    screen.blit(rock_img, rock_rect)
 
     box_color = (255, 255, 255) if input_active else (230, 230, 230)
     pygame.draw.rect(screen, box_color, input_box_rect)
