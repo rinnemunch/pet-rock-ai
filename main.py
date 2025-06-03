@@ -26,9 +26,10 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pet Rock AI")
 
 thinking_frames = [
-    pygame.image.load(path).convert_alpha()
+    pygame.transform.scale(pygame.image.load(path).convert_alpha(), (100, 75))
     for path in sorted(glob.glob("assets/thinking/frame_*.png"))
 ]
+
 
 thinking_frame_index = 0
 thinking_timer = 0
