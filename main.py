@@ -150,12 +150,7 @@ personality_button_rect = pygame.Rect(WIDTH - 180, 20, 160, 40)
 current_scene = "main"
 
 minigame_button_rect = pygame.Rect(WIDTH - 720, 20, 160, 40)
-
-pygame.draw.rect(screen, (200, 200, 200), minigame_button_rect)
-pygame.draw.rect(screen, (0, 0, 0), minigame_button_rect, 2)
-minigame_text = button_font.render("Mini Games", True, (0, 0, 0))
-screen.blit(minigame_text, minigame_button_rect.move(10, 10))
-
+music_button_rect = pygame.Rect(WIDTH - 540, 20, 160, 40)
 
 while running:
     for event in pygame.event.get():
@@ -247,13 +242,18 @@ while running:
     text_rect = personality_text.get_rect(center=personality_button_rect.center)
     screen.blit(personality_text, text_rect)
 
-    music_button_rect = pygame.Rect(WIDTH - 540, 20, 160, 40)
     pygame.draw.rect(screen, (200, 200, 200), music_button_rect)
     pygame.draw.rect(screen, (0, 0, 0), music_button_rect, 2)
     music_label = "Music: On" if music_on else "Music: Off"
     music_text = button_font.render(music_label, True, (0, 0, 0))
     music_text_rect = music_text.get_rect(center=music_button_rect.center)
     screen.blit(music_text, music_text_rect)
+
+    pygame.draw.rect(screen, (200, 200, 200), minigame_button_rect)
+    pygame.draw.rect(screen, (0, 0, 0), minigame_button_rect, 2)
+    minigame_text = button_font.render("Mini Games", True, (0, 0, 0))
+    minigame_text_rect = minigame_text.get_rect(center=minigame_button_rect.center)
+    screen.blit(minigame_text, minigame_text_rect)
 
     padding = 10
     if naming_phase:
