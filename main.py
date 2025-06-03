@@ -155,6 +155,7 @@ current_scene = "main"
 minigame_button_rect = pygame.Rect(WIDTH - 720, 20, 160, 40)
 music_button_rect = pygame.Rect(WIDTH - 540, 20, 160, 40)
 
+back_button_rect = pygame.Rect(20, 20, 100, 40)
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -207,10 +208,28 @@ while running:
             if minigame_button_rect.collidepoint(event.pos):
                 current_scene = "minigame"
 
-    screen.fill(BG_COLOR)
-    scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
-    screen.blit(scaled_bg, (0, 0))
-    screen.blit(rock_img, rock_rect)
+            if current_scene == "minigame" and back_button_rect.collidepoint(event.pos):
+                current_scene = "main"
+
+    if current_scene == "main":
+        screen.fill(BG_COLOR)
+        scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
+        screen.blit(scaled_bg, (0, 0))
+        screen.blit(rock_img, rock_rect)
+    elif current_scene == "minigame":
+        screen.fill((250, 240, 200))  # distinct background for mini-game
+        title_text = button_font.render("Rock-Paper-Scissors!", True, (0, 0, 0))
+        screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, 50))
+        pygame.draw.rect(screen, (200, 200, 200), back_button_rect)
+        pygame.draw.rect(screen, (0, 0, 0), back_button_rect, 2)
+        back_text = button_font.render("Back", True, (0, 0, 0))
+        back_text_rect = back_text.get_rect(center=back_button_rect.center)
+        screen.blit(back_text, back_text_rect)
+
+    if current_scene == "main":
+        scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
+        screen.blit(scaled_bg, (0, 0))
+        screen.blit(rock_img, rock_rect)
 
     box_color = (255, 255, 255) if input_active else (230, 230, 230)
     pygame.draw.rect(screen, box_color, input_box_rect)
