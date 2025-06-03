@@ -26,7 +26,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pet Rock AI")
 
 thinking_frames = [
-    pygame.transform.scale(pygame.image.load(path).convert_alpha(), (100, 75))
+    pygame.transform.scale(pygame.image.load(path).convert_alpha(), (150, 100))
     for path in sorted(glob.glob("assets/thinking/frame_*.png"))
 ]
 
@@ -184,8 +184,8 @@ while running:
                 thinking_frame_index = (thinking_frame_index + 1) % len(thinking_frames)
 
             thinking_img = thinking_frames[thinking_frame_index]
-            thinking_x = rock_rect.right - 10  # ADJUST
-            thinking_y = rock_rect.top - thinking_img.get_height() - 10  # ADJUST
+            thinking_x = rock_rect.right - 20  # ADJUST
+            thinking_y = rock_rect.top - thinking_img.get_height() + 60  # ADJUST
             screen.blit(thinking_img, (thinking_x, thinking_y))
 
         # Coin display
