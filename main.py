@@ -9,6 +9,8 @@ import pygame
 import requests
 
 
+# === Helper Functions ==
+
 def remove_emojis(text):
     return re.sub(r'[^\x00-\x7F]+', '', text)
 
@@ -85,6 +87,7 @@ def render_wrapped_text(text, font, color, surface, x, y, max_width):
     for i, line in enumerate(lines):
         rendered = font.render(line, True, color)
         surface.blit(rendered, (x, y + i * font.get_height()))
+# === End of helper functions ===
 
 
 pygame.init()
@@ -104,6 +107,7 @@ else:
     naming_phase = True
 
 user_input = ''
+coin_count = 0
 input_active = naming_phase
 
 WIDTH, HEIGHT = 800, 600
@@ -217,6 +221,13 @@ while running:
         scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
         screen.blit(scaled_bg, (0, 0))
         screen.blit(rock_img, rock_rect)
+        coin_img = pygame.image.load("assets/icons/coin.png").convert_alpha()
+        coin_img = pygame.transform.scale(coin_img, (30, 30))
+
+        # Coin display
+        screen.blit(coin_img, (20, 20))
+        coin_text = button_font.render(f"{coin_count:03}", True, (0, 0, 0))
+        screen.blit(coin_text, (60, 25))
     elif current_scene == "minigame":
         screen.fill((250, 240, 200))  # distinct background for mini-game
         title_text = button_font.render("Rock-Paper-Scissors!", True, (0, 0, 0))
