@@ -151,6 +151,8 @@ while running:
 
             if buttons["minigame"]["rect"].collidepoint(event.pos):
                 current_scene = "minigame"
+            if current_scene == "minigame" and back_button_rect.collidepoint(event.pos):
+                current_scene = "main"
 
     if current_scene == "main":
         screen.fill(BG_COLOR)
