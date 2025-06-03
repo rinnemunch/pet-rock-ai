@@ -117,12 +117,12 @@ selected_background = "forest"
 background_keys = list(backgrounds.keys())
 current_bg_index = background_keys.index(selected_background)
 
-button_rect = pygame.Rect(WIDTH - 200, 20, 160, 40)
+button_rect = pygame.Rect(WIDTH - 360, 20, 160, 40)
 button_font = pygame.font.SysFont("arial", 20)
 
 personality_options = ["Wise", "Funny", "Sassy", "Motivational"]
 personality_index = personality_options.index(selected_personality)
-personality_button_rect = pygame.Rect(WIDTH - 200, 70, 160, 40)
+personality_button_rect = pygame.Rect(WIDTH - 180, 20, 160, 40)
 
 while running:
     for event in pygame.event.get():
