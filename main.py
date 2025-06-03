@@ -167,10 +167,8 @@ while running:
 
     # cursor blink
     cursor_timer += 1
-    if cursor_timer % 60 < 30:
-        cursor_visible = True
-    else:
-        cursor_visible = False
+    cursor_visible = (cursor_timer % 60) < 30
+    cursor_timer += 1
     pygame.display.flip()
     clock.tick(60)
 
