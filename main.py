@@ -42,10 +42,6 @@ user_input = ''
 coin_count = 0
 input_active = naming_phase
 
-WIDTH, HEIGHT = 800, 600
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Pet Rock AI")
-
 input_box_rect = pygame.Rect(40, HEIGHT - 50, WIDTH - 80, 32)
 
 BG_COLOR = (240, 240, 240)
