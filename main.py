@@ -13,7 +13,8 @@ from helpers import (
     get_rocky_response,
     render_wrapped_text,
     draw_button,
-    draw_input_box
+    draw_input_box,
+    draw_response_box
 )
 
 pygame.init()
@@ -151,49 +152,18 @@ while running:
         screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, 50))
         draw_button(screen, back_button_rect, "Back", button_font)
 
+    # === Draw Render ===
+    draw_button(screen, button_rect, "Change Background", button_font)
+    draw_button(screen, personality_button_rect, f"Tone: {selected_personality}", button_font)
+    draw_button(screen, music_button_rect, f"Music: {'On' if music_on else 'Off'}", button_font)
+    draw_button(screen, minigame_button_rect, "Mini Games", button_font)
+
+    # === Input Box ===
     draw_input_box(screen, input_box_rect, user_input, FONT, input_active, cursor_visible, naming_phase)
 
+    # == Response Box ==
     response_box_rect = pygame.Rect(40, 80, WIDTH - 80, 100)
-    pygame.draw.rect(screen, (255, 255, 255), response_box_rect)
-    pygame.draw.rect(screen, (0, 0, 0), response_box_rect, 2)
-    pygame.draw.rect(screen, (200, 200, 200), button_rect)
-    pygame.draw.rect(screen, (0, 0, 0), button_rect, 2)
-
-    button_text = button_font.render("Change Background", True, (0, 0, 0))
-    text_rect = button_text.get_rect(center=button_rect.center)
-    screen.blit(button_text, text_rect)
-
-    pygame.draw.rect(screen, (200, 200, 200), personality_button_rect)
-    pygame.draw.rect(screen, (0, 0, 0), personality_button_rect, 2)
-    personality_text = button_font.render(f"Tone: {selected_personality}", True, (0, 0, 0))
-    text_rect = personality_text.get_rect(center=personality_button_rect.center)
-    screen.blit(personality_text, text_rect)
-
-    pygame.draw.rect(screen, (200, 200, 200), music_button_rect)
-    pygame.draw.rect(screen, (0, 0, 0), music_button_rect, 2)
-    music_label = "Music: On" if music_on else "Music: Off"
-    music_text = button_font.render(music_label, True, (0, 0, 0))
-    music_text_rect = music_text.get_rect(center=music_button_rect.center)
-    screen.blit(music_text, music_text_rect)
-
-    pygame.draw.rect(screen, (200, 200, 200), minigame_button_rect)
-    pygame.draw.rect(screen, (0, 0, 0), minigame_button_rect, 2)
-    minigame_text = button_font.render("Mini Games", True, (0, 0, 0))
-    minigame_text_rect = minigame_text.get_rect(center=minigame_button_rect.center)
-    screen.blit(minigame_text, minigame_text_rect)
-
-    padding = 10
-    if naming_phase:
-        render_wrapped_text("What would you like to name your pet rock?", FONT, (0, 0, 0), screen,
-                            response_box_rect.x + padding,
-                            response_box_rect.y + padding,
-                            response_box_rect.width - 2 * padding)
-    else:
-        clean_response = remove_emojis(rock_response)
-        render_wrapped_text(clean_response, FONT, (0, 0, 0), screen,
-                            response_box_rect.x + padding,
-                            response_box_rect.y + padding,
-                            response_box_rect.width - 2 * padding)
+    draw_response_box(screen, response_box_rect, FONT, rock_response, naming_phase)
 
     # cursor blink
     cursor_timer += 1

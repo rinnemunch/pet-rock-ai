@@ -120,3 +120,20 @@ def draw_input_box(surface, rect, text, font, active, cursor_visible, naming_pha
         cursor_y = rect.y + (rect.height - input_surface.get_height()) // 2
         cursor_height = input_surface.get_height()
         pygame.draw.line(surface, (0, 0, 0), (cursor_x, cursor_y), (cursor_x, cursor_y + cursor_height), 2)
+
+
+# === Response box ===
+def draw_response_box(surface, rect, font, text, naming_phase=False):
+    pygame.draw.rect(surface, (255, 255, 255), rect)
+    pygame.draw.rect(surface, (0, 0, 0), rect, 2)
+
+    padding = 10
+    if naming_phase:
+        display_text = "What would you like to name your pet rock?"
+    else:
+        display_text = remove_emojis(text)
+
+    render_wrapped_text(display_text, font, (0, 0, 0), surface,
+                        rect.x + padding,
+                        rect.y + padding,
+                        rect.width - 2 * padding)
