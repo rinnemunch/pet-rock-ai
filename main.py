@@ -87,7 +87,9 @@ pygame.display.set_caption("Pet Rock AI")
 input_box_rect = pygame.Rect(40, HEIGHT - 50, WIDTH - 80, 32)
 
 BG_COLOR = (240, 240, 240)
-FONT = pygame.font.SysFont("arial", 24)
+FONT_PATH = "fonts/Roboto.ttf"
+FONT = pygame.font.Font(FONT_PATH, 24)
+
 
 if naming_phase:
     rock_response = ""
