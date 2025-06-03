@@ -2,13 +2,17 @@
 import os
 import re
 import json
+# === Third party Library ===
 import requests
+import pygame
 
-# === Standard Library ===
-import os
-import re
-import json
-import requests
+
+def draw_button(surface, rect, text, font, bg_color=(200, 200, 200), text_color=(0, 0, 0), border_color=(0, 0, 0)):
+    pygame.draw.rect(surface, bg_color, rect)
+    pygame.draw.rect(surface, border_color, rect, 2)
+    text_surf = font.render(text, True, text_color)
+    text_rect = text_surf.get_rect(center=rect.center)
+    surface.blit(text_surf, text_rect)
 
 
 # === Text Cleanup ===

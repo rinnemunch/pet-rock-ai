@@ -11,7 +11,8 @@ from helpers import (
     load_rock_data,
     save_rock_data,
     get_rocky_response,
-    render_wrapped_text
+    render_wrapped_text,
+    draw_button
 )
 
 pygame.init()
@@ -151,11 +152,7 @@ while running:
         screen.fill((250, 240, 200))  # distinct background for mini-game
         title_text = button_font.render("Rock-Paper-Scissors!", True, (0, 0, 0))
         screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, 50))
-        pygame.draw.rect(screen, (200, 200, 200), back_button_rect)
-        pygame.draw.rect(screen, (0, 0, 0), back_button_rect, 2)
-        back_text = button_font.render("Back", True, (0, 0, 0))
-        back_text_rect = back_text.get_rect(center=back_button_rect.center)
-        screen.blit(back_text, back_text_rect)
+        draw_button(screen, personality_button_rect, f"Tone: {selected_personality}", button_font)
 
     box_color = (255, 255, 255) if input_active else (230, 230, 230)
     pygame.draw.rect(screen, box_color, input_box_rect)
