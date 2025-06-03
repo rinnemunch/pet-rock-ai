@@ -4,6 +4,7 @@ import os
 
 # === Third-Party Libraries ===
 import pygame
+import glob
 
 # === Local Modules ===
 from helpers import (
@@ -23,9 +24,18 @@ WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pet Rock AI")
 
-from assets import load_assets
-rock_img, rock_rect, backgrounds, coin_img = load_assets()
+thinking_frames = [
+    pygame.image.load(path).convert_alpha()
+    for path in sorted(glob.glob("assets/thinking/frame_*.png"))
+]
 
+thinking_frame_index = 0
+thinking_timer = 0
+is_thinking = False
+
+from assets import load_assets
+
+rock_img, rock_rect, backgrounds, coin_img = load_assets()
 
 if os.path.exists("rock_data.json"):
     rock_name, selected_background, selected_personality, music_on = load_rock_data()
@@ -96,8 +106,6 @@ personality_index = personality_options.index(selected_personality)
 
 current_scene = "main"
 
-
-
 back_button_rect = pygame.Rect(20, 20, 100, 40)
 while running:
     for event in pygame.event.get():
@@ -111,15 +119,19 @@ while running:
                     save_rock_data(rock_name, selected_background, selected_personality, music_on)
                     naming_phase = False
 
+                    is_thinking = True
                     try:
                         rock_response = get_rocky_response("lonely", rock_name, selected_personality)
                     except Exception as e:
                         rock_response = f"Oops! {rock_name} is quiet right now. Error: {e}"
+                    is_thinking = False
                 else:
+                    is_thinking = True
                     try:
                         rock_response = get_rocky_response(user_input, rock_name, selected_personality)
                     except Exception as e:
                         rock_response = f"Oops! {rock_name} is quiet right now. Error: {e}"
+                    is_thinking = False
                 user_input = ''
             elif event.key == pygame.K_BACKSPACE:
                 user_input = user_input[:-1]
@@ -159,6 +171,16 @@ while running:
         scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
         screen.blit(scaled_bg, (0, 0))
         screen.blit(rock_img, rock_rect)
+
+        if is_thinking and thinking_frames:
+            thinking_timer += 1
+            if thinking_timer % 6 == 0:
+                thinking_frame_index = (thinking_frame_index + 1) % len(thinking_frames)
+
+            thinking_img = thinking_frames[thinking_frame_index]
+            thinking_x = rock_rect.centerx - thinking_img.get_width() // 2
+            thinking_y = rock_rect.top - 40
+            screen.blit(thinking_img, (thinking_x, thinking_y))
 
         # Coin display
         draw_coin_display(screen, coin_img, button_font, coin_count)
