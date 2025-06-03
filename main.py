@@ -1,9 +1,12 @@
-import pygame
+# === Standard Library ===
 import sys
-import requests
-import json
 import os
 import re
+import json
+
+# === Third-Party Libraries ===
+import pygame
+import requests
 
 
 def remove_emojis(text):
@@ -31,7 +34,6 @@ def save_rock_data(name, background, personality, music_on=True):
             "personality": personality,
             "music_on": music_on
         }, file)
-
 
 
 def get_rocky_response(mood_input, rock_name="Rocky", personality="Wise"):
@@ -86,7 +88,6 @@ def render_wrapped_text(text, font, color, surface, x, y, max_width):
 
 
 pygame.init()
-
 
 if os.path.exists("rock_data.json"):
     rock_name, selected_background, selected_personality, music_on = load_rock_data()
@@ -225,11 +226,6 @@ while running:
         back_text = button_font.render("Back", True, (0, 0, 0))
         back_text_rect = back_text.get_rect(center=back_button_rect.center)
         screen.blit(back_text, back_text_rect)
-
-    if current_scene == "main":
-        scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
-        screen.blit(scaled_bg, (0, 0))
-        screen.blit(rock_img, rock_rect)
 
     box_color = (255, 255, 255) if input_active else (230, 230, 230)
     pygame.draw.rect(screen, box_color, input_box_rect)
