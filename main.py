@@ -3,6 +3,11 @@ import sys
 import requests
 import json
 import os
+import re
+
+
+def remove_emojis(text):
+    return re.sub(r'[^\x00-\x7F]+', '', text)
 
 
 def load_rock_data():
@@ -58,8 +63,6 @@ def get_rocky_response(mood_input, rock_name="Rocky", personality="Wise"):
     return full_reply
 
 
-
-
 def render_wrapped_text(text, font, color, surface, x, y, max_width):
     words = text.split()
     line = ""
@@ -88,7 +91,6 @@ else:
     rock_name, selected_background, selected_personality = "Rocky", "forest", "Wise"
     naming_phase = True
 
-
 user_input = ''
 input_active = naming_phase
 
@@ -101,7 +103,6 @@ input_box_rect = pygame.Rect(40, HEIGHT - 50, WIDTH - 80, 32)
 BG_COLOR = (240, 240, 240)
 FONT_PATH = "fonts/Roboto.ttf"
 FONT = pygame.font.Font(FONT_PATH, 24)
-
 
 if naming_phase:
     rock_response = ""
@@ -226,7 +227,8 @@ while running:
                             response_box_rect.y + padding,
                             response_box_rect.width - 2 * padding)
     else:
-        render_wrapped_text(rock_response, FONT, (0, 0, 0), screen,
+        clean_response = remove_emojis(rock_response)
+        render_wrapped_text(clean_response, FONT, (0, 0, 0), screen,
                             response_box_rect.x + padding,
                             response_box_rect.y + padding,
                             response_box_rect.width - 2 * padding)
