@@ -27,7 +27,7 @@ def save_rock_data(name, background, personality):
 
 
 def get_rocky_response(mood_input, rock_name="Rocky", personality="Wise"):
-    prompt = f"You are a pet rock named {rock_name}. Speak in a {personality.lower()} tone. The user says they feel '{mood_input}'. Respond with a comforting quote or fun fact."
+    prompt = f"You are a pet rock named {rock_name}. Speak in a {personality.lower()} tone. The user says they feel '{mood_input}'. Respond in one short sentence or fun line."
     ...
 
     response = requests.post(
