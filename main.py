@@ -183,8 +183,8 @@ while running:
                 thinking_frame_index = (thinking_frame_index + 1) % len(thinking_frames)
 
             thinking_img = thinking_frames[thinking_frame_index]
-            thinking_x = rock_rect.centerx - thinking_img.get_width() // 2
-            thinking_y = rock_rect.top - 40
+            thinking_x = rock_rect.right - 10  # ADJUST
+            thinking_y = rock_rect.top - thinking_img.get_height() - 10  # ADJUST
             screen.blit(thinking_img, (thinking_x, thinking_y))
 
         # Coin display
