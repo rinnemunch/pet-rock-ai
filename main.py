@@ -91,9 +91,9 @@ buttons = {
         "rect": pygame.Rect(WIDTH - 180, 20, 160, 40),
         "label": lambda: f"Tone: {selected_personality}"
     },
-    "music": {
+    "settings": {
         "rect": pygame.Rect(WIDTH - 540, 20, 160, 40),
-        "label": lambda: f"Music: {'On' if music_on else 'Off'}"
+        "label": "Settings"
     },
     "minigame": {
         "rect": pygame.Rect(WIDTH - 720, 20, 160, 40),
@@ -106,6 +106,7 @@ button_font = pygame.font.SysFont("arial", 20)
 personality_options = ["Wise", "Funny", "Sassy", "Motivational"]
 personality_index = personality_options.index(selected_personality)
 
+show_settings = False
 current_scene = "main"
 
 back_button_rect = pygame.Rect(20, 20, 100, 40)
@@ -159,8 +160,8 @@ while running:
                 selected_personality = personality_options[personality_index]
                 save_rock_data(rock_name, selected_background, selected_personality)
 
-            if buttons["music"]["rect"].collidepoint(event.pos):
-                music_on = not music_on
+            if buttons["settings"]["rect"].collidepoint(event.pos):
+                show_settings = not show_settings
                 if music_on:
                     pygame.mixer.music.play(-1)
                 else:
@@ -177,6 +178,27 @@ while running:
         scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
         screen.blit(scaled_bg, (0, 0))
         screen.blit(rock_img, rock_rect)
+
+        if show_settings:
+            # popup background
+            settings_rect = pygame.Rect(WIDTH // 2 - 150, HEIGHT // 2 - 100, 300, 200)
+            pygame.draw.rect(screen, (200, 200, 200), settings_rect)
+            pygame.draw.rect(screen, (50, 50, 50), settings_rect, 4)
+
+            # Music toggle button
+            music_btn_rect = pygame.Rect(settings_rect.x + 50, settings_rect.y + 60, 200, 40)
+            music_label = "Music: On" if music_on else "Music: Off"
+            draw_button(screen, music_btn_rect, music_label, button_font)
+
+            # Detect clicks on music button
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if music_btn_rect.collidepoint(event.pos):
+                    music_on = not music_on
+                    if music_on:
+                        pygame.mixer.music.play(-1)
+                    else:
+                        pygame.mixer.music.stop()
+                    save_rock_data(rock_name, selected_background, selected_personality, music_on)
 
         if is_thinking and thinking_frames:
             thinking_timer += 1
