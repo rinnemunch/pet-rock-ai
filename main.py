@@ -88,6 +88,8 @@ pygame.mixer.init()
 pygame.mixer.music.load("assets/music/forest_theme.mp3")
 pygame.mixer.music.play(-1)
 
+music_on = True
+
 pygame.mixer.music.set_volume(0.5)  # 0.0 to 1.0
 
 if os.path.exists("rock_data.json"):
@@ -187,6 +189,13 @@ while running:
                 selected_personality = personality_options[personality_index]
                 save_rock_data(rock_name, selected_background, selected_personality)
 
+            if music_button_rect.collidepoint(event.pos):
+                music_on = not music_on
+                if music_on:
+                    pygame.mixer.music.play(-1)
+                else:
+                    pygame.mixer.music.stop()
+
     screen.fill(BG_COLOR)
     scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
     screen.blit(scaled_bg, (0, 0))
@@ -225,6 +234,14 @@ while running:
     personality_text = button_font.render(f"Tone: {selected_personality}", True, (0, 0, 0))
     text_rect = personality_text.get_rect(center=personality_button_rect.center)
     screen.blit(personality_text, text_rect)
+
+    music_button_rect = pygame.Rect(WIDTH - 540, 20, 160, 40)
+    pygame.draw.rect(screen, (200, 200, 200), music_button_rect)
+    pygame.draw.rect(screen, (0, 0, 0), music_button_rect, 2)
+    music_label = "Music: On" if music_on else "Music: Off"
+    music_text = button_font.render(music_label, True, (0, 0, 0))
+    music_text_rect = music_text.get_rect(center=music_button_rect.center)
+    screen.blit(music_text, music_text_rect)
 
     padding = 10
     if naming_phase:
