@@ -27,8 +27,18 @@ def save_rock_data(name, background, personality):
 
 
 def get_rocky_response(mood_input, rock_name="Rocky", personality="Wise"):
-    prompt = f"You are a pet rock named {rock_name}. Speak in a {personality.lower()} tone. The user says they feel '{mood_input}'. Respond in one short sentence or fun line."
-    ...
+    if personality == "Wise":
+        tone_prompt = "Speak like a wise old sage. Share one thoughtful sentence or proverb-like insight."
+    elif personality == "Funny":
+        tone_prompt = "Be playful and make a joke or pun. Respond in one funny or silly sentence."
+    elif personality == "Sassy":
+        tone_prompt = "Be bold, cheeky, and a little sarcastic. Respond with one sassy comeback or dramatic remark."
+    elif personality == "Motivational":
+        tone_prompt = "Speak like an energetic coach. Respond with one powerful and uplifting line."
+    else:
+        tone_prompt = "Speak in a kind and friendly tone."
+
+    prompt = f"You are a pet rock named {rock_name}. The user says they feel '{mood_input}'. {tone_prompt}"
 
     response = requests.post(
         "http://localhost:11434/api/generate",
@@ -46,6 +56,7 @@ def get_rocky_response(mood_input, rock_name="Rocky", personality="Wise"):
             except:
                 continue
     return full_reply
+
 
 
 def render_wrapped_text(text, font, color, surface, x, y, max_width):
