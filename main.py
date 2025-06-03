@@ -106,8 +106,10 @@ button_font = pygame.font.SysFont("arial", 20)
 personality_options = ["Wise", "Funny", "Sassy", "Motivational"]
 personality_index = personality_options.index(selected_personality)
 
+# Flags
 show_settings = False
 current_scene = "main"
+music_button_pressed = False
 
 back_button_rect = pygame.Rect(20, 20, 100, 40)
 
@@ -192,13 +194,17 @@ while running:
 
             # Detect clicks on music button
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if music_btn_rect.collidepoint(event.pos):
+                if music_btn_rect.collidepoint(event.pos) and not music_button_pressed:
                     music_on = not music_on
+                    music_button_pressed = True
                     if music_on:
                         pygame.mixer.music.play(-1)
                     else:
                         pygame.mixer.music.stop()
                     save_rock_data(rock_name, selected_background, selected_personality, music_on)
+
+            if event.type == pygame.MOUSEBUTTONUP:
+                music_button_pressed = False
 
         if is_thinking and thinking_frames:
             thinking_timer += 1
