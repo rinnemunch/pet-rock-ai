@@ -99,3 +99,24 @@ def render_wrapped_text(text, font, color, surface, x, y, max_width):
     for i, line in enumerate(lines):
         rendered = font.render(line, True, color)
         surface.blit(rendered, (x, y + i * font.get_height()))
+
+
+# === Input box ===
+def draw_input_box(surface, rect, text, font, active, cursor_visible, naming_phase=False):
+    box_color = (255, 255, 255) if active else (230, 230, 230)
+    pygame.draw.rect(surface, box_color, rect)
+    pygame.draw.rect(surface, (0, 0, 0), rect, 2)
+
+    if text:
+        input_surface = font.render(text, True, (0, 0, 0))
+    else:
+        placeholder = "Enter your rock's name..." if naming_phase else "Type your mood..."
+        input_surface = font.render(placeholder, True, (180, 180, 180))
+
+    surface.blit(input_surface, (rect.x + 10, rect.y + 2))
+
+    if active and cursor_visible:
+        cursor_x = rect.x + 10 + input_surface.get_width() + 2
+        cursor_y = rect.y + (rect.height - input_surface.get_height()) // 2
+        cursor_height = input_surface.get_height()
+        pygame.draw.line(surface, (0, 0, 0), (cursor_x, cursor_y), (cursor_x, cursor_y + cursor_height), 2)

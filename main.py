@@ -12,7 +12,8 @@ from helpers import (
     save_rock_data,
     get_rocky_response,
     render_wrapped_text,
-    draw_button
+    draw_button,
+    draw_input_box
 )
 
 pygame.init()
@@ -150,23 +151,7 @@ while running:
         screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, 50))
         draw_button(screen, back_button_rect, "Back", button_font)
 
-    box_color = (255, 255, 255) if input_active else (230, 230, 230)
-    pygame.draw.rect(screen, box_color, input_box_rect)
-    pygame.draw.rect(screen, (0, 0, 0), input_box_rect, 2)
-
-    # Render input text inside box
-    if user_input:
-        input_surface = FONT.render(user_input, True, (0, 0, 0))
-    else:
-        placeholder = "Type your mood..." if not naming_phase else "Enter your rock's name..."
-        input_surface = FONT.render(placeholder, True, (180, 180, 180))
-    screen.blit(input_surface, (input_box_rect.x + 10, input_box_rect.y + 2))
-
-    if input_active and cursor_visible:
-        cursor_x = input_box_rect.x + 10 + input_surface.get_width() + 2
-        cursor_y = input_box_rect.y + (input_box_rect.height - input_surface.get_height()) // 2
-        cursor_height = input_surface.get_height()
-        pygame.draw.line(screen, (0, 0, 0), (cursor_x, cursor_y), (cursor_x, cursor_y + cursor_height), 2)
+    draw_input_box(screen, input_box_rect, user_input, FONT, input_active, cursor_visible, naming_phase)
 
     response_box_rect = pygame.Rect(40, 80, WIDTH - 80, 100)
     pygame.draw.rect(screen, (255, 255, 255), response_box_rect)
