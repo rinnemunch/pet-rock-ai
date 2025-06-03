@@ -152,7 +152,7 @@ while running:
         screen.fill((250, 240, 200))  # distinct background for mini-game
         title_text = button_font.render("Rock-Paper-Scissors!", True, (0, 0, 0))
         screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, 50))
-        draw_button(screen, personality_button_rect, f"Tone: {selected_personality}", button_font)
+        draw_button(screen, back_button_rect, "Back", button_font)
 
     box_color = (255, 255, 255) if input_active else (230, 230, 230)
     pygame.draw.rect(screen, box_color, input_box_rect)
