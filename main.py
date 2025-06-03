@@ -17,18 +17,21 @@ def load_rock_data():
             return (
                 data.get("name", "Rocky"),
                 data.get("background", "forest"),
-                data.get("personality", "Wise")
+                data.get("personality", "Wise"),
+                data.get("music_on", True)
             )
-    return "Rocky", "forest", "Wise"
+    return "Rocky", "forest", "Wise", True
 
 
-def save_rock_data(name, background, personality):
+def save_rock_data(name, background, personality, music_on=True):
     with open("rock_data.json", "w") as file:
         json.dump({
             "name": name,
             "background": background,
-            "personality": personality
+            "personality": personality,
+            "music_on": music_on
         }, file)
+
 
 
 def get_rocky_response(mood_input, rock_name="Rocky", personality="Wise"):
@@ -84,17 +87,17 @@ def render_wrapped_text(text, font, color, surface, x, y, max_width):
 
 pygame.init()
 
-pygame.mixer.init()
-pygame.mixer.music.load("assets/music/forest_theme.mp3")
-pygame.mixer.music.play(-1)
-
-music_on = True
-
-pygame.mixer.music.set_volume(0.5)  # 0.0 to 1.0
 
 if os.path.exists("rock_data.json"):
-    rock_name, selected_background, selected_personality = load_rock_data()
+    rock_name, selected_background, selected_personality, music_on = load_rock_data()
     naming_phase = False
+
+    pygame.mixer.init()
+    pygame.mixer.music.load("assets/music/forest_theme.mp3")
+    if music_on:
+        pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(0.5)
+
 else:
     rock_name, selected_background, selected_personality = "Rocky", "forest", "Wise"
     naming_phase = True
@@ -161,7 +164,7 @@ while running:
             if event.key == pygame.K_RETURN:
                 if naming_phase:
                     rock_name = user_input.strip() or "Rocky"
-                    save_rock_data(rock_name, selected_background, selected_personality)
+                    save_rock_data(rock_name, selected_background, selected_personality, music_on)
                     naming_phase = False
 
                     try:
@@ -200,6 +203,7 @@ while running:
                     pygame.mixer.music.play(-1)
                 else:
                     pygame.mixer.music.stop()
+                save_rock_data(rock_name, selected_background, selected_personality, music_on)
             if minigame_button_rect.collidepoint(event.pos):
                 current_scene = "minigame"
 
