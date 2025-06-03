@@ -1,6 +1,7 @@
 # === Standard Library ===
 import sys
 import os
+import threading
 
 # === Third-Party Libraries ===
 import pygame
@@ -107,6 +108,17 @@ personality_index = personality_options.index(selected_personality)
 current_scene = "main"
 
 back_button_rect = pygame.Rect(20, 20, 100, 40)
+
+
+def handle_response(prompt):
+    global rock_response, is_thinking
+    try:
+        rock_response = get_rocky_response(prompt, rock_name, selected_personality)
+    except Exception as e:
+        rock_response = f"Oops! {rock_name or 'Rocky'} is quiet right now. Error: {e}"
+    is_thinking = False
+
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -118,21 +130,14 @@ while running:
                     rock_name = user_input.strip() or "Rocky"
                     save_rock_data(rock_name, selected_background, selected_personality, music_on)
                     naming_phase = False
-
-                    is_thinking = True
-                    try:
-                        rock_response = get_rocky_response("lonely", rock_name, selected_personality)
-                    except Exception as e:
-                        rock_response = f"Oops! {rock_name} is quiet right now. Error: {e}"
-                    is_thinking = False
+                    prompt = "lonely"
                 else:
-                    is_thinking = True
-                    try:
-                        rock_response = get_rocky_response(user_input, rock_name, selected_personality)
-                    except Exception as e:
-                        rock_response = f"Oops! {rock_name} is quiet right now. Error: {e}"
-                    is_thinking = False
+                    prompt = user_input
+
+                is_thinking = True
+                threading.Thread(target=handle_response, args=(prompt,)).start()
                 user_input = ''
+
             elif event.key == pygame.K_BACKSPACE:
                 user_input = user_input[:-1]
             else:
