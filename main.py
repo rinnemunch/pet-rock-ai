@@ -133,15 +133,19 @@ cursor_visible = True
 cursor_timer = 0
 running = True
 
+# === Render Rock ===
 rock_img = pygame.image.load("rock.png").convert_alpha()
 rock_img = pygame.transform.scale(rock_img, (200, 200))  # size adjust
 rock_rect = rock_img.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 60))
-
+# === Render Background ===
 backgrounds = {
     "desert": pygame.image.load("backgrounds/desert.png").convert(),
     "forest": pygame.image.load("backgrounds/forest.png").convert(),
     "grass": pygame.image.load("backgrounds/grass.png").convert()
 }
+# === Render Coin ===
+coin_img = pygame.image.load("assets/icons/coin.png").convert_alpha()
+coin_img = pygame.transform.scale(coin_img, (30, 30))
 
 selected_background = "forest"
 
@@ -221,8 +225,6 @@ while running:
         scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
         screen.blit(scaled_bg, (0, 0))
         screen.blit(rock_img, rock_rect)
-        coin_img = pygame.image.load("assets/icons/coin.png").convert_alpha()
-        coin_img = pygame.transform.scale(coin_img, (30, 30))
 
         # Coin display
         screen.blit(coin_img, (20, 20))
