@@ -69,17 +69,34 @@ selected_background = "forest"
 background_keys = list(backgrounds.keys())
 current_bg_index = background_keys.index(selected_background)
 
-button_rect = pygame.Rect(WIDTH - 360, 20, 160, 40)
+# === Buttons ===
+buttons = {
+    "change_bg": {
+        "rect": pygame.Rect(WIDTH - 360, 20, 160, 40),
+        "label": "Change Background"
+    },
+    "tone": {
+        "rect": pygame.Rect(WIDTH - 180, 20, 160, 40),
+        "label": lambda: f"Tone: {selected_personality}"
+    },
+    "music": {
+        "rect": pygame.Rect(WIDTH - 540, 20, 160, 40),
+        "label": lambda: f"Music: {'On' if music_on else 'Off'}"
+    },
+    "minigame": {
+        "rect": pygame.Rect(WIDTH - 720, 20, 160, 40),
+        "label": "Mini Games"
+    }
+}
+
 button_font = pygame.font.SysFont("arial", 20)
 
 personality_options = ["Wise", "Funny", "Sassy", "Motivational"]
 personality_index = personality_options.index(selected_personality)
-personality_button_rect = pygame.Rect(WIDTH - 180, 20, 160, 40)
 
 current_scene = "main"
 
-minigame_button_rect = pygame.Rect(WIDTH - 720, 20, 160, 40)
-music_button_rect = pygame.Rect(WIDTH - 540, 20, 160, 40)
+
 
 back_button_rect = pygame.Rect(20, 20, 100, 40)
 while running:
@@ -114,28 +131,26 @@ while running:
             else:
                 input_active = False
 
-            if button_rect.collidepoint(event.pos):
+            if buttons["change_bg"]["rect"].collidepoint(event.pos):
                 current_bg_index = (current_bg_index + 1) % len(background_keys)
                 selected_background = background_keys[current_bg_index]
                 save_rock_data(rock_name, selected_background, selected_personality)
 
-            if personality_button_rect.collidepoint(event.pos):
+            if buttons["tone"]["rect"].collidepoint(event.pos):
                 personality_index = (personality_index + 1) % len(personality_options)
                 selected_personality = personality_options[personality_index]
                 save_rock_data(rock_name, selected_background, selected_personality)
 
-            if music_button_rect.collidepoint(event.pos):
+            if buttons["music"]["rect"].collidepoint(event.pos):
                 music_on = not music_on
                 if music_on:
                     pygame.mixer.music.play(-1)
                 else:
                     pygame.mixer.music.stop()
                 save_rock_data(rock_name, selected_background, selected_personality, music_on)
-            if minigame_button_rect.collidepoint(event.pos):
-                current_scene = "minigame"
 
-            if current_scene == "minigame" and back_button_rect.collidepoint(event.pos):
-                current_scene = "main"
+            if buttons["minigame"]["rect"].collidepoint(event.pos):
+                current_scene = "minigame"
 
     if current_scene == "main":
         screen.fill(BG_COLOR)
@@ -153,10 +168,9 @@ while running:
         draw_button(screen, back_button_rect, "Back", button_font)
 
     # === Draw Render ===
-    draw_button(screen, button_rect, "Change Background", button_font)
-    draw_button(screen, personality_button_rect, f"Tone: {selected_personality}", button_font)
-    draw_button(screen, music_button_rect, f"Music: {'On' if music_on else 'Off'}", button_font)
-    draw_button(screen, minigame_button_rect, "Mini Games", button_font)
+    for btn in buttons.values():
+        label = btn["label"]() if callable(btn["label"]) else btn["label"]
+        draw_button(screen, btn["rect"], label, button_font)
 
     # === Input Box ===
     draw_input_box(screen, input_box_rect, user_input, FONT, input_active, cursor_visible, naming_phase)
@@ -166,7 +180,6 @@ while running:
     draw_response_box(screen, response_box_rect, FONT, rock_response, naming_phase)
 
     # cursor blink
-    cursor_timer += 1
     cursor_visible = (cursor_timer % 60) < 30
     cursor_timer += 1
     pygame.display.flip()
