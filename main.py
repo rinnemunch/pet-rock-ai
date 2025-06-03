@@ -203,7 +203,7 @@ while running:
         cursor_height = input_surface.get_height()
         pygame.draw.line(screen, (0, 0, 0), (cursor_x, cursor_y), (cursor_x, cursor_y + cursor_height), 2)
 
-    response_box_rect = pygame.Rect(40, 80, WIDTH - 80, 240)
+    response_box_rect = pygame.Rect(40, 80, WIDTH - 80, 100)
     pygame.draw.rect(screen, (255, 255, 255), response_box_rect)
     pygame.draw.rect(screen, (0, 0, 0), response_box_rect, 2)
     pygame.draw.rect(screen, (200, 200, 200), button_rect)
