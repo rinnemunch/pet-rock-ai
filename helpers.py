@@ -22,15 +22,19 @@ def remove_emojis(text):
 
 # === Data Persistence ===
 def load_rock_data():
-    if os.path.exists("rock_data.json"):
-        with open("rock_data.json", "r") as file:
-            data = json.load(file)
-            return (
-                data.get("name", "Rocky"),
-                data.get("background", "forest"),
-                data.get("personality", "Wise"),
-                data.get("music_on", True)
-            )
+    try:
+        if os.path.exists("rock_data.json"):
+            with open("rock_data.json", "r") as file:
+                data = json.load(file)
+                return (
+                    data.get("name", "Rocky"),
+                    data.get("background", "forest"),
+                    data.get("personality", "Wise"),
+                    data.get("music_on", True)
+                )
+    except Exception as e:
+        print(f"Failed to load rock_data.json: {e}")
+
     return "Rocky", "forest", "Wise", True
 
 
@@ -137,3 +141,10 @@ def draw_response_box(surface, rect, font, text, naming_phase=False):
                         rect.x + padding,
                         rect.y + padding,
                         rect.width - 2 * padding)
+
+
+# === Coin ===
+def draw_coin_display(surface, coin_img, font, coin_count):
+    surface.blit(coin_img, (20, 20))
+    coin_text = font.render(f"{coin_count:03}", True, (0, 0, 0))
+    surface.blit(coin_text, (60, 25))

@@ -14,7 +14,8 @@ from helpers import (
     render_wrapped_text,
     draw_button,
     draw_input_box,
-    draw_response_box
+    draw_response_box,
+    draw_coin_display
 )
 
 pygame.init()
@@ -143,9 +144,8 @@ while running:
         screen.blit(rock_img, rock_rect)
 
         # Coin display
-        screen.blit(coin_img, (20, 20))
-        coin_text = button_font.render(f"{coin_count:03}", True, (0, 0, 0))
-        screen.blit(coin_text, (60, 25))
+        draw_coin_display(screen, coin_img, button_font, coin_count)
+
     elif current_scene == "minigame":
         screen.fill((250, 240, 200))  # distinct background for mini-game
         title_text = button_font.render("Rock-Paper-Scissors!", True, (0, 0, 0))
