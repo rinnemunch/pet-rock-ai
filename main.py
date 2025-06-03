@@ -84,6 +84,12 @@ def render_wrapped_text(text, font, color, surface, x, y, max_width):
 
 pygame.init()
 
+pygame.mixer.init()
+pygame.mixer.music.load("assets/music/forest_theme.mp3")
+pygame.mixer.music.play(-1)
+
+pygame.mixer.music.set_volume(0.5)  # 0.0 to 1.0
+
 if os.path.exists("rock_data.json"):
     rock_name, selected_background, selected_personality = load_rock_data()
     naming_phase = False
