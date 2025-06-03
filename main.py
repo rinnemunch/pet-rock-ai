@@ -28,15 +28,15 @@ def save_rock_data(name, background, personality):
 
 def get_rocky_response(mood_input, rock_name="Rocky", personality="Wise"):
     if personality == "Wise":
-        tone_prompt = "Speak like a wise old sage. Share one thoughtful sentence or proverb-like insight."
+        tone_prompt = "Speak like a wise old sage. Share one thoughtful sentence or proverb-like insight. Respond in no more than 20 words."
     elif personality == "Funny":
-        tone_prompt = "Be playful and make a joke or pun. Respond in one funny or silly sentence."
+        tone_prompt = "Be playful and make a joke or pun. Respond in one funny or silly sentence. Respond in no more than 20 words."
     elif personality == "Sassy":
-        tone_prompt = "Be bold, cheeky, and a little sarcastic. Respond with one sassy comeback or dramatic remark."
+        tone_prompt = "Be bold, cheeky, and a little sarcastic. Respond with one sassy comeback or dramatic remark. Respond in no more than 20 words."
     elif personality == "Motivational":
-        tone_prompt = "Speak like an energetic coach. Respond with one powerful and uplifting line."
+        tone_prompt = "Speak like an energetic coach. Respond with one powerful and uplifting line. Respond in no more than 20 words."
     else:
-        tone_prompt = "Speak in a kind and friendly tone."
+        tone_prompt = "Speak in a kind and friendly tone. Respond in no more than 20 words."
 
     prompt = f"You are a pet rock named {rock_name}. The user says they feel '{mood_input}'. {tone_prompt}"
 
@@ -56,6 +56,7 @@ def get_rocky_response(mood_input, rock_name="Rocky", personality="Wise"):
             except:
                 continue
     return full_reply
+
 
 
 
