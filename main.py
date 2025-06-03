@@ -186,6 +186,15 @@ while running:
             settings_rect = pygame.Rect(WIDTH // 2 - 150, HEIGHT // 2 - 100, 300, 200)
             pygame.draw.rect(screen, (200, 200, 200), settings_rect)
             pygame.draw.rect(screen, (50, 50, 50), settings_rect, 4)
+            # Close (X) button
+            close_btn_rect = pygame.Rect(settings_rect.right - 30, settings_rect.top + 10, 20, 20)
+            pygame.draw.rect(screen, (255, 80, 80), close_btn_rect)
+            x_text = button_font.render("X", True, (255, 255, 255))
+            screen.blit(x_text, (close_btn_rect.x + 3, close_btn_rect.y - 2))
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if close_btn_rect.collidepoint(event.pos):
+                    show_settings = False
 
             # Music toggle button
             music_btn_rect = pygame.Rect(settings_rect.x + 50, settings_rect.y + 60, 200, 40)
