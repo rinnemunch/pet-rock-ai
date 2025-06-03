@@ -147,6 +147,16 @@ personality_options = ["Wise", "Funny", "Sassy", "Motivational"]
 personality_index = personality_options.index(selected_personality)
 personality_button_rect = pygame.Rect(WIDTH - 180, 20, 160, 40)
 
+current_scene = "main"
+
+minigame_button_rect = pygame.Rect(WIDTH - 720, 20, 160, 40)
+
+pygame.draw.rect(screen, (200, 200, 200), minigame_button_rect)
+pygame.draw.rect(screen, (0, 0, 0), minigame_button_rect, 2)
+minigame_text = button_font.render("Mini Games", True, (0, 0, 0))
+screen.blit(minigame_text, minigame_button_rect.move(10, 10))
+
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -195,6 +205,8 @@ while running:
                     pygame.mixer.music.play(-1)
                 else:
                     pygame.mixer.music.stop()
+            if minigame_button_rect.collidepoint(event.pos):
+                current_scene = "minigame"
 
     screen.fill(BG_COLOR)
     scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
