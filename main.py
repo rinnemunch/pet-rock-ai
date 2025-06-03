@@ -9,17 +9,26 @@ def load_rock_data():
     if os.path.exists("rock_data.json"):
         with open("rock_data.json", "r") as file:
             data = json.load(file)
-            return data.get("name", "Rocky"), data.get("background", "forest")
-    return "Rocky", "forest"
+            return (
+                data.get("name", "Rocky"),
+                data.get("background", "forest"),
+                data.get("personality", "Wise")
+            )
+    return "Rocky", "forest", "Wise"
 
 
-def save_rock_data(name, background):
+def save_rock_data(name, background, personality):
     with open("rock_data.json", "w") as file:
-        json.dump({"name": name, "background": background}, file)
+        json.dump({
+            "name": name,
+            "background": background,
+            "personality": personality
+        }, file)
 
 
-def get_rocky_response(mood_input, rock_name="Rocky"):
-    prompt = f"You are a pet rock named {rock_name}. The user says they feel '{mood_input}'. Respond with a comforting quote or fun fact in a kind, friendly tone."
+def get_rocky_response(mood_input, rock_name="Rocky", personality="Wise"):
+    prompt = f"You are a pet rock named {rock_name}. Speak in a {personality.lower()} tone. The user says they feel '{mood_input}'. Respond with a comforting quote or fun fact."
+    ...
 
     response = requests.post(
         "http://localhost:11434/api/generate",
@@ -61,10 +70,10 @@ def render_wrapped_text(text, font, color, surface, x, y, max_width):
 pygame.init()
 
 if os.path.exists("rock_data.json"):
-    rock_name, selected_background = load_rock_data()
+    rock_name, selected_background, selected_personality = load_rock_data()
     naming_phase = False
 else:
-    rock_name, selected_background = "Rocky", "forest"
+    rock_name, selected_background, selected_personality = "Rocky", "forest", "Wise"
     naming_phase = True
 
 
@@ -84,7 +93,7 @@ if naming_phase:
     rock_response = ""
 else:
     try:
-        rock_response = get_rocky_response("lonely", rock_name)
+        rock_response = get_rocky_response("lonely", rock_name, selected_personality)
     except Exception as e:
         rock_response = f"Oops! {rock_name or 'Rocky'} is quiet right now. Error: {e}"
 
@@ -111,6 +120,10 @@ current_bg_index = background_keys.index(selected_background)
 button_rect = pygame.Rect(WIDTH - 200, 20, 160, 40)
 button_font = pygame.font.SysFont("arial", 20)
 
+personality_options = ["Wise", "Funny", "Sassy", "Motivational"]
+personality_index = personality_options.index(selected_personality)
+personality_button_rect = pygame.Rect(WIDTH - 200, 70, 160, 40)
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -120,16 +133,16 @@ while running:
             if event.key == pygame.K_RETURN:
                 if naming_phase:
                     rock_name = user_input.strip() or "Rocky"
-                    save_rock_data(rock_name, selected_background)
+                    save_rock_data(rock_name, selected_background, selected_personality)
                     naming_phase = False
 
                     try:
-                        rock_response = get_rocky_response("lonely", rock_name)
+                        rock_response = get_rocky_response("lonely", rock_name, selected_personality)
                     except Exception as e:
                         rock_response = f"Oops! {rock_name} is quiet right now. Error: {e}"
                 else:
                     try:
-                        rock_response = get_rocky_response(user_input, rock_name)
+                        rock_response = get_rocky_response(user_input, rock_name, selected_personality)
                     except Exception as e:
                         rock_response = f"Oops! {rock_name} is quiet right now. Error: {e}"
                 user_input = ''
@@ -142,15 +155,16 @@ while running:
                 input_active = True
             else:
                 input_active = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
+
             if button_rect.collidepoint(event.pos):
                 current_bg_index = (current_bg_index + 1) % len(background_keys)
                 selected_background = background_keys[current_bg_index]
-                save_rock_data(rock_name, selected_background)
-            elif input_box_rect.collidepoint(event.pos):
-                input_active = True
-            else:
-                input_active = False
+                save_rock_data(rock_name, selected_background, selected_personality)
+
+            if personality_button_rect.collidepoint(event.pos):
+                personality_index = (personality_index + 1) % len(personality_options)
+                selected_personality = personality_options[personality_index]
+                save_rock_data(rock_name, selected_background, selected_personality)
 
     screen.fill(BG_COLOR)
     scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
@@ -184,6 +198,12 @@ while running:
     button_text = button_font.render("Change Background", True, (0, 0, 0))
     text_rect = button_text.get_rect(center=button_rect.center)
     screen.blit(button_text, text_rect)
+
+    pygame.draw.rect(screen, (200, 200, 200), personality_button_rect)
+    pygame.draw.rect(screen, (0, 0, 0), personality_button_rect, 2)
+    personality_text = button_font.render(f"Tone: {selected_personality}", True, (0, 0, 0))
+    text_rect = personality_text.get_rect(center=personality_button_rect.center)
+    screen.blit(personality_text, text_rect)
 
     padding = 10
     if naming_phase:
