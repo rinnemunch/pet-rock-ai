@@ -203,6 +203,11 @@ while running:
         scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
         screen.blit(scaled_bg, (0, 0))
         screen.blit(rock_img, rock_rect)
+
+        for btn in buttons.values():
+            label = btn["label"]() if callable(btn["label"]) else btn["label"]
+            draw_button(screen, btn["rect"], label, button_font)
+
         if show_name_tag:
             name_surface = button_font.render(rock_name, True, (50, 50, 50))
             name_x = rock_rect.centerx - name_surface.get_width() // 2
@@ -280,11 +285,6 @@ while running:
         title_text = button_font.render("Rock-Paper-Scissors!", True, (0, 0, 0))
         screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, 50))
         draw_button(screen, back_button_rect, "Back", button_font)
-
-    # === Draw Render ===
-    for btn in buttons.values():
-        label = btn["label"]() if callable(btn["label"]) else btn["label"]
-        draw_button(screen, btn["rect"], label, button_font)
 
     # === Input Box ===
     draw_input_box(screen, input_box_rect, user_input, FONT, input_active, cursor_visible,
