@@ -111,6 +111,10 @@ current_scene = "main"
 music_button_pressed = False
 name_button_pressed = False
 show_name_tag = False
+renaming_mode = False
+new_name_input = ''
+rename_input_rect = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 + 80, 200, 32)
+
 
 back_button_rect = pygame.Rect(20, 20, 100, 40)
 
@@ -215,6 +219,10 @@ while running:
             # Change name button
             name_change_btn_rect = pygame.Rect(settings_rect.x + 50, settings_rect.y + 160, 200, 40)
             draw_button(screen, name_change_btn_rect, "Change Name", button_font)
+
+            if name_change_btn_rect.collidepoint(event.pos):
+                renaming_mode = True
+                input_active = True
 
             # Handle click
             if event.type == pygame.MOUSEBUTTONDOWN:
