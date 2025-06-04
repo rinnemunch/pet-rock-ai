@@ -330,25 +330,24 @@ while running:
         else:
             screen.blit(gear_icon, gear_rect.topleft)
 
-    # === Input Box ===
-    draw_input_box(screen, input_box_rect, user_input, FONT, input_active, cursor_visible,
-                   naming_phase or renaming_mode)
+    if current_scene == "main":
+        draw_input_box(screen, input_box_rect, user_input, FONT, input_active, cursor_visible,
+                       naming_phase or renaming_mode)
 
-    # == Response Box ==
-    response_box_rect = pygame.Rect(40, 80, WIDTH - 80, 100)
-    # Typing effect
-    if is_thinking:
-        typed_text = ""
-        char_index = 0
-    elif char_index < len(rock_response):
-        typing_timer += 1
-        if typing_timer % typing_speed == 0:
-            char_index += 1
-        typed_text = rock_response[:char_index]
-    else:
-        typed_text = rock_response
+        response_box_rect = pygame.Rect(40, 80, WIDTH - 80, 100)
 
-    draw_response_box(screen, response_box_rect, FONT, typed_text, naming_phase)
+        if is_thinking:
+            typed_text = ""
+            char_index = 0
+        elif char_index < len(rock_response):
+            typing_timer += 1
+            if typing_timer % typing_speed == 0:
+                char_index += 1
+            typed_text = rock_response[:char_index]
+        else:
+            typed_text = rock_response
+
+        draw_response_box(screen, response_box_rect, FONT, typed_text, naming_phase)
 
     # cursor blink
     cursor_visible = (cursor_timer % 60) < 30
