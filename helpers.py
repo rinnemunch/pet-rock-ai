@@ -30,21 +30,23 @@ def load_rock_data():
                     data.get("name", "Rocky"),
                     data.get("background", "forest"),
                     data.get("personality", "Wise"),
-                    data.get("music_on", True)
+                    data.get("music_on", True),
+                    data.get("coins", 0)
                 )
     except Exception as e:
         print(f"Failed to load rock_data.json: {e}")
 
-    return "Rocky", "forest", "Wise", True
+    return "Rocky", "forest", "Wise", True, 0
 
 
-def save_rock_data(name, background, personality, music_on=True):
+def save_rock_data(name, background, personality, music_on=True, coins=0):
     with open("rock_data.json", "w") as file:
         json.dump({
             "name": name,
             "background": background,
             "personality": personality,
-            "music_on": music_on
+            "music_on": music_on,
+            "coins": coins
         }, file)
 
 
@@ -148,4 +150,3 @@ def draw_coin_display(surface, coin_img, font, coin_count, x=20, y=20):
     surface.blit(coin_img, (x, y))
     coin_text = font.render(str(coin_count), True, (0, 0, 0))
     surface.blit(coin_text, (x + 45, y + 5))
-

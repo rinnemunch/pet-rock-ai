@@ -46,7 +46,7 @@ gear_icon = pygame.transform.scale(gear_icon, (40, 40))
 gear_rect = pygame.Rect(20, 20, 40, 40)
 
 if os.path.exists("rock_data.json"):
-    rock_name, selected_background, selected_personality, music_on = load_rock_data()
+    rock_name, selected_background, selected_personality, music_on, coin_count = load_rock_data()
     naming_phase = False
 
     pygame.mixer.init()
@@ -56,11 +56,10 @@ if os.path.exists("rock_data.json"):
     pygame.mixer.music.set_volume(0.5)
 
 else:
-    rock_name, selected_background, selected_personality = "Rocky", "forest", "Wise"
+    rock_name, selected_background, selected_personality, music_on, coin_count = "Rocky", "forest", "Wise", True, 0
     naming_phase = True
 
 user_input = ''
-coin_count = 0
 input_active = naming_phase
 
 input_box_rect = pygame.Rect(40, HEIGHT - 50, WIDTH - 80, 32)
@@ -216,6 +215,7 @@ while running:
                                 (player == "scissors" and cpu == "paper"):
                             rps_result = f"You win! ({player} beats {cpu})"
                             coin_count += 1
+                            save_rock_data(rock_name, selected_background, selected_personality, music_on, coin_count)
                         else:
                             rps_result = f"You lose! ({cpu} beats {player})"
 
