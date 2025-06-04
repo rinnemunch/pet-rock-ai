@@ -189,14 +189,6 @@ while running:
                 selected_personality = personality_options[personality_index]
                 save_rock_data(rock_name, selected_background, selected_personality)
 
-            if gear_rect.collidepoint(event.pos):
-                show_settings = not show_settings
-                if music_on:
-                    pygame.mixer.music.play(-1)
-                else:
-                    pygame.mixer.music.stop()
-                save_rock_data(rock_name, selected_background, selected_personality, music_on)
-
             if buttons["minigame"]["rect"].collidepoint(event.pos):
                 current_scene = "minigame"
             if current_scene == "minigame" and back_button_rect.collidepoint(event.pos):
