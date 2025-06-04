@@ -115,7 +115,6 @@ renaming_mode = False
 new_name_input = ''
 rename_input_rect = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 + 80, 200, 32)
 
-
 back_button_rect = pygame.Rect(20, 20, 100, 40)
 
 
@@ -140,12 +139,21 @@ while running:
                     save_rock_data(rock_name, selected_background, selected_personality, music_on)
                     naming_phase = False
                     prompt = "lonely"
+                    is_thinking = True
+                    threading.Thread(target=handle_response, args=(prompt,)).start()
+                    user_input = ''
+                elif renaming_mode:
+                    rock_name = user_input.strip() or "Rocky"
+                    save_rock_data(rock_name, selected_background, selected_personality, music_on)
+                    renaming_mode = False
+                    user_input = ''
                 else:
                     prompt = user_input
+                    is_thinking = True
+                    threading.Thread(target=handle_response, args=(prompt,)).start()
+                    user_input = ''
 
                 is_thinking = True
-                threading.Thread(target=handle_response, args=(prompt,)).start()
-                user_input = ''
 
             elif event.key == pygame.K_BACKSPACE:
                 user_input = user_input[:-1]
@@ -220,15 +228,14 @@ while running:
             name_change_btn_rect = pygame.Rect(settings_rect.x + 50, settings_rect.y + 160, 200, 40)
             draw_button(screen, name_change_btn_rect, "Change Name", button_font)
 
-            if name_change_btn_rect.collidepoint(event.pos):
-                renaming_mode = True
-                input_active = True
-
             # Handle click
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if name_toggle_rect.collidepoint(event.pos) and not name_button_pressed:
                     show_name_tag = not show_name_tag
                     name_button_pressed = True
+                if name_change_btn_rect.collidepoint(event.pos):
+                    renaming_mode = True
+                    input_active = True
 
             # Detect clicks on music button
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -270,7 +277,8 @@ while running:
         draw_button(screen, btn["rect"], label, button_font)
 
     # === Input Box ===
-    draw_input_box(screen, input_box_rect, user_input, FONT, input_active, cursor_visible, naming_phase)
+    draw_input_box(screen, input_box_rect, user_input, FONT, input_active, cursor_visible,
+                   naming_phase or renaming_mode)
 
     # == Response Box ==
     response_box_rect = pygame.Rect(40, 80, WIDTH - 80, 100)
