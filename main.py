@@ -41,6 +41,10 @@ typing_speed = 2  # Adjustable remember lower is faster
 from assets import load_assets
 
 rock_img, rock_rect, backgrounds, coin_img = load_assets()
+gear_icon = pygame.image.load("assets/ui/gear.png").convert_alpha()
+gear_icon = pygame.transform.scale(gear_icon, (40, 40))
+gear_rect = pygame.Rect(WIDTH - 60, 20, 40, 40)
+
 
 if os.path.exists("rock_data.json"):
     rock_name, selected_background, selected_personality, music_on = load_rock_data()
@@ -93,10 +97,6 @@ buttons = {
     "tone": {
         "rect": pygame.Rect(WIDTH - 180, 20, 160, 40),
         "label": lambda: f"Tone: {selected_personality}"
-    },
-    "settings": {
-        "rect": pygame.Rect(WIDTH - 540, 20, 160, 40),
-        "label": "Settings"
     },
     "minigame": {
         "rect": pygame.Rect(WIDTH - 720, 20, 160, 40),
@@ -175,6 +175,9 @@ while running:
             else:
                 input_active = False
 
+            if gear_rect.collidepoint(event.pos):
+                show_settings = not show_settings
+
             if buttons["change_bg"]["rect"].collidepoint(event.pos):
                 current_bg_index = (current_bg_index + 1) % len(background_keys)
                 selected_background = background_keys[current_bg_index]
@@ -185,7 +188,7 @@ while running:
                 selected_personality = personality_options[personality_index]
                 save_rock_data(rock_name, selected_background, selected_personality)
 
-            if buttons["settings"]["rect"].collidepoint(event.pos):
+            if gear_rect.collidepoint(event.pos):
                 show_settings = not show_settings
                 if music_on:
                     pygame.mixer.music.play(-1)
@@ -285,6 +288,16 @@ while running:
     for btn in buttons.values():
         label = btn["label"]() if callable(btn["label"]) else btn["label"]
         draw_button(screen, btn["rect"], label, button_font)
+
+    # == Hover Icon ===
+    mouse_pos = pygame.mouse.get_pos()
+    if gear_rect.collidepoint(mouse_pos):
+        hover_surface = pygame.Surface((40, 40), pygame.SRCALPHA)
+        hover_surface.fill((255, 255, 255, 50))  # Light white overlay
+        screen.blit(gear_icon, gear_rect.topleft)
+        screen.blit(hover_surface, gear_rect.topleft)
+    else:
+        screen.blit(gear_icon, gear_rect.topleft)
 
     # === Input Box ===
     draw_input_box(screen, input_box_rect, user_input, FONT, input_active, cursor_visible,
