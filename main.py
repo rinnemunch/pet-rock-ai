@@ -313,20 +313,22 @@ while running:
             result_text = button_font.render(rps_result, True, (0, 100, 0))
             screen.blit(result_text, (WIDTH // 2 - result_text.get_width() // 2, 300))
 
-    # === Draw Render ===
-    for btn in buttons.values():
-        label = btn["label"]() if callable(btn["label"]) else btn["label"]
-        draw_button(screen, btn["rect"], label, button_font)
+    # === Draw Render ==
+    if current_scene == "main":
+        for btn in buttons.values():
+            label = btn["label"]() if callable(btn["label"]) else btn["label"]
+            draw_button(screen, btn["rect"], label, button_font)
 
-    # == Hover Icon ===
-    mouse_pos = pygame.mouse.get_pos()
-    if gear_rect.collidepoint(mouse_pos):
-        hover_surface = pygame.Surface((40, 40), pygame.SRCALPHA)
-        hover_surface.fill((255, 255, 255, 50))  # Light white overlay
-        screen.blit(gear_icon, gear_rect.topleft)
-        screen.blit(hover_surface, gear_rect.topleft)
-    else:
-        screen.blit(gear_icon, gear_rect.topleft)
+    # === Hover Icon ===
+    if current_scene == "main":
+        mouse_pos = pygame.mouse.get_pos()
+        if gear_rect.collidepoint(mouse_pos):
+            hover_surface = pygame.Surface((40, 40), pygame.SRCALPHA)
+            hover_surface.fill((255, 255, 255, 50))
+            screen.blit(gear_icon, gear_rect.topleft)
+            screen.blit(hover_surface, gear_rect.topleft)
+        else:
+            screen.blit(gear_icon, gear_rect.topleft)
 
     # === Input Box ===
     draw_input_box(screen, input_box_rect, user_input, FONT, input_active, cursor_visible,
