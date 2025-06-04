@@ -137,32 +137,32 @@ while running:
             running = False
 
         if event.type == pygame.KEYDOWN and input_active:
-            if event.key == pygame.K_RETURN:
-                if naming_phase:
+            if naming_phase or renaming_mode:
+                if event.key == pygame.K_RETURN:
                     rock_name = user_input.strip() or "Rocky"
                     save_rock_data(rock_name, selected_background, selected_personality, music_on)
-                    naming_phase = False
-                    prompt = "lonely"
-                    is_thinking = True
-                    threading.Thread(target=handle_response, args=(prompt,)).start()
+                    if naming_phase:
+                        naming_phase = False
+                        is_thinking = True
+                        threading.Thread(target=handle_response, args=("lonely",)).start()
+                    if renaming_mode:
+                        renaming_mode = False
                     user_input = ''
-                elif renaming_mode:
-                    rock_name = user_input.strip() or "Rocky"
-                    save_rock_data(rock_name, selected_background, selected_personality, music_on)
-                    renaming_mode = False
-                    user_input = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_input = user_input[:-1]
                 else:
+                    user_input += event.unicode
+            else:
+                if event.key == pygame.K_RETURN:
                     prompt = user_input
                     is_thinking = True
                     threading.Thread(target=handle_response, args=(prompt,)).start()
                     user_input = ''
+                elif event.key == pygame.K_BACKSPACE:
+                    user_input = user_input[:-1]
+                else:
+                    user_input += event.unicode
 
-                is_thinking = True
-
-            elif event.key == pygame.K_BACKSPACE:
-                user_input = user_input[:-1]
-            else:
-                user_input += event.unicode
         if event.type == pygame.MOUSEBUTTONDOWN:
             if input_box_rect.collidepoint(event.pos):
                 input_active = True
