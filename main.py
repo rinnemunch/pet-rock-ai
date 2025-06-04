@@ -45,8 +45,6 @@ gear_icon = pygame.image.load("assets/ui/gear.png").convert_alpha()
 gear_icon = pygame.transform.scale(gear_icon, (40, 40))
 gear_rect = pygame.Rect(20, 20, 40, 40)
 
-
-
 if os.path.exists("rock_data.json"):
     rock_name, selected_background, selected_personality, music_on = load_rock_data()
     naming_phase = False
@@ -113,7 +111,6 @@ rps_buttons = {
 }
 rps_choices = ["rock", "paper", "scissors"]
 rps_result = ""
-
 
 button_font = pygame.font.SysFont("arial", 20)
 
@@ -297,7 +294,7 @@ while running:
             screen.blit(thinking_img, (thinking_x, thinking_y))
 
         # Coin display
-        draw_coin_display(screen, coin_img, button_font, coin_count)
+        draw_coin_display(screen, coin_img, button_font, coin_count, x=20, y=400)
 
     elif current_scene == "minigame":
         screen.fill((250, 240, 200))  # distinct background for mini-game

@@ -144,7 +144,8 @@ def draw_response_box(surface, rect, font, text, naming_phase=False):
 
 
 # === Coin ===
-def draw_coin_display(surface, coin_img, font, coin_count):
-    surface.blit(coin_img, (20, 20))
-    coin_text = font.render(f"{coin_count:03}", True, (0, 0, 0))
-    surface.blit(coin_text, (60, 25))
+def draw_coin_display(surface, coin_img, font, coin_count, x=20, y=20):
+    surface.blit(coin_img, (x, y))
+    coin_text = font.render(str(coin_count), True, (0, 0, 0))
+    surface.blit(coin_text, (x + 45, y + 5))
+
