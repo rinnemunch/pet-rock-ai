@@ -212,6 +212,10 @@ while running:
             name_label = "Show Name: On" if show_name_tag else "Show Name: Off"
             draw_button(screen, name_toggle_rect, name_label, button_font)
 
+            # Change name button
+            name_change_btn_rect = pygame.Rect(settings_rect.x + 50, settings_rect.y + 160, 200, 40)
+            draw_button(screen, name_change_btn_rect, "Change Name", button_font)
+
             # Handle click
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if name_toggle_rect.collidepoint(event.pos) and not name_button_pressed:
