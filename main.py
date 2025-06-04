@@ -33,6 +33,10 @@ thinking_frames = [
 thinking_frame_index = 0
 thinking_timer = 0
 is_thinking = False
+typed_text = ""
+typing_timer = 0
+char_index = 0
+typing_speed = 2  # Adjustable remember lower is faster
 
 from assets import load_assets
 
@@ -118,17 +122,19 @@ rename_input_active = False
 rename_cursor_visible = True
 rename_cursor_timer = 0
 
-
 back_button_rect = pygame.Rect(20, 20, 100, 40)
 
 
 def handle_response(prompt):
-    global rock_response, is_thinking
+    global rock_response, is_thinking, typed_text, char_index, typing_timer
     try:
         rock_response = get_rocky_response(prompt, rock_name, selected_personality)
     except Exception as e:
         rock_response = f"Oops! {rock_name or 'Rocky'} is quiet right now. Error: {e}"
     is_thinking = False
+    typed_text = ""
+    char_index = 0
+    typing_timer = 0
 
 
 while running:
@@ -286,7 +292,19 @@ while running:
 
     # == Response Box ==
     response_box_rect = pygame.Rect(40, 80, WIDTH - 80, 100)
-    draw_response_box(screen, response_box_rect, FONT, rock_response, naming_phase)
+    # Typing effect
+    if is_thinking:
+        typed_text = ""
+        char_index = 0
+    elif char_index < len(rock_response):
+        typing_timer += 1
+        if typing_timer % typing_speed == 0:
+            char_index += 1
+        typed_text = rock_response[:char_index]
+    else:
+        typed_text = rock_response
+
+    draw_response_box(screen, response_box_rect, FONT, typed_text, naming_phase)
 
     # cursor blink
     cursor_visible = (cursor_timer % 60) < 30
