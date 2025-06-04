@@ -112,8 +112,12 @@ music_button_pressed = False
 name_button_pressed = False
 show_name_tag = False
 renaming_mode = False
-new_name_input = ''
+rename_input = ''
 rename_input_rect = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 + 80, 200, 32)
+rename_input_active = False
+rename_cursor_visible = True
+rename_cursor_timer = 0
+
 
 back_button_rect = pygame.Rect(20, 20, 100, 40)
 
