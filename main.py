@@ -30,7 +30,6 @@ thinking_frames = [
     for path in sorted(glob.glob("assets/thinking/frame_*.png"))
 ]
 
-
 thinking_frame_index = 0
 thinking_timer = 0
 is_thinking = False
@@ -110,6 +109,7 @@ personality_index = personality_options.index(selected_personality)
 show_settings = False
 current_scene = "main"
 music_button_pressed = False
+show_name_tag = False
 
 back_button_rect = pygame.Rect(20, 20, 100, 40)
 
@@ -180,6 +180,11 @@ while running:
         scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
         screen.blit(scaled_bg, (0, 0))
         screen.blit(rock_img, rock_rect)
+        if show_name_tag:
+            name_surface = button_font.render(rock_name, True, (50, 50, 50))
+            name_x = rock_rect.centerx - name_surface.get_width() // 2
+            name_y = rock_rect.top - 30
+            screen.blit(name_surface, (name_x, name_y))
 
         if show_settings:
             # popup background
@@ -200,6 +205,16 @@ while running:
             music_btn_rect = pygame.Rect(settings_rect.x + 50, settings_rect.y + 60, 200, 40)
             music_label = "Music: On" if music_on else "Music: Off"
             draw_button(screen, music_btn_rect, music_label, button_font)
+
+            # Name tag toggle button
+            name_toggle_rect = pygame.Rect(settings_rect.x + 50, settings_rect.y + 110, 200, 40)
+            name_label = "Show Name: On" if show_name_tag else "Show Name: Off"
+            draw_button(screen, name_toggle_rect, name_label, button_font)
+
+            # Handle click
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if name_toggle_rect.collidepoint(event.pos):
+                    show_name_tag = not show_name_tag
 
             # Detect clicks on music button
             if event.type == pygame.MOUSEBUTTONDOWN:
