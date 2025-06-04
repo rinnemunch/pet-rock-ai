@@ -204,6 +204,24 @@ while running:
             if current_scene == "minigame" and back_button_rect.collidepoint(event.pos):
                 current_scene = "main"
 
+            if current_scene == "minigame":
+                for choice in rps_choices:
+                    if rps_buttons[choice].collidepoint(event.pos):
+                        import random
+
+                        player = choice
+                        cpu = random.choice(rps_choices)
+
+                        if player == cpu:
+                            rps_result = "Draw!"
+                        elif (player == "rock" and cpu == "scissors") or \
+                                (player == "paper" and cpu == "rock") or \
+                                (player == "scissors" and cpu == "paper"):
+                            rps_result = f"You win! ({player} beats {cpu})"
+                            coin_count += 1
+                        else:
+                            rps_result = f"You lose! ({cpu} beats {player})"
+
     if current_scene == "main":
         screen.fill(BG_COLOR)
         scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
@@ -286,6 +304,14 @@ while running:
         title_text = button_font.render("Rock-Paper-Scissors!", True, (0, 0, 0))
         screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, 50))
         draw_button(screen, back_button_rect, "Back", button_font)
+
+        for choice in rps_choices:
+            rect = rps_buttons[choice]
+            draw_button(screen, rect, choice.capitalize(), button_font)
+
+        if rps_result:
+            result_text = button_font.render(rps_result, True, (0, 100, 0))
+            screen.blit(result_text, (WIDTH // 2 - result_text.get_width() // 2, 300))
 
     # === Draw Render ===
     for btn in buttons.values():
