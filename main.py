@@ -43,7 +43,8 @@ from assets import load_assets
 rock_img, rock_rect, backgrounds, coin_img = load_assets()
 gear_icon = pygame.image.load("assets/ui/gear.png").convert_alpha()
 gear_icon = pygame.transform.scale(gear_icon, (40, 40))
-gear_rect = pygame.Rect(WIDTH - 60, 20, 40, 40)
+gear_rect = pygame.Rect(20, 20, 40, 40)
+
 
 
 if os.path.exists("rock_data.json"):
