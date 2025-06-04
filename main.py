@@ -109,6 +109,7 @@ personality_index = personality_options.index(selected_personality)
 show_settings = False
 current_scene = "main"
 music_button_pressed = False
+name_button_pressed = False
 show_name_tag = False
 
 back_button_rect = pygame.Rect(20, 20, 100, 40)
@@ -213,8 +214,9 @@ while running:
 
             # Handle click
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if name_toggle_rect.collidepoint(event.pos):
+                if name_toggle_rect.collidepoint(event.pos) and not name_button_pressed:
                     show_name_tag = not show_name_tag
+                    name_button_pressed = True
 
             # Detect clicks on music button
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -229,6 +231,7 @@ while running:
 
             if event.type == pygame.MOUSEBUTTONUP:
                 music_button_pressed = False
+                name_button_pressed = False
 
         if is_thinking and thinking_frames:
             thinking_timer += 1
