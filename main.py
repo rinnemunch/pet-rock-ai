@@ -105,6 +105,16 @@ buttons = {
     }
 }
 
+# === RPS Mini-Game Buttons ===
+rps_buttons = {
+    "rock": pygame.Rect(150, 200, 120, 40),
+    "paper": pygame.Rect(340, 200, 120, 40),
+    "scissors": pygame.Rect(530, 200, 120, 40)
+}
+rps_choices = ["rock", "paper", "scissors"]
+rps_result = ""
+
+
 button_font = pygame.font.SysFont("arial", 20)
 
 personality_options = ["Wise", "Funny", "Sassy", "Motivational"]
