@@ -198,6 +198,11 @@ while running:
                 happy_emote_index = 0
                 happy_emote_timer = 0
 
+            if buttons["change_bg"]["rect"].collidepoint(event.pos):
+                current_bg_index = (current_bg_index + 1) % len(background_keys)
+                selected_background = background_keys[current_bg_index]
+                save_rock_data(rock_name, selected_background, selected_personality, music_on)
+
             if buttons["minigame"]["rect"].collidepoint(event.pos):
                 current_scene = "minigame"
             if current_scene == "minigame" and back_button_rect.collidepoint(event.pos):
