@@ -31,11 +31,14 @@ thinking_frames = [
 ]
 # == Happy emote ==
 happy_frames = [
-    pygame.transform.scale(pygame.image.load(path).convert_alpha(), (125, 125)) # Size of the bubble
+    pygame.transform.scale(pygame.image.load(path).convert_alpha(), (125, 125))  # Size of the bubble
     for path in sorted(glob.glob("assets/emotes/happy/frame_*.png"))
 ]
-
-
+# == Sleep emote ==
+sleep_frames = [
+    pygame.transform.scale(pygame.image.load(path).convert_alpha(), (125, 125))
+    for path in sorted(glob.glob("assets/emotes/sleep/frame_*.png"))
+]
 
 thinking_frame_index = 0
 thinking_timer = 0
@@ -47,7 +50,6 @@ typing_speed = 2  # Adjustable remember lower is faster
 show_happy_emote = False
 happy_emote_index = 0
 happy_emote_timer = 0
-
 
 from assets import load_assets
 
@@ -92,6 +94,12 @@ cursor_visible = True
 cursor_timer = 0
 running = True
 
+# === Sleep Logic ===
+last_interaction_time = pygame.time.get_ticks()
+in_sleep_mode = False
+sleep_index = 0
+sleep_timer = 0
+
 selected_background = "forest"
 
 background_keys = list(backgrounds.keys())
@@ -112,7 +120,6 @@ buttons = {
         "label": "Store"
     }
 }
-
 
 # === RPS Mini-Game Buttons ===
 rps_buttons = {
@@ -145,8 +152,6 @@ tone_button_pressed = False
 bg_store_unlocked = False
 bg_unlock_cost = 25
 
-
-
 back_button_rect = pygame.Rect(20, 20, 100, 40)
 
 
@@ -166,6 +171,8 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+        last_interaction_time = pygame.time.get_ticks()
 
         if event.type == pygame.KEYDOWN and input_active:
             if naming_phase or renaming_mode:
@@ -193,6 +200,13 @@ while running:
                     user_input = user_input[:-1]
                 else:
                     user_input += event.unicode
+
+        if pygame.time.get_ticks() - last_interaction_time > 10000:  # seconds
+            in_sleep_mode = True
+        else:
+            in_sleep_mode = True  #TESTING THE ZZZ
+            sleep_index = 0
+            sleep_timer = 0
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if input_box_rect.collidepoint(event.pos):
@@ -249,6 +263,17 @@ while running:
         screen.blit(scaled_bg, (0, 0))
 
         screen.blit(rock_img, rock_rect)
+
+        if in_sleep_mode and sleep_frames:
+            sleep_timer += 1
+            if sleep_timer % 5 == 0:
+                sleep_index = (sleep_index + 1) % len(sleep_frames)
+
+            sleep_img = sleep_frames[sleep_index]
+            sleep_x = rock_rect.centerx - sleep_img.get_width() // 2 + 80
+            sleep_y = rock_rect.centery - sleep_img.get_height() - 40
+            screen.blit(sleep_img, (sleep_x, sleep_y))
+
         if show_name_tag:
             name_surface = button_font.render(rock_name, True, (50, 50, 50))
             name_x = rock_rect.centerx - name_surface.get_width() // 2
