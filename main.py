@@ -24,11 +24,17 @@ pygame.init()
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pet Rock AI")
-
+# == Thinking emote ==
 thinking_frames = [
     pygame.transform.scale(pygame.image.load(path).convert_alpha(), (150, 100))
     for path in sorted(glob.glob("assets/thinking/frame_*.png"))
 ]
+# == Happy emote ==
+happy_frames = [
+    pygame.image.load(path).convert_alpha()
+    for path in sorted(glob.glob("assets/emotes/happy/frame_*.png"))
+]
+
 
 thinking_frame_index = 0
 thinking_timer = 0
@@ -37,6 +43,10 @@ typed_text = ""
 typing_timer = 0
 char_index = 0
 typing_speed = 2  # Adjustable remember lower is faster
+show_happy_emote = False
+happy_emote_index = 0
+happy_emote_timer = 0
+
 
 from assets import load_assets
 
@@ -185,6 +195,12 @@ while running:
             if gear_rect.collidepoint(event.pos):
                 show_settings = not show_settings
 
+            # === Happy Emote MouseDown ===
+            if rock_rect.collidepoint(event.pos):
+                show_happy_emote = True
+                happy_emote_index = 0
+                happy_emote_timer = 0
+
             if buttons["change_bg"]["rect"].collidepoint(event.pos):
                 current_bg_index = (current_bg_index + 1) % len(background_keys)
                 selected_background = background_keys[current_bg_index]
@@ -229,6 +245,20 @@ while running:
             name_x = rock_rect.centerx - name_surface.get_width() // 2
             name_y = rock_rect.top - 30
             screen.blit(name_surface, (name_x, name_y))
+
+        if show_happy_emote and happy_frames:
+            happy_emote_timer += 1
+            if happy_emote_timer % 4 == 0:
+                happy_emote_index += 1
+                if happy_emote_index >= len(happy_frames):
+                    show_happy_emote = False
+                    happy_emote_index = 0
+
+            if happy_emote_index < len(happy_frames):
+                frame = happy_frames[happy_emote_index]
+                emote_x = rock_rect.centerx - frame.get_width() // 2
+                emote_y = rock_rect.top - frame.get_height() - 10
+                screen.blit(frame, (emote_x, emote_y))
 
         if show_settings:
             # popup background
