@@ -357,11 +357,19 @@ while running:
 
         # Unlockable background item
         unlock_btn_rect = pygame.Rect(WIDTH // 2 - 100, 150, 200, 40)
-        if bg_store_unlocked:
-            draw_button(screen, unlock_btn_rect, "✔ Gems BG Unlocked!", button_font)
+        if selected_background == "beach" or bg_store_unlocked:
+            draw_button(screen, unlock_btn_rect, "Beach BG Unlocked!", button_font)
+            bg_store_unlocked = True
         else:
             label = f"Buy Beach BG ({bg_unlock_cost} coins)"
             draw_button(screen, unlock_btn_rect, label, button_font)
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if unlock_btn_rect.collidepoint(event.pos) and coin_count >= bg_unlock_cost:
+                    bg_store_unlocked = True
+                    selected_background = "beach"
+                    coin_count -= bg_unlock_cost
+                    save_rock_data(rock_name, selected_background, selected_personality, music_on, coin_count)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if unlock_btn_rect.collidepoint(event.pos) and coin_count >= bg_unlock_cost:
