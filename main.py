@@ -49,8 +49,6 @@ rps_icons = {
 for key in rps_icons:
     rps_icons[key] = pygame.transform.scale(rps_icons[key], (64, 64))
 
-
-
 thinking_frame_index = 0
 thinking_timer = 0
 is_thinking = False
@@ -162,6 +160,9 @@ tone_button_pressed = False
 # === Background purchase ===
 bg_store_unlocked = False
 bg_unlock_cost = 25
+# === RPS Cooldown ===
+rps_cooldown = False
+rps_cooldown_timer = 0
 
 back_button_rect = pygame.Rect(20, 20, 100, 40)
 
@@ -215,6 +216,10 @@ while running:
 
         if pygame.time.get_ticks() - last_interaction_time > 30000:  # seconds
             in_sleep_mode = True
+
+        if rps_cooldown and pygame.time.get_ticks() - rps_cooldown_timer > 2000:  # 2 seconds
+            rps_cooldown = False
+
         else:
             in_sleep_mode = False  #TESTING THE ZZZ
             sleep_index = 0
@@ -253,21 +258,27 @@ while running:
             if current_scene == "minigame":
                 for choice in rps_choices:
                     if rps_buttons[choice].collidepoint(event.pos):
-                        import random
 
-                        player = choice
-                        cpu = random.choice(rps_choices)
+                        if not rps_cooldown:
+                            import random
 
-                        if player == cpu:
-                            rps_result = "Draw!"
-                        elif (player == "rock" and cpu == "scissors") or \
-                                (player == "paper" and cpu == "rock") or \
-                                (player == "scissors" and cpu == "paper"):
-                            rps_result = f"You win! ({player} beats {cpu})"
-                            coin_count += 1
-                            save_rock_data(rock_name, selected_background, selected_personality, music_on, coin_count)
-                        else:
-                            rps_result = f"You lose! ({cpu} beats {player})"
+                            player = choice
+                            cpu = random.choice(rps_choices)
+
+                            if player == cpu:
+                                rps_result = "Draw!"
+                            elif (player == "rock" and cpu == "scissors") or \
+                                    (player == "paper" and cpu == "rock") or \
+                                    (player == "scissors" and cpu == "paper"):
+                                rps_result = f"You win! ({player} beats {cpu})"
+                                coin_count += 1
+                                save_rock_data(rock_name, selected_background, selected_personality, music_on,
+                                               coin_count)
+                            else:
+                                rps_result = f"You lose! ({cpu} beats {player})"
+
+                            rps_cooldown = True
+                            rps_cooldown_timer = pygame.time.get_ticks()
 
     if current_scene == "main":
         screen.fill(BG_COLOR)
