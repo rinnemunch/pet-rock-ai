@@ -39,6 +39,17 @@ sleep_frames = [
     pygame.transform.scale(pygame.image.load(path).convert_alpha(), (125, 125))
     for path in sorted(glob.glob("assets/emotes/sleep/frame_*.png"))
 ]
+# === rps icons ===
+rps_icons = {
+    "rock": pygame.image.load("assets/rps/rock.png").convert_alpha(),
+    "paper": pygame.image.load("assets/rps/paper.png").convert_alpha(),
+    "scissors": pygame.image.load("assets/rps/scissors.png").convert_alpha()
+}
+
+for key in rps_icons:
+    rps_icons[key] = pygame.transform.scale(rps_icons[key], (64, 64))
+
+
 
 thinking_frame_index = 0
 thinking_timer = 0
@@ -409,9 +420,9 @@ while running:
         screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, 50))
         draw_button(screen, back_button_rect, "Back", button_font)
 
-        for choice in rps_choices:
+        for i, choice in enumerate(rps_choices):
             rect = rps_buttons[choice]
-            draw_button(screen, rect, choice.capitalize(), button_font)
+            screen.blit(rps_icons[choice], rect.topleft)
 
         if rps_result:
             result_text = button_font.render(rps_result, True, (0, 100, 0))
