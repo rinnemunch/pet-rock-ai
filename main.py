@@ -106,8 +106,13 @@ buttons = {
     "minigame": {
         "rect": pygame.Rect(WIDTH - 720, 20, 160, 40),
         "label": "Mini Games"
+    },
+    "store": {
+        "rect": pygame.Rect(WIDTH - 540, 20, 160, 40),
+        "label": "Store"
     }
 }
+
 
 # === RPS Mini-Game Buttons ===
 rps_buttons = {
@@ -136,6 +141,10 @@ rename_input_active = False
 rename_cursor_visible = True
 rename_cursor_timer = 0
 tone_button_pressed = False
+# === Background purchase ===
+bg_store_unlocked = False
+bg_unlock_cost = 25
+
 
 
 back_button_rect = pygame.Rect(20, 20, 100, 40)
@@ -204,10 +213,15 @@ while running:
                 current_bg_index = (current_bg_index + 1) % len(background_keys)
                 selected_background = background_keys[current_bg_index]
                 save_rock_data(rock_name, selected_background, selected_personality, music_on)
+            # === Store ===
+            if buttons["store"]["rect"].collidepoint(event.pos):
+                current_scene = "store"
 
             if buttons["minigame"]["rect"].collidepoint(event.pos):
                 current_scene = "minigame"
             if current_scene == "minigame" and back_button_rect.collidepoint(event.pos):
+                current_scene = "main"
+            if current_scene == "store" and back_button_rect.collidepoint(event.pos):
                 current_scene = "main"
 
             if current_scene == "minigame":
@@ -333,6 +347,26 @@ while running:
 
         # Coin display
         draw_coin_display(screen, coin_img, button_font, coin_count, x=20, y=400)
+    elif current_scene == "store":
+        screen.fill((230, 245, 250))  # light blue background
+        title = button_font.render("Rock Store", True, (0, 0, 0))
+        screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 50))
+
+        draw_button(screen, back_button_rect, "Back", button_font)
+
+        # Unlockable background item
+        unlock_btn_rect = pygame.Rect(WIDTH // 2 - 100, 150, 200, 40)
+        if bg_store_unlocked:
+            draw_button(screen, unlock_btn_rect, "✔ Unlocked!", button_font)
+        else:
+            label = f"Buy Beach BG ({bg_unlock_cost} coins)"
+            draw_button(screen, unlock_btn_rect, label, button_font)
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if unlock_btn_rect.collidepoint(event.pos) and coin_count >= bg_unlock_cost:
+                    bg_store_unlocked = True
+                    coin_count -= bg_unlock_cost
+                    save_rock_data(rock_name, selected_background, selected_personality, music_on, coin_count)
 
     elif current_scene == "minigame":
         screen.fill((250, 240, 200))  # distinct background for mini-game
