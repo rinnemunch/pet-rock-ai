@@ -197,7 +197,7 @@ while running:
                 show_settings = not show_settings
 
             # === Happy Emote MouseDown ===
-            if rock_rect.collidepoint(event.pos):
+            if rock_rect.collidepoint(event.pos) and not is_thinking:
                 show_happy_emote = True
                 happy_emote_index = 0
                 happy_emote_timer = 0
