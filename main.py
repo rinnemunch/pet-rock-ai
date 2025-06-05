@@ -163,6 +163,10 @@ bg_unlock_cost = 25
 # === RPS Cooldown ===
 rps_cooldown = False
 rps_cooldown_timer = 0
+# === Cooldown Bar Setup ===
+cooldown_bar_rect = pygame.Rect(WIDTH // 2 - 50, 350, 100, 10)
+cooldown_duration = 2000
+
 
 back_button_rect = pygame.Rect(20, 20, 100, 40)
 
@@ -178,7 +182,7 @@ def handle_response(prompt):
     char_index = 0
     typing_timer = 0
 
-
+# === MAIN LOOP ===
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -279,6 +283,15 @@ while running:
 
                             rps_cooldown = True
                             rps_cooldown_timer = pygame.time.get_ticks()
+
+                            if rps_cooldown:
+                                elapsed = pygame.time.get_ticks() - rps_cooldown_timer
+                                fill_width = min(100, (elapsed / cooldown_duration) * 100)
+                                pygame.draw.rect(screen, (180, 180, 180), cooldown_bar_rect)
+                                pygame.draw.rect(screen, (100, 200, 100),
+                                                 cooldown_bar_rect.copy().inflate(-2, -2).move(0, 0).clip(
+                                                     pygame.Rect(cooldown_bar_rect.x, cooldown_bar_rect.y, fill_width,
+                                                                 10)))
 
     if current_scene == "main":
         screen.fill(BG_COLOR)
@@ -431,13 +444,28 @@ while running:
         screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, 50))
         draw_button(screen, back_button_rect, "Back", button_font)
 
+        # === Show RPS Result ===
+        if rps_result:
+            result_text = button_font.render(rps_result, True, (0, 0, 0))
+            screen.blit(result_text, (WIDTH // 2 - result_text.get_width() // 2, 300))
+
         for i, choice in enumerate(rps_choices):
             rect = rps_buttons[choice]
             screen.blit(rps_icons[choice], rect.topleft)
 
-        if rps_result:
-            result_text = button_font.render(rps_result, True, (0, 100, 0))
-            screen.blit(result_text, (WIDTH // 2 - result_text.get_width() // 2, 300))
+        # === Cooldown Bar ===
+        if rps_cooldown:
+            cooldown_duration = 2000  # 2 seconds
+            time_elapsed = pygame.time.get_ticks() - rps_cooldown_timer
+            time_ratio = min(time_elapsed / cooldown_duration, 1)
+
+            bar_width = 200
+            bar_height = 15
+            bar_x = WIDTH // 2 - bar_width // 2
+            bar_y = 100
+
+            pygame.draw.rect(screen, (100, 100, 100), (bar_x, bar_y, bar_width, bar_height))  # background
+            pygame.draw.rect(screen, (0, 200, 0), (bar_x, bar_y, int(bar_width * time_ratio), bar_height))  # fill
 
     # === Draw Render ==
     if current_scene == "main":
