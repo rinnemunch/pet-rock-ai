@@ -172,7 +172,8 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        last_interaction_time = pygame.time.get_ticks()
+        if event.type in [pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN]:
+            last_interaction_time = pygame.time.get_ticks()
 
         if event.type == pygame.KEYDOWN and input_active:
             if naming_phase or renaming_mode:
@@ -201,10 +202,10 @@ while running:
                 else:
                     user_input += event.unicode
 
-        if pygame.time.get_ticks() - last_interaction_time > 10000:  # seconds
+        if pygame.time.get_ticks() - last_interaction_time > 30000:  # seconds
             in_sleep_mode = True
         else:
-            in_sleep_mode = True  #TESTING THE ZZZ
+            in_sleep_mode = False  #TESTING THE ZZZ
             sleep_index = 0
             sleep_timer = 0
 
