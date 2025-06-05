@@ -357,9 +357,9 @@ while running:
         # Unlockable background item
         unlock_btn_rect = pygame.Rect(WIDTH // 2 - 100, 150, 200, 40)
         if bg_store_unlocked:
-            draw_button(screen, unlock_btn_rect, "✔ Unlocked!", button_font)
+            draw_button(screen, unlock_btn_rect, "✔ Gems BG Unlocked!", button_font)
         else:
-            label = f"Buy Beach BG ({bg_unlock_cost} coins)"
+            label = f"Buy Gems BG ({bg_unlock_cost} coins)"
             draw_button(screen, unlock_btn_rect, label, button_font)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
