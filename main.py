@@ -31,9 +31,10 @@ thinking_frames = [
 ]
 # == Happy emote ==
 happy_frames = [
-    pygame.image.load(path).convert_alpha()
+    pygame.transform.scale(pygame.image.load(path).convert_alpha(), (60, 60))
     for path in sorted(glob.glob("assets/emotes/happy/frame_*.png"))
 ]
+
 
 
 thinking_frame_index = 0
@@ -253,11 +254,11 @@ while running:
                 if happy_emote_index >= len(happy_frames):
                     show_happy_emote = False
                     happy_emote_index = 0
-
+            # === Happy Emote logic ===
             if happy_emote_index < len(happy_frames):
                 frame = happy_frames[happy_emote_index]
                 emote_x = rock_rect.centerx - frame.get_width() // 2
-                emote_y = rock_rect.top - frame.get_height() - 10
+                emote_y = rock_rect.centery - frame.get_height() - 20
                 screen.blit(frame, (emote_x, emote_y))
 
         if show_settings:
