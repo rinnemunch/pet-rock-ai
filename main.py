@@ -135,6 +135,8 @@ rename_input_rect = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 + 80, 200, 32)
 rename_input_active = False
 rename_cursor_visible = True
 rename_cursor_timer = 0
+tone_button_pressed = False
+
 
 back_button_rect = pygame.Rect(20, 20, 100, 40)
 
@@ -197,7 +199,7 @@ while running:
                 show_happy_emote = True
                 happy_emote_index = 0
                 happy_emote_timer = 0
-
+            # === Change Background ===
             if buttons["change_bg"]["rect"].collidepoint(event.pos):
                 current_bg_index = (current_bg_index + 1) % len(background_keys)
                 selected_background = background_keys[current_bg_index]
@@ -284,9 +286,10 @@ while running:
 
             # Handle tone change
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if tone_btn_rect.collidepoint(event.pos):
+                if tone_btn_rect.collidepoint(event.pos) and not tone_button_pressed:
                     personality_index = (personality_index + 1) % len(personality_options)
                     selected_personality = personality_options[personality_index]
+                    tone_button_pressed = True
                     save_rock_data(rock_name, selected_background, selected_personality)
 
             # Change name button
@@ -312,10 +315,11 @@ while running:
                     else:
                         pygame.mixer.music.stop()
                     save_rock_data(rock_name, selected_background, selected_personality, music_on)
-
+            # === Spam Prevention ===
             if event.type == pygame.MOUSEBUTTONUP:
                 music_button_pressed = False
                 name_button_pressed = False
+                tone_button_pressed = False
 
         if is_thinking and thinking_frames:
             thinking_timer += 1
