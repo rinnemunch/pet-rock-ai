@@ -12,7 +12,7 @@ def load_assets():
         "desert": pygame.image.load("backgrounds/desert.png").convert(),
         "forest": pygame.image.load("backgrounds/forest.png").convert(),
         "grass": pygame.image.load("backgrounds/grass.png").convert(),
-        "gems": pygame.image.load("backgrounds/gems.png").convert()
+        "beach": pygame.image.load("backgrounds/beach.png").convert()
     }
 
     coin_img = pygame.image.load("assets/icons/coin.png").convert_alpha()

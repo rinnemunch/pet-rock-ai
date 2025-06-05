@@ -247,6 +247,7 @@ while running:
         screen.fill(BG_COLOR)
         scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
         screen.blit(scaled_bg, (0, 0))
+
         screen.blit(rock_img, rock_rect)
         if show_name_tag:
             name_surface = button_font.render(rock_name, True, (50, 50, 50))
@@ -359,7 +360,7 @@ while running:
         if bg_store_unlocked:
             draw_button(screen, unlock_btn_rect, "✔ Gems BG Unlocked!", button_font)
         else:
-            label = f"Buy Gems BG ({bg_unlock_cost} coins)"
+            label = f"Buy Beach BG ({bg_unlock_cost} coins)"
             draw_button(screen, unlock_btn_rect, label, button_font)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
