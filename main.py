@@ -103,10 +103,6 @@ buttons = {
         "rect": pygame.Rect(WIDTH - 360, 20, 160, 40),
         "label": "Change Background"
     },
-    "tone": {
-        "rect": pygame.Rect(WIDTH - 180, 20, 160, 40),
-        "label": lambda: f"Tone: {selected_personality}"
-    },
     "minigame": {
         "rect": pygame.Rect(WIDTH - 720, 20, 160, 40),
         "label": "Mini Games"
@@ -202,16 +198,6 @@ while running:
                 happy_emote_index = 0
                 happy_emote_timer = 0
 
-            if buttons["change_bg"]["rect"].collidepoint(event.pos):
-                current_bg_index = (current_bg_index + 1) % len(background_keys)
-                selected_background = background_keys[current_bg_index]
-                save_rock_data(rock_name, selected_background, selected_personality)
-
-            if buttons["tone"]["rect"].collidepoint(event.pos):
-                personality_index = (personality_index + 1) % len(personality_options)
-                selected_personality = personality_options[personality_index]
-                save_rock_data(rock_name, selected_background, selected_personality)
-
             if buttons["minigame"]["rect"].collidepoint(event.pos):
                 current_scene = "minigame"
             if current_scene == "minigame" and back_button_rect.collidepoint(event.pos):
@@ -285,6 +271,18 @@ while running:
             name_toggle_rect = pygame.Rect(settings_rect.x + 50, settings_rect.y + 110, 200, 40)
             name_label = "Show Name: On" if show_name_tag else "Show Name: Off"
             draw_button(screen, name_toggle_rect, name_label, button_font)
+
+            # Tone cycle button
+            tone_btn_rect = pygame.Rect(settings_rect.x + 50, settings_rect.y + 10, 200, 40)
+            tone_label = f"Tone: {selected_personality}"
+            draw_button(screen, tone_btn_rect, tone_label, button_font)
+
+            # Handle tone change
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if tone_btn_rect.collidepoint(event.pos):
+                    personality_index = (personality_index + 1) % len(personality_options)
+                    selected_personality = personality_options[personality_index]
+                    save_rock_data(rock_name, selected_background, selected_personality)
 
             # Change name button
             name_change_btn_rect = pygame.Rect(settings_rect.x + 50, settings_rect.y + 160, 200, 40)
