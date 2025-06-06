@@ -523,6 +523,20 @@ while running:
             bat_img_y = bat_card_rect.y + 20
             screen.blit(bat_img, (bat_img_x, bat_img_y))
 
+        # Bee label
+        bee_label = "Unlocked" if bee_unlocked else "Buy (50 coins)"
+        bee_label_surface = button_font.render(f"Bee - {bee_label}", True, (0, 0, 0))
+        bee_label_x = bee_card_rect.x + (bee_card_rect.width - bee_label_surface.get_width()) // 2
+        bee_label_y = bee_card_rect.y + bee_card_rect.height - 35
+        screen.blit(bee_label_surface, (bee_label_x, bee_label_y))
+
+        # Bat label
+        bat_label = "Unlocked" if bat_unlocked else "Buy (50 coins)"
+        bat_label_surface = button_font.render(f"Bat - {bat_label}", True, (0, 0, 0))
+        bat_label_x = bat_card_rect.x + (bat_card_rect.width - bat_label_surface.get_width()) // 2
+        bat_label_y = bat_card_rect.y + bat_card_rect.height - 35
+        screen.blit(bat_label_surface, (bat_label_x, bat_label_y))
+
         draw_button(screen, back_button_rect, "Back", button_font)
 
         # === Bee Pet Button ===
