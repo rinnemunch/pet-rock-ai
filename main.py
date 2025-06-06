@@ -39,6 +39,14 @@ sleep_frames = [
     pygame.transform.scale(pygame.image.load(path).convert_alpha(), (125, 125))
     for path in sorted(glob.glob("assets/emotes/sleep/frame_*.png"))
 ]
+# == Bee Pet Frames ==
+bee_frames = [
+    pygame.transform.scale(pygame.image.load(path).convert_alpha(), (60, 60))
+    for path in sorted(glob.glob("assets/pets/bee/frame_*.png"))
+]
+bee_index = 0
+bee_timer = 0
+
 # === rps icons ===
 rps_icons = {
     "rock": pygame.image.load("assets/rps/rock.png").convert_alpha(),
@@ -246,6 +254,7 @@ while running:
                 show_happy_emote = True
                 happy_emote_index = 0
                 happy_emote_timer = 0
+
             # === Change Background ===
             if buttons["change_bg"]["rect"].collidepoint(event.pos):
                 current_bg_index = (current_bg_index + 1) % len(background_keys)
@@ -300,6 +309,17 @@ while running:
         screen.fill(BG_COLOR)
         scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
         screen.blit(scaled_bg, (0, 0))
+
+        # === Bee Animation ===
+        if bee_frames:
+            bee_timer += 1
+            if bee_timer % 6 == 0:
+                bee_index = (bee_index + 1) % len(bee_frames)
+
+            bee_img = bee_frames[bee_index]
+            bee_x = rock_rect.right + 20
+            bee_y = rock_rect.bottom - bee_img.get_height()
+            screen.blit(bee_img, (bee_x, bee_y))
 
         screen.blit(rock_img, rock_rect)
 
