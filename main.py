@@ -419,6 +419,10 @@ while running:
 
         draw_button(screen, back_button_rect, "Back", button_font)
 
+        # Pets button
+        pets_button_rect = pygame.Rect(WIDTH // 2 - 100, 220, 200, 40)
+        draw_button(screen, pets_button_rect, "Pets", button_font)
+
         for i, bg in enumerate(unlockable_bgs):
             y_offset = 150 + i * 60
             rect = pygame.Rect(WIDTH // 2 - 100, y_offset, 200, 40)
