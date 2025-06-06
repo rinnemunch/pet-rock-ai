@@ -98,7 +98,7 @@ if naming_phase:
     rock_response = ""
 else:
     try:
-        rock_response = get_rocky_response("hello", rock_name, selected_personality)
+        rock_response = get_rocky_response("I'm gone and now I'm back.", rock_name, selected_personality)
     except Exception as e:
         rock_response = f"Oops! {rock_name or 'Rocky'} is quiet right now. Error: {e}"
 
