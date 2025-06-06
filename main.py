@@ -44,6 +44,14 @@ bee_frames = [
     pygame.transform.scale(pygame.image.load(path).convert_alpha(), (60, 60))
     for path in sorted(glob.glob("assets/pets/bee/frame_*.png"))
 ]
+# == Bat Pet Frames ==
+bat_frames = [
+    pygame.transform.scale(pygame.image.load(path).convert_alpha(), (60, 60))
+    for path in sorted(glob.glob("assets/pets/bat/frame_*.png"))
+]
+bat_index = 0
+bat_timer = 0
+
 bee_index = 0
 bee_timer = 0
 
@@ -80,7 +88,7 @@ gear_icon = pygame.transform.scale(gear_icon, (40, 40))
 gear_rect = pygame.Rect(20, 20, 40, 40)
 
 if os.path.exists("rock_data.json"):
-    rock_name, selected_background, selected_personality, music_on, coin_count, bee_unlocked = load_rock_data()
+    rock_name, selected_background, selected_personality, music_on, coin_count, bee_unlocked, bat_unlocked = load_rock_data()
     naming_phase = False
 
     pygame.mixer.init()
@@ -90,8 +98,15 @@ if os.path.exists("rock_data.json"):
     pygame.mixer.music.set_volume(0.5)
 
 else:
-    rock_name, selected_background, selected_personality, music_on, coin_count = "Rocky", "forest", "Wise", True, 0
+    rock_name = "Rocky"
+    selected_background = "forest"
+    selected_personality = "Wise"
+    music_on = True
+    coin_count = 0
+    bee_unlocked = False
+    bat_unlocked = False
     naming_phase = True
+
 
 user_input = ''
 input_active = naming_phase
@@ -324,6 +339,17 @@ while running:
 
         screen.blit(rock_img, rock_rect)
 
+        # === Bat Animation ===
+        if bat_unlocked and bat_frames:
+            bat_timer += 1
+            if bat_timer % 6 == 0:
+                bat_index = (bat_index + 1) % len(bat_frames)
+
+            bat_img = bat_frames[bat_index]
+            bat_x = rock_rect.right + 10
+            bat_y = rock_rect.top - bat_img.get_height() + 20
+            screen.blit(bat_img, (bat_x, bat_y))
+
         if in_sleep_mode and sleep_frames:
             sleep_timer += 1
             if sleep_timer % 5 == 0:
@@ -495,6 +521,22 @@ while running:
                     rock_name, selected_background, selected_personality,
                     music_on, coin_count, bee_unlocked
                 )
+        # === Bat Pet Button ===
+        bat_btn_rect = pygame.Rect(WIDTH // 2 - 100, 220, 200, 40)
+        if bat_unlocked:
+            draw_button(screen, bat_btn_rect, "Bat Pet Unlocked!", button_font)
+        else:
+            draw_button(screen, bat_btn_rect, "Buy Bat Pet (50 coins)", button_font)
+
+        # Click handling
+        if not bat_unlocked and bat_btn_rect.collidepoint(event.pos) and coin_count >= 50:
+            bat_unlocked = True
+            coin_count -= 50
+            save_rock_data(
+                rock_name, selected_background, selected_personality,
+                music_on, coin_count, bee_unlocked, bat_unlocked
+            )
+
     elif current_scene == "clothing_store":
         screen.fill((245, 235, 255))  # soft purple for clothing store
         title = button_font.render("Clothing Store (Coming Soon)", True, (0, 0, 0))
