@@ -185,6 +185,7 @@ rename_cursor_visible = True
 rename_cursor_timer = 0
 tone_button_pressed = False
 bee_unlocked = False
+active_pet = None
 # === Background purchase ===
 bg_unlock_cost = 25
 # === RPS Cooldown ===
@@ -346,7 +347,7 @@ while running:
                 bat_index = (bat_index + 1) % len(bat_frames)
 
             bat_img = bat_frames[bat_index]
-            bat_x = rock_rect.right + 10
+            bat_x = rock_rect.right - 10
             bat_y = rock_rect.top - bat_img.get_height() + 20
             screen.blit(bat_img, (bat_x, bat_y))
 
