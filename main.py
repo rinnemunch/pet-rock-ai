@@ -523,6 +523,17 @@ while running:
             bat_img_y = bat_card_rect.y + 20
             screen.blit(bat_img, (bat_img_x, bat_img_y))
 
+        # Dark overlay for locked pets
+        if not bee_unlocked:
+            overlay = pygame.Surface((bee_card_rect.width, bee_card_rect.height), pygame.SRCALPHA)
+            overlay.fill((0, 0, 0, 120))  # semi-transparent black
+            screen.blit(overlay, bee_card_rect.topleft)
+
+        if not bat_unlocked:
+            overlay = pygame.Surface((bat_card_rect.width, bat_card_rect.height), pygame.SRCALPHA)
+            overlay.fill((0, 0, 0, 120))
+            screen.blit(overlay, bat_card_rect.topleft)
+
         # Bee label
         bee_label = "Unlocked" if bee_unlocked else "Buy (50 coins)"
         bee_label_surface = button_font.render(f"Bee - {bee_label}", True, (0, 0, 0))
