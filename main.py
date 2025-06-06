@@ -515,13 +515,7 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if back_button_rect.collidepoint(event.pos):
                 current_scene = "store"
-            if not bee_unlocked and bee_btn_rect.collidepoint(event.pos) and coin_count >= 50:
-                bee_unlocked = True
-                coin_count -= 50
-                save_rock_data(
-                    rock_name, selected_background, selected_personality,
-                    music_on, coin_count, bee_unlocked
-                )
+
         # === Bat Pet Button ===
         bat_btn_rect = pygame.Rect(WIDTH // 2 - 100, 220, 200, 40)
         if bat_unlocked:
@@ -529,14 +523,20 @@ while running:
         else:
             draw_button(screen, bat_btn_rect, "Buy Bat Pet (50 coins)", button_font)
 
-        # Click handling
-        if not bat_unlocked and bat_btn_rect.collidepoint(event.pos) and coin_count >= 50:
-            bat_unlocked = True
-            coin_count -= 50
-            save_rock_data(
-                rock_name, selected_background, selected_personality,
-                music_on, coin_count, bee_unlocked, bat_unlocked
-            )
+        # === Pet Logic ===
+        if bee_btn_rect.collidepoint(event.pos):
+            if not bee_unlocked and coin_count >= 50:
+                bee_unlocked = True
+                coin_count -= 50
+            active_pet = "bee"
+
+        if bat_btn_rect.collidepoint(event.pos):
+            if not bat_unlocked and coin_count >= 50:
+                bat_unlocked = True
+                coin_count -= 50
+            active_pet = "bat"
+
+
 
     elif current_scene == "clothing_store":
         screen.fill((245, 235, 255))  # soft purple for clothing store
