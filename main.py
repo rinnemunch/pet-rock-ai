@@ -499,6 +499,16 @@ while running:
         title = button_font.render("Pet Store", True, (0, 0, 0))
         screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 50))
 
+        # Pet card backgrounds
+        bee_card_rect = pygame.Rect(WIDTH // 2 - 220, 150, 180, 200)
+        bat_card_rect = pygame.Rect(WIDTH // 2 + 40, 150, 180, 200)
+
+        pygame.draw.rect(screen, (220, 220, 220), bee_card_rect)
+        pygame.draw.rect(screen, (220, 220, 220), bat_card_rect)
+
+        pygame.draw.rect(screen, (0, 0, 0), bee_card_rect, 2)
+        pygame.draw.rect(screen, (0, 0, 0), bat_card_rect, 2)
+
         draw_button(screen, back_button_rect, "Back", button_font)
 
         # === Bee Pet Button ===
@@ -541,6 +551,7 @@ while running:
         screen.fill((245, 235, 255))  # soft purple for clothing store
         title = button_font.render("Clothing Store (Coming Soon)", True, (0, 0, 0))
         screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 50))
+
         draw_button(screen, back_button_rect, "Back", button_font)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
