@@ -445,11 +445,15 @@ while running:
         pets_button_rect = pygame.Rect(WIDTH // 2 - 100, 500, 200, 40)
         draw_button(screen, pets_button_rect, "Pets", button_font)
 
+        # Clothing button
+        clothing_button_rect = pygame.Rect(WIDTH // 2 - 100, 550, 200, 40)
+        draw_button(screen, clothing_button_rect, "Clothing", button_font)
+
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if back_button_rect.collidepoint(event.pos):
-                current_scene = "main"
             if pets_button_rect.collidepoint(event.pos):
                 current_scene = "pet_store"
+            if clothing_button_rect.collidepoint(event.pos):
+                current_scene = "clothing_store"
 
         for i, bg in enumerate(unlockable_bgs):
             y_offset = 150 + i * 60
@@ -491,6 +495,16 @@ while running:
                     rock_name, selected_background, selected_personality,
                     music_on, coin_count, bee_unlocked
                 )
+    elif current_scene == "clothing_store":
+        screen.fill((245, 235, 255))  # soft purple for clothing store
+        title = button_font.render("Clothing Store (Coming Soon)", True, (0, 0, 0))
+        screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 50))
+        draw_button(screen, back_button_rect, "Back", button_font)
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if back_button_rect.collidepoint(event.pos):
+                current_scene = "store"
+
 
     elif current_scene == "minigame":
         screen.fill((250, 240, 200))  # distinct background for mini-game
