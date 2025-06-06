@@ -317,8 +317,8 @@ while running:
                 bee_index = (bee_index + 1) % len(bee_frames)
 
             bee_img = bee_frames[bee_index]
-            bee_x = rock_rect.right + 20
-            bee_y = rock_rect.bottom - bee_img.get_height()
+            bee_x = rock_rect.left - bee_img.get_width() - 10
+            bee_y = rock_rect.top - bee_img.get_height() + 20
             screen.blit(bee_img, (bee_x, bee_y))
 
         screen.blit(rock_img, rock_rect)
