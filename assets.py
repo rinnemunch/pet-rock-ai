@@ -9,10 +9,13 @@ def load_assets():
     rock_rect = rock_img.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 60))
 
     backgrounds = {
-        "desert": pygame.image.load("backgrounds/desert.png").convert(),
         "forest": pygame.image.load("backgrounds/forest.png").convert(),
+        "beach": pygame.image.load("backgrounds/beach.png").convert(),
+        "desert": pygame.image.load("backgrounds/desert.png").convert(),
         "grass": pygame.image.load("backgrounds/grass.png").convert(),
-        "beach": pygame.image.load("backgrounds/beach.png").convert()
+        "mountains": pygame.image.load("backgrounds/mountains.png").convert(),
+        "night": pygame.image.load("backgrounds/night.png").convert(),
+        "city": pygame.image.load("backgrounds/city.png").convert()
     }
 
     coin_img = pygame.image.load("assets/icons/coin.png").convert_alpha()
