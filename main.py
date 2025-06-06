@@ -107,7 +107,6 @@ else:
     bat_unlocked = False
     naming_phase = True
 
-
 user_input = ''
 input_active = naming_phase
 
@@ -215,6 +214,31 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            # === Clothing Store Clicks ===
+            if current_scene == "clothing_store":
+                if back_button_rect.collidepoint(event.pos):
+                    current_scene = "store"
+
+            # === Pet Store Clicks ===
+            if current_scene == "pet_store":
+                if back_button_rect.collidepoint(event.pos):
+                    current_scene = "store"
+
+                if bee_card_rect.collidepoint(event.pos):
+                    if not bee_unlocked and coin_count >= 50:
+                        bee_unlocked = True
+                        coin_count -= 50
+                    if bee_unlocked:
+                        active_pet = "bee"
+
+                if bat_card_rect.collidepoint(event.pos):
+                    if not bat_unlocked and coin_count >= 50:
+                        bat_unlocked = True
+                        coin_count -= 50
+                    if bat_unlocked:
+                        active_pet = "bat"
 
         if event.type in [pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN]:
             last_interaction_time = pygame.time.get_ticks()
@@ -551,24 +575,25 @@ while running:
 
         draw_button(screen, back_button_rect, "Back", button_font)
 
-        if back_button_rect.collidepoint(event.pos):
-            current_scene = "store"
-
         # === Pet Card Click Logic ==
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if bee_card_rect.collidepoint(event.pos):
-                if not bee_unlocked and coin_count >= 50:
-                    bee_unlocked = True
-                    coin_count -= 50
-                if bee_unlocked:
-                    active_pet = "bee"
+            if current_scene == "clothing_store":
+                if back_button_rect.collidepoint(event.pos):
+                    current_scene = "store"
 
-            if bat_card_rect.collidepoint(event.pos):
-                if not bat_unlocked and coin_count >= 50:
-                    bat_unlocked = True
-                    coin_count -= 50
-                if bat_unlocked:
-                    active_pet = "bat"
+                if bee_card_rect.collidepoint(event.pos):
+                    if not bee_unlocked and coin_count >= 50:
+                        bee_unlocked = True
+                        coin_count -= 50
+                    if bee_unlocked:
+                        active_pet = "bee"
+
+                if bat_card_rect.collidepoint(event.pos):
+                    if not bat_unlocked and coin_count >= 50:
+                        bat_unlocked = True
+                        coin_count -= 50
+                    if bat_unlocked:
+                        active_pet = "bat"
 
         # === Pet Logic ===
         if event.type == pygame.MOUSEBUTTONDOWN:
