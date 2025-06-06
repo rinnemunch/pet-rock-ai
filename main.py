@@ -550,37 +550,35 @@ while running:
 
         draw_button(screen, back_button_rect, "Back", button_font)
 
-        # === Bee Pet Button ===
-        bee_btn_rect = pygame.Rect(WIDTH // 2 - 100, 150, 200, 40)
-        if bee_unlocked:
-            draw_button(screen, bee_btn_rect, "Bee Pet Unlocked!", button_font)
-        else:
-            draw_button(screen, bee_btn_rect, "Buy Bee Pet (50 coins)", button_font)
+        if back_button_rect.collidepoint(event.pos):
+            current_scene = "store"
 
-        # === Handle Clicks ===
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if back_button_rect.collidepoint(event.pos):
-                current_scene = "store"
+        if bee_card_rect.collidepoint(event.pos):
+            if not bee_unlocked and coin_count >= 50:
+                bee_unlocked = True
+                coin_count -= 50
+            if bee_unlocked:
+                active_pet = "bee"
 
-        # === Bat Pet Button ===
-        bat_btn_rect = pygame.Rect(WIDTH // 2 - 100, 220, 200, 40)
-        if bat_unlocked:
-            draw_button(screen, bat_btn_rect, "Bat Pet Unlocked!", button_font)
-        else:
-            draw_button(screen, bat_btn_rect, "Buy Bat Pet (50 coins)", button_font)
+        if bat_card_rect.collidepoint(event.pos):
+            if not bat_unlocked and coin_count >= 50:
+                bat_unlocked = True
+                coin_count -= 50
+            if bat_unlocked:
+                active_pet = "bat"
 
         # === Pet Logic ===
         if event.type == pygame.MOUSEBUTTONDOWN:
             if back_button_rect.collidepoint(event.pos):
                 current_scene = "store"
 
-            if bee_btn_rect.collidepoint(event.pos):
+            if bee_card_rect.collidepoint(event.pos):
                 if not bee_unlocked and coin_count >= 50:
                     bee_unlocked = True
                     coin_count -= 50
                 active_pet = "bee"
 
-            if bat_btn_rect.collidepoint(event.pos):
+            if bat_card_rect.collidepoint(event.pos):
                 if not bat_unlocked and coin_count >= 50:
                     bat_unlocked = True
                     coin_count -= 50
