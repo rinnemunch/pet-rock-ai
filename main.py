@@ -327,29 +327,26 @@ while running:
         scaled_bg = pygame.transform.scale(backgrounds[selected_background], (WIDTH, HEIGHT))
         screen.blit(scaled_bg, (0, 0))
 
-        # === Bee Animation ===
-        if bee_unlocked and bee_frames:
+        screen.blit(rock_img, rock_rect)
+
+        # === Active Pet Animation ===
+        if active_pet == "bee" and bee_unlocked and bee_frames:
             bee_timer += 1
             if bee_timer % 6 == 0:
                 bee_index = (bee_index + 1) % len(bee_frames)
-
             bee_img = bee_frames[bee_index]
-            bee_x = rock_rect.left - bee_img.get_width() - 10
-            bee_y = rock_rect.top - bee_img.get_height() + 20
-            screen.blit(bee_img, (bee_x, bee_y))
+            pet_x = rock_rect.left - bee_img.get_width() - 10
+            pet_y = rock_rect.top - bee_img.get_height() + 20
+            screen.blit(bee_img, (pet_x, pet_y))
 
-        screen.blit(rock_img, rock_rect)
-
-        # === Bat Animation ===
-        if bat_unlocked and bat_frames:
+        elif active_pet == "bat" and bat_unlocked and bat_frames:
             bat_timer += 1
             if bat_timer % 6 == 0:
                 bat_index = (bat_index + 1) % len(bat_frames)
-
             bat_img = bat_frames[bat_index]
-            bat_x = rock_rect.right - 10
-            bat_y = rock_rect.top - bat_img.get_height() + 20
-            screen.blit(bat_img, (bat_x, bat_y))
+            pet_x = rock_rect.left - bat_img.get_width() - 10  # Same as bee
+            pet_y = rock_rect.top - bat_img.get_height() + 20
+            screen.blit(bat_img, (pet_x, pet_y))
 
         if in_sleep_mode and sleep_frames:
             sleep_timer += 1
