@@ -348,6 +348,7 @@ while running:
             pet_y = rock_rect.top - bat_img.get_height() + 20
             screen.blit(bat_img, (pet_x, pet_y))
 
+        # === Sleep Logic ===
         if in_sleep_mode and sleep_frames:
             sleep_timer += 1
             if sleep_timer % 5 == 0:
@@ -553,19 +554,21 @@ while running:
         if back_button_rect.collidepoint(event.pos):
             current_scene = "store"
 
-        if bee_card_rect.collidepoint(event.pos):
-            if not bee_unlocked and coin_count >= 50:
-                bee_unlocked = True
-                coin_count -= 50
-            if bee_unlocked:
-                active_pet = "bee"
+        # === Pet Card Click Logic ==
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if bee_card_rect.collidepoint(event.pos):
+                if not bee_unlocked and coin_count >= 50:
+                    bee_unlocked = True
+                    coin_count -= 50
+                if bee_unlocked:
+                    active_pet = "bee"
 
-        if bat_card_rect.collidepoint(event.pos):
-            if not bat_unlocked and coin_count >= 50:
-                bat_unlocked = True
-                coin_count -= 50
-            if bat_unlocked:
-                active_pet = "bat"
+            if bat_card_rect.collidepoint(event.pos):
+                if not bat_unlocked and coin_count >= 50:
+                    bat_unlocked = True
+                    coin_count -= 50
+                if bat_unlocked:
+                    active_pet = "bat"
 
         # === Pet Logic ===
         if event.type == pygame.MOUSEBUTTONDOWN:
