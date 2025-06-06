@@ -509,6 +509,20 @@ while running:
         pygame.draw.rect(screen, (0, 0, 0), bee_card_rect, 2)
         pygame.draw.rect(screen, (0, 0, 0), bat_card_rect, 2)
 
+        # Bee image inside card
+        if bee_frames:
+            bee_img = bee_frames[0]
+            bee_img_x = bee_card_rect.x + (bee_card_rect.width - bee_img.get_width()) // 2
+            bee_img_y = bee_card_rect.y + 20
+            screen.blit(bee_img, (bee_img_x, bee_img_y))
+
+        # Bat image inside card
+        if bat_frames:
+            bat_img = bat_frames[0]
+            bat_img_x = bat_card_rect.x + (bat_card_rect.width - bat_img.get_width()) // 2
+            bat_img_y = bat_card_rect.y + 20
+            screen.blit(bat_img, (bat_img_x, bat_img_y))
+
         draw_button(screen, back_button_rect, "Back", button_font)
 
         # === Bee Pet Button ===
