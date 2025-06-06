@@ -170,7 +170,6 @@ rps_cooldown_timer = 0
 cooldown_bar_rect = pygame.Rect(WIDTH // 2 - 50, 350, 100, 10)
 cooldown_duration = 2000
 
-
 back_button_rect = pygame.Rect(20, 20, 100, 40)
 
 
@@ -184,6 +183,7 @@ def handle_response(prompt):
     typed_text = ""
     char_index = 0
     typing_timer = 0
+
 
 # === MAIN LOOP ===
 while running:
@@ -412,6 +412,7 @@ while running:
 
         # Coin display
         draw_coin_display(screen, coin_img, button_font, coin_count, x=20, y=400)
+        # === Store Scene ===
     elif current_scene == "store":
         screen.fill((230, 245, 250))  # light blue background
         title = button_font.render("Rock Store", True, (0, 0, 0))
@@ -423,6 +424,12 @@ while running:
         pets_button_rect = pygame.Rect(WIDTH // 2 - 100, 500, 200, 40)
         draw_button(screen, pets_button_rect, "Pets", button_font)
 
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if back_button_rect.collidepoint(event.pos):
+                current_scene = "main"
+            if pets_button_rect.collidepoint(event.pos):
+                current_scene = "pet_store"
+
         for i, bg in enumerate(unlockable_bgs):
             y_offset = 150 + i * 60
             rect = pygame.Rect(WIDTH // 2 - 100, y_offset, 200, 40)
@@ -431,13 +438,24 @@ while running:
                 draw_button(screen, rect, f"{bg.title()} BG Unlocked!", button_font)
             else:
                 draw_button(screen, rect, f"Buy {bg.title()} BG ({bg_unlock_cost} coins)", button_font)
-
                 if event.type == pygame.MOUSEBUTTONDOWN and rect.collidepoint(event.pos):
                     if coin_count >= bg_unlock_cost:
                         bg_unlocks[bg] = True
                         selected_background = bg
                         coin_count -= bg_unlock_cost
                         save_rock_data(rock_name, selected_background, selected_personality, music_on, coin_count)
+
+    elif current_scene == "pet_store":
+        screen.fill((240, 240, 250))  # light background for pet shop
+        title = button_font.render("Pet Store (Coming Soon)", True, (0, 0, 0))
+        screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 50))
+
+        draw_button(screen, back_button_rect, "Back", button_font)
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if back_button_rect.collidepoint(event.pos):
+                current_scene = "store"
+
 
 
     elif current_scene == "minigame":
