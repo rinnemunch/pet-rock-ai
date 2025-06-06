@@ -80,7 +80,7 @@ gear_icon = pygame.transform.scale(gear_icon, (40, 40))
 gear_rect = pygame.Rect(20, 20, 40, 40)
 
 if os.path.exists("rock_data.json"):
-    rock_name, selected_background, selected_personality, music_on, coin_count = load_rock_data()
+    rock_name, selected_background, selected_personality, music_on, coin_count, bee_unlocked = load_rock_data()
     naming_phase = False
 
     pygame.mixer.init()
@@ -169,6 +169,7 @@ rename_input_active = False
 rename_cursor_visible = True
 rename_cursor_timer = 0
 tone_button_pressed = False
+bee_unlocked = False
 # === Background purchase ===
 bg_unlock_cost = 25
 # === RPS Cooldown ===
@@ -311,7 +312,7 @@ while running:
         screen.blit(scaled_bg, (0, 0))
 
         # === Bee Animation ===
-        if bee_frames:
+        if bee_unlocked and bee_frames:
             bee_timer += 1
             if bee_timer % 6 == 0:
                 bee_index = (bee_index + 1) % len(bee_frames)
@@ -434,7 +435,7 @@ while running:
         draw_coin_display(screen, coin_img, button_font, coin_count, x=20, y=400)
         # === Store Scene ===
     elif current_scene == "store":
-        screen.fill((230, 245, 250))  # light blue background
+        screen.fill((230, 245, 250))
         title = button_font.render("Rock Store", True, (0, 0, 0))
         screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 50))
 
@@ -466,17 +467,30 @@ while running:
                         save_rock_data(rock_name, selected_background, selected_personality, music_on, coin_count)
 
     elif current_scene == "pet_store":
-        screen.fill((240, 240, 250))  # light background for pet shop
-        title = button_font.render("Pet Store (Coming Soon)", True, (0, 0, 0))
+        screen.fill((240, 240, 250))
+        title = button_font.render("Pet Store", True, (0, 0, 0))
         screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 50))
 
         draw_button(screen, back_button_rect, "Back", button_font)
 
+        # === Bee Pet Button ===
+        bee_btn_rect = pygame.Rect(WIDTH // 2 - 100, 150, 200, 40)
+        if bee_unlocked:
+            draw_button(screen, bee_btn_rect, "Bee Pet Unlocked!", button_font)
+        else:
+            draw_button(screen, bee_btn_rect, "Buy Bee Pet (50 coins)", button_font)
+
+        # === Handle Clicks ===
         if event.type == pygame.MOUSEBUTTONDOWN:
             if back_button_rect.collidepoint(event.pos):
                 current_scene = "store"
-
-
+            if not bee_unlocked and bee_btn_rect.collidepoint(event.pos) and coin_count >= 50:
+                bee_unlocked = True
+                coin_count -= 50
+                save_rock_data(
+                    rock_name, selected_background, selected_personality,
+                    music_on, coin_count, bee_unlocked
+                )
 
     elif current_scene == "minigame":
         screen.fill((250, 240, 200))  # distinct background for mini-game
