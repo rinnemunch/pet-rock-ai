@@ -109,7 +109,7 @@ gear_icon = pygame.transform.scale(gear_icon, (40, 40))
 gear_rect = pygame.Rect(20, 20, 40, 40)
 
 if os.path.exists("rock_data.json"):
-    rock_name, selected_background, selected_personality, music_on, coin_count, bee_unlocked, bat_unlocked, pig_unlocked = load_rock_data()
+    rock_name, selected_background, selected_personality, music_on, coin_count, bee_unlocked, bat_unlocked, pig_unlocked, fox_unlocked = load_rock_data()
     naming_phase = False
 
     pygame.mixer.init()
@@ -206,6 +206,7 @@ rename_cursor_visible = True
 rename_cursor_timer = 0
 tone_button_pressed = False
 bee_unlocked = False
+fox_unlocked = False
 active_pet = None
 # === Background purchase ===
 bg_unlock_cost = 25
