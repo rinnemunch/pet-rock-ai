@@ -51,7 +51,7 @@ bat_frames = [
 ]
 # == Pig Pet Frames ==
 pig_frames = [
-    pygame.transform.scale(pygame.image.load(path).convert_alpha(), (60, 60))
+    pygame.transform.scale(pygame.image.load(path).convert_alpha(), (100, 100))
     for path in sorted(glob.glob("assets/pets/pig/frame_*.png"))
 ]
 # == Pet Timers ==
