@@ -49,11 +49,20 @@ bat_frames = [
     pygame.transform.scale(pygame.image.load(path).convert_alpha(), (60, 60))
     for path in sorted(glob.glob("assets/pets/bat/frame_*.png"))
 ]
+# == Pig Pet Frames ==
+pig_frames = [
+    pygame.transform.scale(pygame.image.load(path).convert_alpha(), (60, 60))
+    for path in sorted(glob.glob("assets/pets/pig/frame_*.png"))
+]
+# == Pet Timers ==
 bat_index = 0
 bat_timer = 0
 
 bee_index = 0
 bee_timer = 0
+
+pig_index = 0
+pig_timer = 0
 
 # === rps icons ===
 rps_icons = {
@@ -88,7 +97,7 @@ gear_icon = pygame.transform.scale(gear_icon, (40, 40))
 gear_rect = pygame.Rect(20, 20, 40, 40)
 
 if os.path.exists("rock_data.json"):
-    rock_name, selected_background, selected_personality, music_on, coin_count, bee_unlocked, bat_unlocked = load_rock_data()
+    rock_name, selected_background, selected_personality, music_on, coin_count, bee_unlocked, bat_unlocked, pig_unlocked = load_rock_data()
     naming_phase = False
 
     pygame.mixer.init()
@@ -106,6 +115,7 @@ else:
     bee_unlocked = False
     bat_unlocked = False
     naming_phase = True
+    pig_unlocked = False
 
 user_input = ''
 input_active = naming_phase
@@ -240,6 +250,13 @@ while running:
                     if bat_unlocked:
                         active_pet = "bat"
 
+                if pig_card_rect.collidepoint(event.pos):
+                    if not pig_unlocked and coin_count >= 50:
+                        pig_unlocked = True
+                        coin_count -= 50
+                    if pig_unlocked:
+                        active_pet = "pig"
+
         if event.type in [pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN]:
             last_interaction_time = pygame.time.get_ticks()
 
@@ -371,6 +388,15 @@ while running:
             pet_x = rock_rect.left - bat_img.get_width() - 10  # Same as bee
             pet_y = rock_rect.top - bat_img.get_height() + 20
             screen.blit(bat_img, (pet_x, pet_y))
+
+        elif active_pet == "pig" and pig_unlocked and pig_frames:
+            pig_timer += 1
+            if pig_timer % 6 == 0:
+                pig_index = (pig_index + 1) % len(pig_frames)
+            pig_img = pig_frames[pig_index]
+            pet_x = rock_rect.left - pig_img.get_width() - 10
+            pet_y = rock_rect.top - pig_img.get_height() + 20
+            screen.blit(pig_img, (pet_x, pet_y))
 
         # === Sleep Logic ===
         if in_sleep_mode and sleep_frames:
@@ -527,12 +553,16 @@ while running:
         # Pet card backgrounds
         bee_card_rect = pygame.Rect(WIDTH // 2 - 220, 150, 180, 200)
         bat_card_rect = pygame.Rect(WIDTH // 2 + 40, 150, 180, 200)
+        pig_card_rect = pygame.Rect(WIDTH // 2 - 100, 370, 200, 200)
 
         pygame.draw.rect(screen, (220, 220, 220), bee_card_rect)
         pygame.draw.rect(screen, (220, 220, 220), bat_card_rect)
 
         pygame.draw.rect(screen, (0, 0, 0), bee_card_rect, 2)
         pygame.draw.rect(screen, (0, 0, 0), bat_card_rect, 2)
+
+        pygame.draw.rect(screen, (220, 220, 220), pig_card_rect)
+        pygame.draw.rect(screen, (0, 0, 0), pig_card_rect, 2)
 
         # Bee image inside card
         if bee_frames:
@@ -548,6 +578,13 @@ while running:
             bat_img_y = bat_card_rect.y + 20
             screen.blit(bat_img, (bat_img_x, bat_img_y))
 
+        # Pig image inside card
+        if pig_frames:
+            pig_img = pig_frames[0]
+            pig_img_x = pig_card_rect.x + (pig_card_rect.width - pig_img.get_width()) // 2
+            pig_img_y = pig_card_rect.y + 20
+            screen.blit(pig_img, (pig_img_x, pig_img_y))
+
         # Dark overlay for locked pets
         if not bee_unlocked:
             overlay = pygame.Surface((bee_card_rect.width, bee_card_rect.height), pygame.SRCALPHA)
@@ -558,6 +595,11 @@ while running:
             overlay = pygame.Surface((bat_card_rect.width, bat_card_rect.height), pygame.SRCALPHA)
             overlay.fill((0, 0, 0, 120))
             screen.blit(overlay, bat_card_rect.topleft)
+
+        if not pig_unlocked:
+            overlay = pygame.Surface((pig_card_rect.width, pig_card_rect.height), pygame.SRCALPHA)
+            overlay.fill((0, 0, 0, 120))
+            screen.blit(overlay, pig_card_rect.topleft)
 
         # Bee label
         bee_label = "Unlocked" if bee_unlocked else "Buy (50 coins)"
@@ -572,6 +614,13 @@ while running:
         bat_label_x = bat_card_rect.x + (bat_card_rect.width - bat_label_surface.get_width()) // 2
         bat_label_y = bat_card_rect.y + bat_card_rect.height - 35
         screen.blit(bat_label_surface, (bat_label_x, bat_label_y))
+
+        # Pig label
+        pig_label = "Unlocked" if pig_unlocked else "Buy (50 coins)"
+        pig_label_surface = button_font.render(f"Pig - {pig_label}", True, (0, 0, 0))
+        pig_label_x = pig_card_rect.x + (pig_card_rect.width - pig_label_surface.get_width()) // 2
+        pig_label_y = pig_card_rect.y + pig_card_rect.height - 35
+        screen.blit(pig_label_surface, (pig_label_x, pig_label_y))
 
         draw_button(screen, back_button_rect, "Back", button_font)
 

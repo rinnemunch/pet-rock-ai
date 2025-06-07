@@ -33,16 +33,18 @@ def load_rock_data():
                     data.get("music_on", True),
                     data.get("coins", 0),
                     data.get("bee_unlocked", False),
-                    data.get("bat_unlocked", False)
+                    data.get("bat_unlocked", False),
+                    data.get("pig_unlocked", False)
                 )
 
     except Exception as e:
         print(f"Failed to load rock_data.json: {e}")
 
-    return "Rocky", "forest", "Wise", True, 0
+    return "Rocky", "forest", "Wise", True, 0, False, False, False
 
 
-def save_rock_data(name, background, personality, music_on=True, coins=0, bee_unlocked=False, bat_unlocked=False):
+def save_rock_data(name, background, personality, music_on=True, coins=0,
+                   bee_unlocked=False, bat_unlocked=False, pig_unlocked=False):
     with open("rock_data.json", "w") as file:
         json.dump({
             "name": name,
@@ -51,8 +53,10 @@ def save_rock_data(name, background, personality, music_on=True, coins=0, bee_un
             "music_on": music_on,
             "coins": coins,
             "bee_unlocked": bee_unlocked,
-            "bat_unlocked": bat_unlocked
+            "bat_unlocked": bat_unlocked,
+            "pig_unlocked": pig_unlocked
         }, file)
+
 
 # === AI Response ===
 def get_rocky_response(mood_input, rock_name="Rocky", personality="Wise"):
