@@ -572,11 +572,11 @@ while running:
         title = button_font.render("Pet Store", True, (0, 0, 0))
         screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 50))
 
-        # Pet card backgrounds
+        # Pet card rectangles
         bee_card_rect = pygame.Rect(WIDTH // 2 - 220, 150, 180, 200)
         bat_card_rect = pygame.Rect(WIDTH // 2 + 40, 150, 180, 200)
-        pig_card_rect = pygame.Rect(WIDTH // 2 - 100, 370, 200, 200)
-        fox_card_rect = pygame.Rect(WIDTH // 2 - 100, 590, 200, 200)
+        pig_card_rect = pygame.Rect(WIDTH // 2 - 220, 370, 180, 200)
+        fox_card_rect = pygame.Rect(WIDTH // 2 + 40, 370, 180, 200)
 
         pygame.draw.rect(screen, (220, 220, 220), bee_card_rect)
         pygame.draw.rect(screen, (220, 220, 220), bat_card_rect)
@@ -610,6 +610,13 @@ while running:
             pig_img_x = pig_card_rect.x + (pig_card_rect.width - pig_img.get_width()) // 2
             pig_img_y = pig_card_rect.y + 20
             screen.blit(pig_img, (pig_img_x, pig_img_y))
+
+        # Fox image inside card
+        if fox_frames:
+            fox_img = fox_frames[0]
+            fox_img_x = fox_card_rect.x + (fox_card_rect.width - fox_img.get_width()) // 2
+            fox_img_y = fox_card_rect.y + 20
+            screen.blit(fox_img, (fox_img_x, fox_img_y))
 
         # Dark overlay for locked pets
         if not bee_unlocked:
