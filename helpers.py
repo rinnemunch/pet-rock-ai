@@ -45,7 +45,7 @@ def load_rock_data():
 
 
 def save_rock_data(name, background, personality, music_on=True, coins=0,
-                   bee_unlocked=False, bat_unlocked=False, pig_unlocked=False):
+                   bee_unlocked=False, bat_unlocked=False, pig_unlocked=False, fox_unlocked=False):
     with open("rock_data.json", "w") as file:
         json.dump({
             "name": name,
@@ -55,7 +55,8 @@ def save_rock_data(name, background, personality, music_on=True, coins=0,
             "coins": coins,
             "bee_unlocked": bee_unlocked,
             "bat_unlocked": bat_unlocked,
-            "pig_unlocked": pig_unlocked
+            "pig_unlocked": pig_unlocked,
+            "fox_unlocked": fox_unlocked
         }, file)
 
 
