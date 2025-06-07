@@ -220,6 +220,9 @@ bee_unlocked = False
 fox_unlocked = False
 troll_unlocked = False
 active_pet = None
+sombrero_unlocked = False
+wearing_sombrero = False
+
 # === Background purchase ===
 bg_unlock_cost = 25
 # === RPS Cooldown ===
