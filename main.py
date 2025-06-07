@@ -63,6 +63,11 @@ fox_frames = [
     pygame.transform.scale(pygame.image.load(path).convert_alpha(), (80, 80))
     for path in sorted(glob.glob("assets/pets/fox/frame_*.png"))
 ]
+# == Troll Frames ==
+troll_frames = [
+    pygame.transform.scale(pygame.image.load(path).convert_alpha(), (120, 120))
+    for path in sorted(glob.glob("assets/pets/troll/frame_*.png"))
+]
 # == Pet Timers ==
 bat_index = 0
 bat_timer = 0
