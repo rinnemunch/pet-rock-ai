@@ -120,7 +120,7 @@ sombrero_img = pygame.transform.scale(sombrero_img, (100, 60))  # Adjust size as
 
 
 if os.path.exists("rock_data.json"):
-    rock_name, selected_background, selected_personality, music_on, coin_count, bee_unlocked, bat_unlocked, pig_unlocked, fox_unlocked, troll_unlocked = load_rock_data()
+    rock_name, selected_background, selected_personality, music_on, coin_count, bee_unlocked, bat_unlocked, pig_unlocked, fox_unlocked, troll_unlocked, sombrero_unlocked, wearing_sombrero = load_rock_data()
     naming_phase = False
 
     pygame.mixer.init()
