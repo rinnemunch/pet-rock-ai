@@ -410,6 +410,12 @@ while running:
 
         screen.blit(rock_img, rock_rect)
 
+        # Draw sombrero if equipped
+        if wearing_sombrero:
+            sombrero_x = rock_rect.centerx - sombrero_img.get_width() // 2
+            sombrero_y = rock_rect.top - sombrero_img.get_height() + 10  # Adjust as needed
+            screen.blit(sombrero_img, (sombrero_x, sombrero_y))
+
         # === Active Pet Animation ===
         if active_pet == "bee" and bee_unlocked and bee_frames:
             bee_timer += 1
