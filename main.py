@@ -115,6 +115,9 @@ rock_img, rock_rect, backgrounds, coin_img = load_assets()
 gear_icon = pygame.image.load("assets/ui/gear.png").convert_alpha()
 gear_icon = pygame.transform.scale(gear_icon, (40, 40))
 gear_rect = pygame.Rect(20, 20, 40, 40)
+sombrero_img = pygame.image.load("assets/clothes/sombrero.png").convert_alpha()
+sombrero_img = pygame.transform.scale(sombrero_img, (100, 60))  # Adjust size as needed
+
 
 if os.path.exists("rock_data.json"):
     rock_name, selected_background, selected_personality, music_on, coin_count, bee_unlocked, bat_unlocked, pig_unlocked, fox_unlocked, troll_unlocked = load_rock_data()
