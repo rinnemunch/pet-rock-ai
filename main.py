@@ -51,7 +51,7 @@ bat_frames = [
 ]
 # == Pig Pet Frames ==
 pig_frames = [
-    pygame.transform.scale(pygame.image.load(path).convert_alpha(), (100, 100))
+    pygame.transform.scale(pygame.image.load(path).convert_alpha(), (120, 120))
     for path in sorted(glob.glob("assets/pets/pig/frame_*.png"))
 ]
 # == Pet Timers ==
@@ -385,7 +385,7 @@ while running:
             if bat_timer % 6 == 0:
                 bat_index = (bat_index + 1) % len(bat_frames)
             bat_img = bat_frames[bat_index]
-            pet_x = rock_rect.left - bat_img.get_width() - 10  # Same as bee
+            pet_x = rock_rect.left - bat_img.get_width() - 10
             pet_y = rock_rect.top - bat_img.get_height() + 20
             screen.blit(bat_img, (pet_x, pet_y))
 
@@ -395,7 +395,7 @@ while running:
                 pig_index = (pig_index + 1) % len(pig_frames)
             pig_img = pig_frames[pig_index]
             pet_x = rock_rect.left - pig_img.get_width() - 10
-            pet_y = rock_rect.top - pig_img.get_height() + 20
+            pet_y = rock_rect.top - pig_img.get_height() + 180
             screen.blit(pig_img, (pet_x, pet_y))
 
         # === Sleep Logic ===
