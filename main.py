@@ -799,6 +799,14 @@ while running:
             if back_button_rect.collidepoint(event.pos):
                 current_scene = "store"
 
+            if sombrero_card_rect.collidepoint(event.pos):
+                if not sombrero_unlocked and coin_count >= 25:
+                    sombrero_unlocked = True
+                    coin_count -= 25
+                if sombrero_unlocked:
+                    wearing_sombrero = not wearing_sombrero
+
+
 
     elif current_scene == "minigame":
         screen.fill((250, 240, 200))  # distinct background for mini-game
