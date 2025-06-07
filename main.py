@@ -270,6 +270,12 @@ while running:
                     if pig_unlocked:
                         active_pet = "pig"
 
+                if fox_card_rect.collidepoint(event.pos):
+                    if not fox_unlocked and coin_count >= 50:
+                        fox_unlocked = True
+                        coin_count -= 50
+                    active_pet = "fox"
+
         if event.type in [pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN]:
             last_interaction_time = pygame.time.get_ticks()
 
@@ -714,7 +720,7 @@ while running:
                 active_pet = "bat"
 
     elif current_scene == "clothing_store":
-        screen.fill((245, 235, 255))  # soft purple for clothing store
+        screen.fill((245, 235, 255))
         title = button_font.render("Clothing Store (Coming Soon)", True, (0, 0, 0))
         screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 50))
 
