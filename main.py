@@ -116,7 +116,7 @@ gear_icon = pygame.image.load("assets/ui/gear.png").convert_alpha()
 gear_icon = pygame.transform.scale(gear_icon, (40, 40))
 gear_rect = pygame.Rect(20, 20, 40, 40)
 sombrero_img = pygame.image.load("assets/clothes/sombrero.png").convert_alpha()
-sombrero_img = pygame.transform.scale(sombrero_img, (100, 60))  # Adjust size as needed
+sombrero_img = pygame.transform.scale(sombrero_img, (220, 150))
 
 
 if os.path.exists("rock_data.json"):
@@ -412,8 +412,8 @@ while running:
 
         # Draw sombrero if equipped
         if wearing_sombrero:
-            sombrero_x = rock_rect.centerx - sombrero_img.get_width() // 2
-            sombrero_y = rock_rect.top - sombrero_img.get_height() + 10  # Adjust as needed
+            sombrero_x = rock_rect.centerx - sombrero_img.get_width() // 2 + 12
+            sombrero_y = rock_rect.top - sombrero_img.get_height() + 108
             screen.blit(sombrero_img, (sombrero_x, sombrero_y))
 
         # === Active Pet Animation ===
