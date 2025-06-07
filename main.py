@@ -117,6 +117,8 @@ gear_icon = pygame.transform.scale(gear_icon, (40, 40))
 gear_rect = pygame.Rect(20, 20, 40, 40)
 sombrero_img = pygame.image.load("assets/clothes/sombrero.png").convert_alpha()
 sombrero_img = pygame.transform.scale(sombrero_img, (220, 150))
+sombrero_store_img = pygame.transform.scale(sombrero_img, (125, 100))
+
 
 if os.path.exists("rock_data.json"):
     rock_name, selected_background, selected_personality, music_on, coin_count, bee_unlocked, bat_unlocked, pig_unlocked, fox_unlocked, troll_unlocked, sombrero_unlocked, wearing_sombrero = load_rock_data()
@@ -793,7 +795,7 @@ while running:
         pygame.draw.rect(screen, (0, 0, 0), sombrero_card_rect, 2)
 
         # Sombrero Image
-        screen.blit(sombrero_img, (sombrero_card_rect.x + 40, sombrero_card_rect.y + 30))
+        screen.blit(sombrero_store_img, (sombrero_card_rect.x - -35, sombrero_card_rect.y + 30))
 
         # Sombrero Label
         if wearing_sombrero:
