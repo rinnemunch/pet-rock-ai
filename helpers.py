@@ -35,17 +35,19 @@ def load_rock_data():
                     data.get("bee_unlocked", False),
                     data.get("bat_unlocked", False),
                     data.get("pig_unlocked", False),
-                    data.get("fox_unlocked", False)
+                    data.get("fox_unlocked", False),
+                    data.get("troll_unlocked", False)
                 )
 
     except Exception as e:
         print(f"Failed to load rock_data.json: {e}")
 
-    return "Rocky", "forest", "Wise", True, 0, False, False, False, False
+    return "Rocky", "forest", "Wise", True, 0, False, False, False, False, False
 
 
 def save_rock_data(name, background, personality, music_on=True, coins=0,
-                   bee_unlocked=False, bat_unlocked=False, pig_unlocked=False, fox_unlocked=False):
+                   bee_unlocked=False, bat_unlocked=False, pig_unlocked=False,
+                   fox_unlocked=False, troll_unlocked=False):
     with open("rock_data.json", "w") as file:
         json.dump({
             "name": name,
@@ -56,7 +58,8 @@ def save_rock_data(name, background, personality, music_on=True, coins=0,
             "bee_unlocked": bee_unlocked,
             "bat_unlocked": bat_unlocked,
             "pig_unlocked": pig_unlocked,
-            "fox_unlocked": fox_unlocked
+            "fox_unlocked": fox_unlocked,
+            "troll_unlocked": troll_unlocked
         }, file)
 
 
