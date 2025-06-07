@@ -1,9 +1,9 @@
 from PIL import Image
 import os
 
-gif_path = "assets/pets/pig/pig.gif"
+gif_path = "assets/pets/fox/fox.gif"
 
-output_folder = "assets/pets/pig"
+output_folder = "assets/pets/fox"
 
 os.makedirs(output_folder, exist_ok=True)
 

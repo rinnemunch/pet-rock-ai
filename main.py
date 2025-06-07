@@ -24,6 +24,10 @@ pygame.init()
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pet Rock AI")
+# == Mini Games Icon ==
+mini_games_icon = pygame.image.load("assets/ui/mini_games_icon.png").convert_alpha()
+mini_games_icon = pygame.transform.scale(mini_games_icon, (40, 40))  # adjust size as needed
+
 # == Thinking emote ==
 thinking_frames = [
     pygame.transform.scale(pygame.image.load(path).convert_alpha(), (150, 100))
@@ -54,6 +58,11 @@ pig_frames = [
     pygame.transform.scale(pygame.image.load(path).convert_alpha(), (120, 120))
     for path in sorted(glob.glob("assets/pets/pig/frame_*.png"))
 ]
+# == Fox Frames ==
+fox_frames = [
+    pygame.transform.scale(pygame.image.load(path).convert_alpha(), (80, 80))
+    for path in sorted(glob.glob("assets/pets/fox/frame_*.png"))
+]
 # == Pet Timers ==
 bat_index = 0
 bat_timer = 0
@@ -63,6 +72,9 @@ bee_timer = 0
 
 pig_index = 0
 pig_timer = 0
+
+fox_index = 0
+fox_timer = 0
 
 # === rps icons ===
 rps_icons = {
