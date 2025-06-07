@@ -411,6 +411,15 @@ while running:
             pet_y = rock_rect.top - pig_img.get_height() + 180
             screen.blit(pig_img, (pet_x, pet_y))
 
+        elif active_pet == "fox" and fox_unlocked and fox_frames:
+            fox_timer += 1
+            if fox_timer % 6 == 0:
+                fox_index = (fox_index + 1) % len(fox_frames)
+            fox_img = fox_frames[fox_index]
+            pet_x = rock_rect.left - fox_img.get_width() - 10
+            pet_y = rock_rect.top - fox_img.get_height() + 180
+            screen.blit(fox_img, (pet_x, pet_y))
+
         # === Sleep Logic ===
         if in_sleep_mode and sleep_frames:
             sleep_timer += 1
