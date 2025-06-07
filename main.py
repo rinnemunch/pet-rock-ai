@@ -603,11 +603,14 @@ while running:
         screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 50))
 
         # Pet card rectangles
-        bee_card_rect = pygame.Rect(WIDTH // 2 - 220, 150, 180, 200)
-        bat_card_rect = pygame.Rect(WIDTH // 2 + 40, 150, 180, 200)
-        pig_card_rect = pygame.Rect(WIDTH // 2 - 220, 370, 180, 200)
-        fox_card_rect = pygame.Rect(WIDTH // 2 + 40, 370, 180, 200)
-        troll_card_rect = pygame.Rect(WIDTH // 2 - 90, 590, 180, 200)
+        # Row 1 (top 3)
+        bee_card_rect = pygame.Rect(WIDTH // 2 - 310, 100, 180, 200)
+        bat_card_rect = pygame.Rect(WIDTH // 2 - 90, 100, 180, 200)
+        pig_card_rect = pygame.Rect(WIDTH // 2 + 130, 100, 180, 200)
+
+        # Row 2 (bottom 2)
+        fox_card_rect = pygame.Rect(WIDTH // 2 - 180, 320, 180, 200)
+        troll_card_rect = pygame.Rect(WIDTH // 2 + 20, 320, 180, 200)
 
         pygame.draw.rect(screen, (220, 220, 220), bee_card_rect)
         pygame.draw.rect(screen, (220, 220, 220), bat_card_rect)
