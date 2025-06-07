@@ -576,6 +576,7 @@ while running:
         bee_card_rect = pygame.Rect(WIDTH // 2 - 220, 150, 180, 200)
         bat_card_rect = pygame.Rect(WIDTH // 2 + 40, 150, 180, 200)
         pig_card_rect = pygame.Rect(WIDTH // 2 - 100, 370, 200, 200)
+        fox_card_rect = pygame.Rect(WIDTH // 2 - 100, 590, 200, 200)
 
         pygame.draw.rect(screen, (220, 220, 220), bee_card_rect)
         pygame.draw.rect(screen, (220, 220, 220), bat_card_rect)
@@ -585,6 +586,9 @@ while running:
 
         pygame.draw.rect(screen, (220, 220, 220), pig_card_rect)
         pygame.draw.rect(screen, (0, 0, 0), pig_card_rect, 2)
+
+        pygame.draw.rect(screen, (220, 220, 220), fox_card_rect)
+        pygame.draw.rect(screen, (0, 0, 0), fox_card_rect, 2)
 
         # Bee image inside card
         if bee_frames:
@@ -623,6 +627,11 @@ while running:
             overlay.fill((0, 0, 0, 120))
             screen.blit(overlay, pig_card_rect.topleft)
 
+        if not fox_unlocked:
+            overlay = pygame.Surface((fox_card_rect.width, fox_card_rect.height), pygame.SRCALPHA)
+            overlay.fill((0, 0, 0, 120))
+            screen.blit(overlay, fox_card_rect.topleft)
+
         # Bee label
         bee_label = "Unlocked" if bee_unlocked else "Buy (50 coins)"
         bee_label_surface = button_font.render(f"Bee - {bee_label}", True, (0, 0, 0))
@@ -643,6 +652,13 @@ while running:
         pig_label_x = pig_card_rect.x + (pig_card_rect.width - pig_label_surface.get_width()) // 2
         pig_label_y = pig_card_rect.y + pig_card_rect.height - 35
         screen.blit(pig_label_surface, (pig_label_x, pig_label_y))
+
+        # Fox label
+        fox_label = "Unlocked" if fox_unlocked else "Buy (50 coins)"
+        fox_label_surface = button_font.render(f"Fox - {fox_label}", True, (0, 0, 0))
+        fox_label_x = fox_card_rect.x + (fox_card_rect.width - fox_label_surface.get_width()) // 2
+        fox_label_y = fox_card_rect.y + fox_card_rect.height - 35
+        screen.blit(fox_label_surface, (fox_label_x, fox_label_y))
 
         draw_button(screen, back_button_rect, "Back", button_font)
 
