@@ -780,6 +780,19 @@ while running:
         title = button_font.render("Clothing Store (Coming Soon)", True, (0, 0, 0))
         screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 50))
 
+        # === Sombrero Card ===
+        sombrero_card_rect = pygame.Rect(WIDTH // 2 - 90, 150, 180, 200)
+        pygame.draw.rect(screen, (220, 220, 220), sombrero_card_rect)
+        pygame.draw.rect(screen, (0, 0, 0), sombrero_card_rect, 2)
+
+        # Sombrero Image
+        screen.blit(sombrero_img, (sombrero_card_rect.x + 40, sombrero_card_rect.y + 30))
+
+        # Sombrero Label
+        sombrero_label = "Equipped" if wearing_sombrero else ("Unlocked" if sombrero_unlocked else "Buy (25 coins)")
+        label_surface = button_font.render(f"Sombrero - {sombrero_label}", True, (0, 0, 0))
+        screen.blit(label_surface, (sombrero_card_rect.x + 10, sombrero_card_rect.y + 150))
+
         draw_button(screen, back_button_rect, "Back", button_font)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
