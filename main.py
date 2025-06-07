@@ -81,6 +81,9 @@ pig_timer = 0
 fox_index = 0
 fox_timer = 0
 
+troll_timer = 0
+troll_index = 0
+
 # === rps icons ===
 rps_icons = {
     "rock": pygame.image.load("assets/rps/rock.png").convert_alpha(),
@@ -437,6 +440,15 @@ while running:
             pet_x = rock_rect.left - fox_img.get_width() - 10
             pet_y = rock_rect.top - fox_img.get_height() + 180
             screen.blit(fox_img, (pet_x, pet_y))
+
+        elif active_pet == "troll" and troll_unlocked and troll_frames:
+            troll_timer += 1
+            if troll_timer % 6 == 0:
+                troll_index = (troll_index + 1) % len(troll_frames)
+            troll_img = troll_frames[troll_index]
+            pet_x = rock_rect.left - troll_img.get_width() - 10
+            pet_y = rock_rect.top - troll_img.get_height() + 180
+            screen.blit(troll_img, (pet_x, pet_y))
 
         # === Sleep Logic ===
         if in_sleep_mode and sleep_frames:
