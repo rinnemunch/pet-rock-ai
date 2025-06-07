@@ -118,7 +118,6 @@ gear_rect = pygame.Rect(20, 20, 40, 40)
 sombrero_img = pygame.image.load("assets/clothes/sombrero.png").convert_alpha()
 sombrero_img = pygame.transform.scale(sombrero_img, (220, 150))
 
-
 if os.path.exists("rock_data.json"):
     rock_name, selected_background, selected_personality, music_on, coin_count, bee_unlocked, bat_unlocked, pig_unlocked, fox_unlocked, troll_unlocked, sombrero_unlocked, wearing_sombrero = load_rock_data()
     naming_phase = False
@@ -222,6 +221,7 @@ troll_unlocked = False
 active_pet = None
 sombrero_unlocked = False
 wearing_sombrero = False
+sombrero_button_pressed = False
 
 # === Background purchase ===
 bg_unlock_cost = 25
@@ -559,6 +559,7 @@ while running:
                 music_button_pressed = False
                 name_button_pressed = False
                 tone_button_pressed = False
+                sombrero_button_pressed = False
 
         if is_thinking and thinking_frames:
             thinking_timer += 1
@@ -667,7 +668,7 @@ while running:
             fox_img_y = fox_card_rect.y + 20
             screen.blit(fox_img, (fox_img_x, fox_img_y))
 
-        # Troll image inside card
+            # Troll image inside card
             if troll_frames:
                 troll_img = troll_frames[0]
                 troll_img_x = troll_card_rect.x + (troll_card_rect.width - troll_img.get_width()) // 2
@@ -805,12 +806,14 @@ while running:
             if back_button_rect.collidepoint(event.pos):
                 current_scene = "store"
 
-            if sombrero_card_rect.collidepoint(event.pos):
+            if sombrero_card_rect.collidepoint(event.pos) and not sombrero_button_pressed:
                 if not sombrero_unlocked and coin_count >= 25:
                     sombrero_unlocked = True
                     coin_count -= 25
                 if sombrero_unlocked:
                     wearing_sombrero = not wearing_sombrero
+                sombrero_button_pressed = True
+
 
 
 
