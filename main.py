@@ -588,6 +588,7 @@ while running:
         bat_card_rect = pygame.Rect(WIDTH // 2 + 40, 150, 180, 200)
         pig_card_rect = pygame.Rect(WIDTH // 2 - 220, 370, 180, 200)
         fox_card_rect = pygame.Rect(WIDTH // 2 + 40, 370, 180, 200)
+        troll_card_rect = pygame.Rect(WIDTH // 2 - 90, 590, 180, 200)
 
         pygame.draw.rect(screen, (220, 220, 220), bee_card_rect)
         pygame.draw.rect(screen, (220, 220, 220), bat_card_rect)
@@ -600,6 +601,9 @@ while running:
 
         pygame.draw.rect(screen, (220, 220, 220), fox_card_rect)
         pygame.draw.rect(screen, (0, 0, 0), fox_card_rect, 2)
+
+        pygame.draw.rect(screen, (220, 220, 220), troll_card_rect)
+        pygame.draw.rect(screen, (0, 0, 0), troll_card_rect, 2)
 
         # Bee image inside card
         if bee_frames:
@@ -629,6 +633,13 @@ while running:
             fox_img_y = fox_card_rect.y + 20
             screen.blit(fox_img, (fox_img_x, fox_img_y))
 
+        # Troll image inside card
+            if troll_frames:
+                troll_img = troll_frames[0]
+                troll_img_x = troll_card_rect.x + (troll_card_rect.width - troll_img.get_width()) // 2
+                troll_img_y = troll_card_rect.y + 20
+                screen.blit(troll_img, (troll_img_x, troll_img_y))
+
         # Dark overlay for locked pets
         if not bee_unlocked:
             overlay = pygame.Surface((bee_card_rect.width, bee_card_rect.height), pygame.SRCALPHA)
@@ -649,6 +660,11 @@ while running:
             overlay = pygame.Surface((fox_card_rect.width, fox_card_rect.height), pygame.SRCALPHA)
             overlay.fill((0, 0, 0, 120))
             screen.blit(overlay, fox_card_rect.topleft)
+
+        if not troll_unlocked:
+            overlay = pygame.Surface((troll_card_rect.width, troll_card_rect.height), pygame.SRCALPHA)
+            overlay.fill((0, 0, 0, 120))
+            screen.blit(overlay, troll_card_rect.topleft)
 
         # Bee label
         bee_label = "Unlocked" if bee_unlocked else "Buy (50 coins)"
@@ -677,6 +693,13 @@ while running:
         fox_label_x = fox_card_rect.x + (fox_card_rect.width - fox_label_surface.get_width()) // 2
         fox_label_y = fox_card_rect.y + fox_card_rect.height - 35
         screen.blit(fox_label_surface, (fox_label_x, fox_label_y))
+
+        # Troll label
+        troll_label = "Unlocked" if troll_unlocked else "Buy (50 coins)"
+        troll_label_surface = button_font.render(f"Troll - {troll_label}", True, (0, 0, 0))
+        troll_label_x = troll_card_rect.x + (troll_card_rect.width - troll_label_surface.get_width()) // 2
+        troll_label_y = troll_card_rect.y + troll_card_rect.height - 35
+        screen.blit(troll_label_surface, (troll_label_x, troll_label_y))
 
         draw_button(screen, back_button_rect, "Back", button_font)
 
