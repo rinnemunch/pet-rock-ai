@@ -796,7 +796,13 @@ while running:
         screen.blit(sombrero_img, (sombrero_card_rect.x + 40, sombrero_card_rect.y + 30))
 
         # Sombrero Label
-        sombrero_label = "Equipped" if wearing_sombrero else ("Unlocked" if sombrero_unlocked else "Buy (25 coins)")
+        if wearing_sombrero:
+            sombrero_label = "Unequip"
+        elif sombrero_unlocked:
+            sombrero_label = "Equip"
+        else:
+            sombrero_label = "Buy (25 coins)"
+
         label_surface = button_font.render(f"Sombrero - {sombrero_label}", True, (0, 0, 0))
         screen.blit(label_surface, (sombrero_card_rect.x + 10, sombrero_card_rect.y + 150))
 
@@ -812,10 +818,23 @@ while running:
                     coin_count -= 25
                 if sombrero_unlocked:
                     wearing_sombrero = not wearing_sombrero
+
+                    save_rock_data(
+                        rock_name,
+                        selected_background,
+                        selected_personality,
+                        music_on,
+                        coin_count,
+                        bee_unlocked,
+                        bat_unlocked,
+                        pig_unlocked,
+                        fox_unlocked,
+                        troll_unlocked,
+                        sombrero_unlocked,
+                        wearing_sombrero
+                    )
+
                 sombrero_button_pressed = True
-
-
-
 
     elif current_scene == "minigame":
         screen.fill((250, 240, 200))  # distinct background for mini-game
