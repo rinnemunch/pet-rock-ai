@@ -114,7 +114,7 @@ gear_icon = pygame.transform.scale(gear_icon, (40, 40))
 gear_rect = pygame.Rect(20, 20, 40, 40)
 
 if os.path.exists("rock_data.json"):
-    rock_name, selected_background, selected_personality, music_on, coin_count, bee_unlocked, bat_unlocked, pig_unlocked, fox_unlocked = load_rock_data()
+    rock_name, selected_background, selected_personality, music_on, coin_count, bee_unlocked, bat_unlocked, pig_unlocked, fox_unlocked, troll_unlocked = load_rock_data()
     naming_phase = False
 
     pygame.mixer.init()
@@ -212,6 +212,7 @@ rename_cursor_timer = 0
 tone_button_pressed = False
 bee_unlocked = False
 fox_unlocked = False
+troll_unlocked = False
 active_pet = None
 # === Background purchase ===
 bg_unlock_cost = 25
@@ -280,6 +281,12 @@ while running:
                         fox_unlocked = True
                         coin_count -= 50
                     active_pet = "fox"
+
+                if troll_card_rect.collidepoint(event.pos):
+                    if not troll_unlocked and coin_count >= 50:
+                        troll_unlocked = True
+                        coin_count -= 50
+                    active_pet = "troll"
 
         if event.type in [pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN]:
             last_interaction_time = pygame.time.get_ticks()
