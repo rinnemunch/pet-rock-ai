@@ -682,6 +682,13 @@ while running:
                     if bat_unlocked:
                         active_pet = "bat"
 
+                if fox_card_rect.collidepoint(event.pos):
+                    if not fox_unlocked and coin_count >= 50:
+                        fox_unlocked = True
+                        coin_count -= 50
+                    if fox_unlocked:
+                        active_pet = "fox"
+
         # === Pet Logic ===
         if event.type == pygame.MOUSEBUTTONDOWN:
             if back_button_rect.collidepoint(event.pos):
