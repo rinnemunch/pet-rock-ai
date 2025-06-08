@@ -234,6 +234,10 @@ sunglasses_unlocked = False
 wearing_sunglasses = False
 sunglasses_button_pressed = False
 
+last_sombrero_click = 0
+click_cooldown = 300
+
+
 # === Background purchase ===
 bg_unlock_cost = 25
 # === RPS Cooldown ===
@@ -853,27 +857,29 @@ while running:
             if back_button_rect.collidepoint(event.pos):
                 current_scene = "store"
 
-            if sombrero_card_rect.collidepoint(event.pos) and not sombrero_button_pressed:
-                if not sombrero_unlocked and coin_count >= 25:
-                    sombrero_unlocked = True
-                    coin_count -= 25
-                if sombrero_unlocked:
-                    wearing_sombrero = not wearing_sombrero
-
-                    save_rock_data(
-                        rock_name,
-                        selected_background,
-                        selected_personality,
-                        music_on,
-                        coin_count,
-                        bee_unlocked,
-                        bat_unlocked,
-                        pig_unlocked,
-                        fox_unlocked,
-                        troll_unlocked,
-                        sombrero_unlocked,
-                        wearing_sombrero
-                    )
+            if sombrero_card_rect.collidepoint(event.pos):
+                current_time = pygame.time.get_ticks()
+                if current_time - last_sombrero_click > click_cooldown:
+                    if not sombrero_unlocked and coin_count >= 25:
+                        sombrero_unlocked = True
+                        coin_count -= 25
+                    if sombrero_unlocked:
+                        wearing_sombrero = not wearing_sombrero
+                        save_rock_data(
+                            rock_name,
+                            selected_background,
+                            selected_personality,
+                            music_on,
+                            coin_count,
+                            bee_unlocked,
+                            bat_unlocked,
+                            pig_unlocked,
+                            fox_unlocked,
+                            troll_unlocked,
+                            sombrero_unlocked,
+                            wearing_sombrero
+                        )
+                    last_sombrero_click = current_time
 
             if sunglasses_card_rect.collidepoint(event.pos) and not sunglasses_button_pressed:
                 if not sunglasses_unlocked and coin_count >= 25:
