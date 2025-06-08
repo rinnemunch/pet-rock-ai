@@ -229,6 +229,9 @@ active_pet = None
 sombrero_unlocked = False
 wearing_sombrero = False
 sombrero_button_pressed = False
+sunglasses_unlocked = False
+wearing_sunglasses = False
+
 
 # === Background purchase ===
 bg_unlock_cost = 25
