@@ -123,6 +123,15 @@ sombrero_store_img = pygame.transform.scale(sombrero_img, (125, 100))
 sunglasses_img = pygame.image.load("assets/clothes/sunglasses.png").convert_alpha()
 sunglasses_img = pygame.transform.scale(sunglasses_img, (190, 90))
 sunglasses_store_img = pygame.transform.scale(sunglasses_img, (120, 80))
+devil_img = pygame.image.load("assets/clothes/devil_horns.png").convert_alpha()
+devil_img = pygame.transform.scale(devil_img, (200, 100))  # size on rock
+devil_store_img = pygame.transform.scale(devil_img, (120, 80))  # size in store
+halo_img = pygame.image.load("assets/clothes/halo.png").convert_alpha()
+halo_img = pygame.transform.scale(halo_img, (180, 80))
+halo_store_img = pygame.transform.scale(halo_img, (110, 70))
+tie_img = pygame.image.load("assets/clothes/tie.png").convert_alpha()
+tie_img = pygame.transform.scale(tie_img, (90, 160))
+tie_store_img = pygame.transform.scale(tie_img, (60, 110))
 
 if os.path.exists("rock_data.json"):
     (rock_name, selected_background, selected_personality,
@@ -249,7 +258,6 @@ last_devil_click = 0
 last_halo_click = 0
 last_tie_click = 0
 click_cooldown = 300
-
 
 # === Background purchase ===
 bg_unlock_cost = 25
@@ -862,6 +870,38 @@ while running:
         small_font = pygame.font.SysFont("arial", 16)
         label_surface = small_font.render(f"Sunglasses - {sunglasses_label}", True, (0, 0, 0))
         screen.blit(label_surface, (sunglasses_card_rect.x + 10, sunglasses_card_rect.y + 150))
+
+        # == Card Rectangles ==
+        devil_card_rect = pygame.Rect(WIDTH // 2 - 300, 400, 180, 200)
+        halo_card_rect = pygame.Rect(WIDTH // 2 - 90, 400, 180, 200)
+        tie_card_rect = pygame.Rect(WIDTH // 2 + 120, 400, 180, 200)
+
+        # Devil Horns
+        pygame.draw.rect(screen, (220, 220, 220), devil_card_rect)
+        pygame.draw.rect(screen, (0, 0, 0), devil_card_rect, 2)
+        screen.blit(devil_store_img, (devil_card_rect.x + 40, devil_card_rect.y + 40))
+
+        devil_label = "Unequip" if wearing_devil else "Equip" if devil_unlocked else "Buy (25 coins)"
+        devil_surface = button_font.render(f"Horns - {devil_label}", True, (0, 0, 0))
+        screen.blit(devil_surface, (devil_card_rect.x + 10, devil_card_rect.y + 150))
+
+        # Halo
+        pygame.draw.rect(screen, (220, 220, 220), halo_card_rect)
+        pygame.draw.rect(screen, (0, 0, 0), halo_card_rect, 2)
+        screen.blit(halo_store_img, (halo_card_rect.x + 40, halo_card_rect.y + 40))
+
+        halo_label = "Unequip" if wearing_halo else "Equip" if halo_unlocked else "Buy (25 coins)"
+        halo_surface = button_font.render(f"Halo - {halo_label}", True, (0, 0, 0))
+        screen.blit(halo_surface, (halo_card_rect.x + 10, halo_card_rect.y + 150))
+
+        # Tie
+        pygame.draw.rect(screen, (220, 220, 220), tie_card_rect)
+        pygame.draw.rect(screen, (0, 0, 0), tie_card_rect, 2)
+        screen.blit(tie_store_img, (tie_card_rect.x + 40, tie_card_rect.y + 40))
+
+        tie_label = "Unequip" if wearing_tie else "Equip" if tie_unlocked else "Buy (25 coins)"
+        tie_surface = button_font.render(f"Tie - {tie_label}", True, (0, 0, 0))
+        screen.blit(tie_surface, (tie_card_rect.x + 10, tie_card_rect.y + 150))
 
         draw_button(screen, back_button_rect, "Back", button_font)
 
