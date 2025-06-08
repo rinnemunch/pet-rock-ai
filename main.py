@@ -822,8 +822,9 @@ while running:
         else:
             sombrero_label = "Buy (25 coins)"
 
-        label_surface = button_font.render(f"Sombrero - {sombrero_label}", True, (0, 0, 0))
-        screen.blit(label_surface, (sombrero_card_rect.x + 10, sombrero_card_rect.y + 150))
+        small_font = pygame.font.SysFont("arial", 16)
+        label_surface = small_font.render(f"Sombrero - {sombrero_label}", True, (0, 0, 0))
+        screen.blit(label_surface, (sombrero_card_rect.x + 15, sombrero_card_rect.y + 150))
 
         # === Sunglasses Card ===
         sunglasses_card_rect = pygame.Rect(WIDTH // 2 + 120, 150, 180, 200)
@@ -841,7 +842,8 @@ while running:
         else:
             sunglasses_label = "Buy (25 coins)"
 
-        label_surface = button_font.render(f"Sunglasses - {sunglasses_label}", True, (0, 0, 0))
+        small_font = pygame.font.SysFont("arial", 16)
+        label_surface = small_font.render(f"Sunglasses - {sunglasses_label}", True, (0, 0, 0))
         screen.blit(label_surface, (sunglasses_card_rect.x + 10, sunglasses_card_rect.y + 150))
 
         draw_button(screen, back_button_rect, "Back", button_font)
