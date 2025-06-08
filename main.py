@@ -124,7 +124,6 @@ sunglasses_img = pygame.image.load("assets/clothes/sunglasses.png").convert_alph
 sunglasses_img = pygame.transform.scale(sunglasses_img, (120, 40))  # adjust if needed
 sunglasses_store_img = pygame.transform.scale(sunglasses_img, (60, 20))
 
-
 if os.path.exists("rock_data.json"):
     rock_name, selected_background, selected_personality, music_on, coin_count, bee_unlocked, bat_unlocked, pig_unlocked, fox_unlocked, troll_unlocked, sombrero_unlocked, wearing_sombrero = load_rock_data()
     naming_phase = False
@@ -231,7 +230,7 @@ wearing_sombrero = False
 sombrero_button_pressed = False
 sunglasses_unlocked = False
 wearing_sunglasses = False
-
+sunglasses_button_pressed = False
 
 # === Background purchase ===
 bg_unlock_cost = 25
@@ -570,6 +569,7 @@ while running:
                 name_button_pressed = False
                 tone_button_pressed = False
                 sombrero_button_pressed = False
+                sunglasses_button_pressed = False
 
         if is_thinking and thinking_frames:
             thinking_timer += 1
@@ -837,6 +837,7 @@ while running:
 
         draw_button(screen, back_button_rect, "Back", button_font)
 
+        # === Clothing store clicks ===
         if event.type == pygame.MOUSEBUTTONDOWN:
             if back_button_rect.collidepoint(event.pos):
                 current_scene = "store"
@@ -864,6 +865,32 @@ while running:
                     )
 
                 sombrero_button_pressed = True
+
+                if sunglasses_card_rect.collidepoint(event.pos) and not sunglasses_button_pressed:
+                    if not sunglasses_unlocked and coin_count >= 25:
+                        sunglasses_unlocked = True
+                        coin_count -= 25
+                    if sunglasses_unlocked:
+                        wearing_sunglasses = not wearing_sunglasses
+
+                    save_rock_data(
+                        rock_name,
+                        selected_background,
+                        selected_personality,
+                        music_on,
+                        coin_count,
+                        bee_unlocked,
+                        bat_unlocked,
+                        pig_unlocked,
+                        fox_unlocked,
+                        troll_unlocked,
+                        sombrero_unlocked,
+                        wearing_sombrero,
+                        sunglasses_unlocked,
+                        wearing_sunglasses
+                    )
+
+                    sunglasses_button_pressed = True
 
     elif current_scene == "minigame":
         screen.fill((250, 240, 200))  # distinct background for mini-game
