@@ -233,8 +233,18 @@ sombrero_button_pressed = False
 sunglasses_unlocked = False
 wearing_sunglasses = False
 sunglasses_button_pressed = False
+devil_horns_unlocked = False
+wearing_devil_horns = False
+halo_unlocked = False
+wearing_halo = False
+tie_unlocked = False
+wearing_tie = False
 
 last_sombrero_click = 0
+last_sunglasses_click = 0
+last_devil_click = 0
+last_halo_click = 0
+last_tie_click = 0
 click_cooldown = 300
 
 
@@ -881,7 +891,10 @@ while running:
                         )
                     last_sombrero_click = current_time
 
-            if sunglasses_card_rect.collidepoint(event.pos) and not sunglasses_button_pressed:
+            current_time = pygame.time.get_ticks()
+            click_cooldown = 300
+
+            if sunglasses_card_rect.collidepoint(event.pos) and current_time - last_sunglasses_click > click_cooldown:
                 if not sunglasses_unlocked and coin_count >= 25:
                     sunglasses_unlocked = True
                     coin_count -= 25
@@ -905,6 +918,9 @@ while running:
                     sunglasses_unlocked,
                     wearing_sunglasses
                 )
+
+                last_sunglasses_click = current_time
+
 
     elif current_scene == "minigame":
         screen.fill((250, 240, 200))  # distinct background for mini-game
