@@ -121,7 +121,7 @@ sombrero_img = pygame.image.load("assets/clothes/sombrero.png").convert_alpha()
 sombrero_img = pygame.transform.scale(sombrero_img, (220, 150))
 sombrero_store_img = pygame.transform.scale(sombrero_img, (125, 100))
 sunglasses_img = pygame.image.load("assets/clothes/sunglasses.png").convert_alpha()
-sunglasses_img = pygame.transform.scale(sunglasses_img, (120, 40))  # adjust if needed
+sunglasses_img = pygame.transform.scale(sunglasses_img, (190, 90))
 sunglasses_store_img = pygame.transform.scale(sunglasses_img, (60, 20))
 
 if os.path.exists("rock_data.json"):
@@ -430,7 +430,7 @@ while running:
         # Draw sunglasses if equipped
         if wearing_sunglasses:
             sunglasses_x = rock_rect.centerx - sunglasses_img.get_width() // 2
-            sunglasses_y = rock_rect.top + 60  # adjust if needed
+            sunglasses_y = rock_rect.top + 42
             screen.blit(sunglasses_img, (sunglasses_x, sunglasses_y))
 
         # === Active Pet Animation ===
