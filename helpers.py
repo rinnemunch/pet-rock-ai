@@ -40,7 +40,13 @@ def load_rock_data():
                     data.get("sombrero_unlocked", False),
                     data.get("wearing_sombrero", False),
                     data.get("sunglasses_unlocked", False),
-                    data.get("wearing_sunglasses", False)
+                    data.get("wearing_sunglasses", False),
+                    data.get("devil_horns_unlocked", False),
+                    data.get("wearing_devil_horns", False),
+                    data.get("halo_unlocked", False),
+                    data.get("wearing_halo", False),
+                    data.get("tie_unlocked", False),
+                    data.get("wearing_tie", False)
                 )
 
 
@@ -71,7 +77,14 @@ def save_rock_data(name, background, personality, music_on=True, coins=0,
             "sombrero_unlocked": sombrero_unlocked,
             "wearing_sombrero": wearing_sombrero,
             "sunglasses_unlocked": sunglasses_unlocked,
-            "wearing_sunglasses": wearing_sunglasses
+            "wearing_sunglasses": wearing_sunglasses,
+            "devil_horns_unlocked": devil_horns_unlocked,
+            "wearing_devil_horns": wearing_devil_horns,
+            "halo_unlocked": halo_unlocked,
+            "wearing_halo": wearing_halo,
+            "tie_unlocked": tie_unlocked,
+            "wearing_tie": wearing_tie
+
         }, file)
 
 

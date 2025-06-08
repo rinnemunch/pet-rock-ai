@@ -125,9 +125,12 @@ sunglasses_img = pygame.transform.scale(sunglasses_img, (190, 90))
 sunglasses_store_img = pygame.transform.scale(sunglasses_img, (120, 80))
 
 if os.path.exists("rock_data.json"):
-    rock_name, selected_background, selected_personality, music_on, coin_count, \
-        bee_unlocked, bat_unlocked, pig_unlocked, fox_unlocked, troll_unlocked, \
-        sombrero_unlocked, wearing_sombrero, sunglasses_unlocked, wearing_sunglasses = load_rock_data()
+    (rock_name, selected_background, selected_personality,
+     music_on, coin_count, bee_unlocked, bat_unlocked, pig_unlocked,
+     fox_unlocked, troll_unlocked, sombrero_unlocked, wearing_sombrero, sunglasses_unlocked,
+     wearing_sunglasses, devil_unlocked, wearing_devil, halo_unlocked, wearing_halo,
+     tie_unlocked, wearing_tie) = load_rock_data()
+
     naming_phase = False
 
     pygame.mixer.init()
