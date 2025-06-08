@@ -122,7 +122,7 @@ sombrero_img = pygame.transform.scale(sombrero_img, (220, 150))
 sombrero_store_img = pygame.transform.scale(sombrero_img, (125, 100))
 sunglasses_img = pygame.image.load("assets/clothes/sunglasses.png").convert_alpha()
 sunglasses_img = pygame.transform.scale(sunglasses_img, (190, 90))
-sunglasses_store_img = pygame.transform.scale(sunglasses_img, (60, 20))
+sunglasses_store_img = pygame.transform.scale(sunglasses_img, (120, 80))
 
 if os.path.exists("rock_data.json"):
     rock_name, selected_background, selected_personality, music_on, coin_count, \
@@ -831,7 +831,7 @@ while running:
         pygame.draw.rect(screen, (0, 0, 0), sunglasses_card_rect, 2)
 
         # Sunglasses Image
-        screen.blit(sunglasses_store_img, (sunglasses_card_rect.x + 60, sunglasses_card_rect.y + 50))
+        screen.blit(sunglasses_store_img, (sunglasses_card_rect.x + 35, sunglasses_card_rect.y + 50))
 
         # Sunglasses Label
         if wearing_sunglasses:
