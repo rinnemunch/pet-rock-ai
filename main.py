@@ -875,12 +875,11 @@ while running:
                         wearing_sombrero
                     )
 
-                sombrero_button_pressed = True
-
             if sunglasses_card_rect.collidepoint(event.pos) and not sunglasses_button_pressed:
                 if not sunglasses_unlocked and coin_count >= 25:
                     sunglasses_unlocked = True
                     coin_count -= 25
+
                 if sunglasses_unlocked:
                     wearing_sunglasses = not wearing_sunglasses
 
@@ -900,8 +899,6 @@ while running:
                     sunglasses_unlocked,
                     wearing_sunglasses
                 )
-
-                sunglasses_button_pressed = True
 
     elif current_scene == "minigame":
         screen.fill((250, 240, 200))  # distinct background for mini-game
