@@ -38,8 +38,11 @@ def load_rock_data():
                     data.get("fox_unlocked", False),
                     data.get("troll_unlocked", False),
                     data.get("sombrero_unlocked", False),
-                    data.get("wearing_sombrero", False)
+                    data.get("wearing_sombrero", False),
+                    data.get("sunglasses_unlocked", False),
+                    data.get("wearing_sunglasses", False)
                 )
+
 
 
     except Exception as e:
@@ -51,7 +54,8 @@ def load_rock_data():
 def save_rock_data(name, background, personality, music_on=True, coins=0,
                    bee_unlocked=False, bat_unlocked=False, pig_unlocked=False,
                    fox_unlocked=False, troll_unlocked=False,
-                   sombrero_unlocked=False, wearing_sombrero=False):
+                   sombrero_unlocked=False, wearing_sombrero=False,
+                   sunglasses_unlocked=False, wearing_sunglasses=False):
     with open("rock_data.json", "w") as file:
         json.dump({
             "name": name,
@@ -65,7 +69,9 @@ def save_rock_data(name, background, personality, music_on=True, coins=0,
             "fox_unlocked": fox_unlocked,
             "troll_unlocked": troll_unlocked,
             "sombrero_unlocked": sombrero_unlocked,
-            "wearing_sombrero": wearing_sombrero
+            "wearing_sombrero": wearing_sombrero,
+            "sunglasses_unlocked": sunglasses_unlocked,
+            "wearing_sunglasses": wearing_sunglasses
         }, file)
 
 
